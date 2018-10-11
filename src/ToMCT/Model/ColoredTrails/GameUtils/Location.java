@@ -1,7 +1,10 @@
 package ToMCT.Model.ColoredTrails.GameUtils;
 
+import ToMCT.Model.ColoredTrails.Agent.Player;
+
 public class Location {
     private int x,y;
+    private Player player;
 
     public Location(){
         this(0,0);
@@ -9,6 +12,7 @@ public class Location {
 
     public Location(int x, int y){
         set(x,y);
+        setPlayer(null);
     }
 
     public void set(int x, int y){
@@ -24,11 +28,23 @@ public class Location {
         this.x = y;
     }
 
+    public void removePlayer(){
+        setPlayer(null);
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+
     public int getX(){
         return x;
     }
 
     public int getY(){
         return y;
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 }

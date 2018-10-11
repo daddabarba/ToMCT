@@ -4,6 +4,7 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.ColoredTrails.GameUtils.Chip;
 import ToMCT.Model.Messages.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 
@@ -12,7 +13,7 @@ import java.util.Observable;
 public class Deck extends Observable {
 
     private Collection<Player> players;
-    private Hashtable<Player, Chip[]> hands;
+    private Hashtable<Player, Collection<Chip>> hands;
 
     private MessageBox messageBox;
 
@@ -39,11 +40,11 @@ public class Deck extends Observable {
 
     }
 
-    private Chip[] generateHand(int handSize){
-        Chip[] hand = new Chip[handSize];
+    private Collection<Chip> generateHand(int handSize){
+        Collection<Chip> hand = new ArrayList<>();
 
         for(int i=0; i<handSize; i++)
-            hand[i] = Chip.randomChip();
+            hand.add(Chip.randomChip());
 
         return hand;
     }

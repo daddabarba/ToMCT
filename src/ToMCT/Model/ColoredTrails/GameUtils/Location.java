@@ -6,13 +6,21 @@ public class Location {
     private int x,y;
     private Player player;
 
+    private Trail trail;
+
     public Location(){
         this(0,0);
     }
 
     public Location(int x, int y){
+        this(x, y, Trail.randomTrail());
+    }
+
+    public Location(int x, int y, Trail trail){
         set(x,y);
         setPlayer(null);
+
+        this.trail = trail;
     }
 
     public void set(int x, int y){

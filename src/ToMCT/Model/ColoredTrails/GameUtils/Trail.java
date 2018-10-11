@@ -1,6 +1,7 @@
 package ToMCT.Model.ColoredTrails.GameUtils;
 
 import java.awt.Color;
+import java.util.Random;
 
 public enum Trail {
     BLACK(0, Color.BLACK),
@@ -31,5 +32,9 @@ public enum Trail {
 
     public static int nTrails(){
         return values().length;
+    }
+
+    public static Trail randomTrail(){
+        return values()[new Random().nextInt(nTrails())];
     }
 }

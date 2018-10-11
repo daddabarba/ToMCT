@@ -2,12 +2,14 @@ package ToMCT.Model.ColoredTrails.GameTools;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.ColoredTrails.GameUtils.Chip;
-import ToMCT.Model.Messages.MessageBox;
+import ToMCT.Model.Messages.*;
 
 import java.util.Collection;
 import java.util.Hashtable;
 
-public class Deck {
+import java.util.Observable;
+
+public class Deck extends Observable {
 
     private Collection<Player> players;
     private Hashtable<Player, Chip[]> hands;
@@ -27,7 +29,7 @@ public class Deck {
     }
 
     private void notifyHands(){
-        messageBox.notifyPlayers(hands);
+        messageBox.notifyPlayers(new Message<>(this, hands));
     }
 
     private void initHands(int handSize){

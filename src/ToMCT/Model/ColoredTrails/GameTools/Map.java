@@ -23,7 +23,7 @@ public class Map extends Observable {
     private MessageBox messageBox; //Message box (to notify players)
 
     //CONSTRUCTOR
-    public Map(MessageBox messageBox, int width, int height, Collection<Player> players){
+    public Map(int width, int height, MessageBox messageBox, Collection<Player> players){
 
         this.messageBox = messageBox;
 

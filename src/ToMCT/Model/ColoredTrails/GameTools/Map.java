@@ -48,7 +48,12 @@ public class Map extends Observable {
 
     //Notify player of their locations and the opponents'
     public void notifyLocations(){
-        messageBox.notifyPlayers(new Message<>(this, playersLocation));
+        Hashtable<Player, Message<Location>> locationsNotification = new Hashtable<>();
+
+        for(Player player : playersLocation.keySet())
+            locationsNotification.put(player, new Message<>(this, playersLocation.get(player)));
+
+        messageBox.notifyPlayers(locationsNotification);
     }
 
     //Move player to a given location (only x and y of the given location are considered)

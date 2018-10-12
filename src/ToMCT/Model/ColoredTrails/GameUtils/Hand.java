@@ -82,7 +82,7 @@ public class Hand {
     //reset chip counts to all zeros
     public void resetHand(){
 
-        for(Chip chip : chipCount.keySet())
+        for(Chip chip : Chip.values())
             chipCount.put(chip, new Integer(0));
     }
 

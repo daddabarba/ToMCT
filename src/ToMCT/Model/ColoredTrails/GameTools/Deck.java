@@ -40,7 +40,7 @@ public class Deck extends Observable {
 
         for(Player player : hands.keySet())
             handNotification.put(player, new Message<>(this, hands.get(player)));
-        
+
         messageBox.notifyPlayers(handNotification);
     }
 

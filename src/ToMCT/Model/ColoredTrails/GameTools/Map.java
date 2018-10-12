@@ -3,10 +3,15 @@ package ToMCT.Model.ColoredTrails.GameTools;
 import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.ColoredTrails.GameUtils.Location;
 
+import ToMCT.Model.Messages.Message;
+import ToMCT.Model.Messages.MessageBox;
+
 import java.util.Collection;
 import java.util.Hashtable;
 
-public class Map {
+import java.util.Observable;
+
+public class Map extends Observable {
 
     private Collection<Player> players;
     private Hashtable<Player, Location> playersLocation;
@@ -14,7 +19,11 @@ public class Map {
     private Location[][] locations;
     private int width, height;
 
-    public Map(int width, int height, Collection<Player> players){
+    private MessageBox messageBox;
+
+    public Map(MessageBox messageBox, int width, int height, Collection<Player> players){
+
+        this.messageBox = messageBox;
 
         this.width = width;
         this.height = height;
@@ -29,6 +38,10 @@ public class Map {
                 locations[r][c].set(c,r);
 
         resetMap();
+    }
+
+    public void notifyLocations(){
+        messageBox.notifyPlayers(new Message<>(this, playersLocation));
     }
 
     public void movePlayer(Player player, Location location){

@@ -55,4 +55,8 @@ public class Location {
     public Player getPlayer(){
         return player;
     }
+
+    public Trail getTrail(){
+        return trail;
+    }
 }

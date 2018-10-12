@@ -1,1 +1,1 @@
-java -cp target/ toMCT.Main
+java -cp target/ ToMCT.Main $1 $2 $3 $4 $5 $6

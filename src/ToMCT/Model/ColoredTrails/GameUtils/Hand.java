@@ -12,20 +12,23 @@ public class Hand {
 
     //CONSTRUCTOR
 
+    public Hand(){
+        chipCount = new Hashtable<>();
+        resetHand();
+    }
+
     public Hand(int size){
         this(generateHand(size));
     }
 
     public Hand(Collection<Chip> chips){
-        chipCount = new Hashtable<>();
-        resetHand();
+        this();
 
         updateChip(chips);
     }
 
     public Hand(Hashtable<Chip, Integer> chipCount){
-        chipCount = new Hashtable<>();
-        resetHand();
+        this();
 
         updateChip(chipCount);
     }

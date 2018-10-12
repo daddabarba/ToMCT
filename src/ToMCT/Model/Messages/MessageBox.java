@@ -14,7 +14,7 @@ public class MessageBox extends Observable {
     }
 
     //Send a specific message to each player
-    public void notifyPlayers(Hashtable<? extends Observer, Message<?>> messages){
+    public void notifyPlayers(Hashtable<? extends Observer, ? extends Message<?>> messages){
 
         //For each player
         for(Observer observer : messages.keySet())

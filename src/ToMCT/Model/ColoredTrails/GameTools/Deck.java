@@ -1,10 +1,9 @@
 package ToMCT.Model.ColoredTrails.GameTools;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
-import ToMCT.Model.ColoredTrails.GameUtils.Chip;
+import ToMCT.Model.ColoredTrails.GameUtils.*;
 import ToMCT.Model.Messages.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 
@@ -14,7 +13,7 @@ public class Deck extends Observable {
     //Class keeping track of the (initial) hands of all players
 
     private Collection<Player> players; //List of players
-    private Hashtable<Player, Collection<Chip>> hands; //Map from player to hand
+    private Hashtable<Player, Hand> hands; //Map from player to hand
 
     private MessageBox messageBox; //message box to notify players of their hand
     //CONSTRUCTOR
@@ -43,18 +42,8 @@ public class Deck extends Observable {
     private void initHands(int handSize){
 
         for(Player player : players)
-            hands.put(player, generateHand(handSize));
+            hands.put(player, new Hand(handSize));
 
-    }
-
-    //Initialize random hands of given size, for one player
-    private Collection<Chip> generateHand(int handSize){
-        Collection<Chip> hand = new ArrayList<>();
-
-        for(int i=0; i<handSize; i++)
-            hand.add(Chip.randomChip());
-
-        return hand;
     }
 
     //Resets deck

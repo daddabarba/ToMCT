@@ -2,11 +2,14 @@ package ToMCT.Model.ColoredTrails.GameUtils;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Location {
     //Class to hold information regarding a location on the map
 
     private int x, y; //Its x(column) and y(row) coordinates respectively
-    private Player player; //The player in that location (null if there is no player)
+    private Collection<Player> players; //The player in that location (null if there is no player)
 
     private Trail trail; //Trail (color) of location
 
@@ -25,7 +28,7 @@ public class Location {
     //Initialize to specific position and assigned color
     public Location(int x, int y, Trail trail){
         set(x,y);
-        setPlayer(null);
+        removePlayer();
 
         this.trail = trail;
     }
@@ -46,11 +49,15 @@ public class Location {
     }
 
     public void removePlayer(){
-        setPlayer(null);
+        players = new ArrayList<>();
     }
 
-    public void setPlayer(Player player){
-        this.player = player;
+    public void removePlayer(Player player){
+        players.remove(player);
+    }
+
+    public void addPlayer(Player player){
+        players.add(player);
     }
 
     //GETTERS
@@ -63,8 +70,8 @@ public class Location {
         return y;
     }
 
-    public Player getPlayer(){
-        return player;
+    public Collection<Player> getPlayers(){
+        return players;
     }
 
     public Trail getTrail(){

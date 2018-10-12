@@ -73,10 +73,10 @@ public class Map extends Observable {
 
         //Remove player from previous location
         if(playersLocation.containsKey(player))
-            playersLocation.get(player).removePlayer();
+            playersLocation.get(player).removePlayer(player);
 
         //Move player to new location (and mark map from player to new location)
-        locations[location.getY()][location.getX()].setPlayer(player);
+        locations[location.getY()][location.getX()].addPlayer(player);
         playersLocation.put(player, locations[location.getY()][location.getX()]);
     }
 
@@ -119,8 +119,8 @@ public class Map extends Observable {
     //GETTERS
 
     //From location to the player there
-    public Player getLocationPlayer(Location location){
-        return locations[location.getY()][location.getX()].getPlayer();
+    public Collection<Player> getLocationPlayer(Location location){
+        return locations[location.getY()][location.getX()].getPlayers();
     }
 
     //From player to its location

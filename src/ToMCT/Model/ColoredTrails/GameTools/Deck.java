@@ -35,7 +35,13 @@ public class Deck extends Observable {
 
     //Notifies players of the hands that each player has
     private void notifyHands(){
-        messageBox.notifyPlayers(new Message<>(this, hands));
+
+        Hashtable<Player, Message<Hand>> handNotification = new Hashtable<>();
+
+        for(Player player : hands.keySet())
+            handNotification.put(player, new Message<>(this, hands.get(player)));
+        
+        messageBox.notifyPlayers(handNotification);
     }
 
     //Initialize random hands of given size, for each player

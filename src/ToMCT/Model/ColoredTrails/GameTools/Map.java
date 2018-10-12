@@ -45,15 +45,15 @@ public class Map extends Observable {
 
 
     //METHODS
-    
+
     //Initialize map (players locations)
-    public void Initialize(Location location){
+    public void initialize(Location location){
         movePlayer(location);
         notifyLocations();
     }
 
     //Initialize map (players locations)
-    public void Initialize(Hashtable<Player, Location> players){
+    public void initialize(Hashtable<Player, Location> players){
         movePlayer(players);
         notifyLocations();
     }

@@ -49,4 +49,18 @@ public class Game extends Observable {
         deck.shuffle(handSize);
         map.initialize(start);
     }
+
+    //GETTERS
+
+    public Collection<Player> getPlayers(){
+        return players;
+    }
+
+    public Map getMap(){
+        return map;
+    }
+
+    public Deck getDeck(){
+        return deck;
+    }
 }

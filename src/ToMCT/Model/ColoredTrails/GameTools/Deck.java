@@ -11,12 +11,13 @@ import java.util.Hashtable;
 import java.util.Observable;
 
 public class Deck extends Observable {
+    //Class keeping track of the (initial) hands of all players
 
-    private Collection<Player> players;
-    private Hashtable<Player, Collection<Chip>> hands;
+    private Collection<Player> players; //List of players
+    private Hashtable<Player, Collection<Chip>> hands; //Map from player to hand
 
-    private MessageBox messageBox;
-
+    private MessageBox messageBox; //message box to notify players of their hand
+    //CONSTRUCTOR
     public Deck(MessageBox messageBox, Collection<Player> players){
         this.players = players;
         this.messageBox = messageBox;
@@ -24,15 +25,21 @@ public class Deck extends Observable {
         this.resetHands();
     }
 
+
+    //METHODS
+
+    //shuffles deck (generates new hands for each player)
     public void shuffle(int handSize){
         initHands(handSize);
         notifyHands();
     }
 
+    //Notifies players of the hands that each player has
     private void notifyHands(){
         messageBox.notifyPlayers(new Message<>(this, hands));
     }
 
+    //Initialize random hands of given size, for each player
     private void initHands(int handSize){
 
         for(Player player : players)
@@ -40,6 +47,7 @@ public class Deck extends Observable {
 
     }
 
+    //Initialize random hands of given size, for one player
     private Collection<Chip> generateHand(int handSize){
         Collection<Chip> hand = new ArrayList<>();
 
@@ -49,6 +57,7 @@ public class Deck extends Observable {
         return hand;
     }
 
+    //Resets deck
     public void resetHands(){
         this.hands = new Hashtable<>();
     }

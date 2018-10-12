@@ -35,28 +35,24 @@ public class Map {
 
         this.playersLocation.get(player).removePlayer();
 
-        locations[location.getY()][location.getY()].setPlayer(player);
-        this.playersLocation.put(player, locations[location.getY()][location.getY()]);
+        locations[location.getY()][location.getX()].setPlayer(player);
+        this.playersLocation.put(player, locations[location.getY()][location.getX()]);
     }
 
     public void positionPlayers(Hashtable<Player, Location> players){
 
         resetMap();
 
-        for(Player player : players.keySet()) {
-            locations[players.get(player).getY()][players.get(player).getY()].setPlayer(player);
-            this.playersLocation.put(player, locations[players.get(player).getY()][players.get(player).getY()]);
-        }
+        for(Player player : players.keySet())
+            movePlayer(player, players.get(player));
     }
 
     public void positonPlayers(Location location){
 
         resetMap();
 
-        for(Player player : players){
-            locations[location.getY()][location.getX()].setPlayer(player);
-            this.playersLocation.put(player, locations[location.getY()][location.getX()]);
-        }
+        for(Player player : players)
+            movePlayer(player, location);
     }
 
     public void resetMap(){

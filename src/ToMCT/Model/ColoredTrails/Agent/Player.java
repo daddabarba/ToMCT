@@ -5,13 +5,14 @@ import ToMCT.Model.ColoredTrails.GameUtils.Location;
 
 import ToMCT.Model.ColoredTrails.GameTools.*;
 
+import ToMCT.Model.ColoredTrails.GameUtils.QObservable;
 import ToMCT.Model.Messages.Message;
 import ToMCT.Model.Messages.MessageBox;
 
 import java.util.Observable;
 import java.util.Observer;
 
-public class Player implements Observer {
+public class Player extends QObservable implements Observer {
     //Player class (interface between ToM agent and game)
 
     private int ID;
@@ -30,10 +31,14 @@ public class Player implements Observer {
 
     private void setPosition(Location position){
         this.position = position;
+
+        quickNotification();
     }
 
     private void setHand(Hand hand){
         this.hand = hand;
+
+        quickNotification();
     }
 
     //GETTERS

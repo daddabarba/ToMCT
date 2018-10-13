@@ -1,12 +1,9 @@
 package ToMCT.View.GraphicComponents.ComponentsTypes;
 
-import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.ColoredTrails.GameUtils.Location;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
 import java.awt.*;
-import java.awt.font.TextAttribute;
-import java.text.AttributedString;
 import java.util.Observable;
 import java.util.Observer;
 

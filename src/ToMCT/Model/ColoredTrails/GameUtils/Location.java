@@ -34,6 +34,12 @@ public class Location extends Observable {
         this.trail = trail;
     }
 
+    //Send notification to observer
+    private void quickNotification(){
+        setChanged();
+        notifyObservers();
+    }
+
     //SETTERS
 
     public void set(int x, int y){
@@ -43,23 +49,33 @@ public class Location extends Observable {
 
     public void setX(int x){
         this.x = x;
+
+        quickNotification();
     }
 
     public void setY(int y){
         this.y = y;
+
+        quickNotification();
     }
 
     public void removePlayer(){
         players = new ArrayList<>();
+
+        quickNotification();
     }
 
     public void removePlayer(Player player){
         players.remove(player);
+
+        quickNotification();
     }
 
     public void addPlayer(Player player){
         if(!players.contains(player))
             players.add(player);
+
+        quickNotification();
     }
 
     //GETTERS

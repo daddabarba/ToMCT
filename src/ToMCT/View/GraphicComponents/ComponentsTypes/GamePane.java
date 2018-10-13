@@ -9,6 +9,9 @@ public class GamePane extends RelJComponent {
 
     public static Color BACKGROUND_COLOR = Color.GRAY;
 
+    public static int EDGE_THICKNESS = 10;
+    public static Color EDGE_COLOR = GamePane.BACKGROUND_COLOR;
+
     public GamePane(RelJComponent parent, Game game){
         super(parent, 0, 0, 1, 1);
 

@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class MapPane extends RelJComponent {
 
-    public static int EDGE_THICKNESS = 10;
-    public static Color EDGE_COLOR = GamePane.BACKGROUND_COLOR;
+    public static int EDGE_THICKNESS = GamePane.EDGE_THICKNESS;
+    public static Color EDGE_COLOR = GamePane.EDGE_COLOR;
 
     public MapPane(RelJComponent parent, Map map, double x, double y, double height, double width){
         super(parent, x, y, height, width);

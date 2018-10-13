@@ -1,7 +1,8 @@
 package ToMCT.View;
 
+import ToMCT.Model.ColoredTrails.Game;
 import ToMCT.View.GraphicComponents.ComponentsTypes.EmptyComponent;
-import ToMCT.View.GraphicComponents.ComponentsTypes.HierRectangle;
+import ToMCT.View.GraphicComponents.ComponentsTypes.GamePane;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
 import javax.swing.*;
@@ -9,17 +10,13 @@ import java.awt.*;
 
 public class GameFrame extends JFrame {
 
-    public GameFrame(String title){
+    public GameFrame(String title, Game game){
         super(title);
 
-        RelJComponent total = new EmptyComponent();
+        RelJComponent window = new EmptyComponent();
+        new GamePane(window, game);
 
-        RelJComponent rec1 = new HierRectangle(total, 0.25,0.25,0.5,0.5);
-        RelJComponent rec2 = new HierRectangle(rec1, 0.25,0.25,0.5,0.5);
-        RelJComponent rec3 = new HierRectangle(rec2, 0.25,0.25,0.50,0.24);
-        RelJComponent rec4 = new HierRectangle(rec2, 0.51,0.25,0.50,0.24);
-
-        add(total);
+        add(window);
 
         //set preferences
         setPreferredSize(new Dimension(800, 600));

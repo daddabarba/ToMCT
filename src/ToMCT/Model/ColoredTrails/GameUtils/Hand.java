@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 
-public class Hand {
+public class Hand extends QObservable{
     //Object wrapping the hand (chips) of a player
 
     private Hashtable<Chip, Integer> chipCount; //Number of chips of each type
@@ -67,6 +67,8 @@ public class Hand {
 
         for(Chip chip : deltas.keySet())
           chipCount.put(chip, chipCount.get(chip) + action.val()*deltas.get(chip));
+
+        quickNotification();
     }
 
     //Compare two hands

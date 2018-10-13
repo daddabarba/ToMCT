@@ -1,4 +1,4 @@
-package ToMCT.View;
+package ToMCT.View.GraphicComponents;
 
 import javax.swing.*;
 import java.awt.*;

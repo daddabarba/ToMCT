@@ -83,8 +83,7 @@ public class Map extends Observable {
         Location newLocation = locations[location.getY()][location.getX()];
         Message<Location> locationMessage = new Message<>(this, newLocation);
 
-        Hashtable<Player, Message<Location>> singleNot = new Hashtable<Player, Message<Location>>(){{put(player, locationMessage);}};
-        messageBox.notifyPlayers(singleNot);
+        messageBox.notifyPlayers(player, locationMessage);
     }
 
     //Moves each player to a specified location

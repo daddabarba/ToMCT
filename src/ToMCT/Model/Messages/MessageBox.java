@@ -18,9 +18,14 @@ public class MessageBox extends Observable {
 
         //For each player
         for(Observer observer : messages.keySet())
-            //Deliver its special message
-            observer.update(this, messages.get(observer));
+            notifyPlayers(observer, messages.get(observer));
 
+    }
+
+    //Notify single player
+    public void notifyPlayers(Observer observer, Message message){
+        //Deliver its special message
+        observer.update(this, message);
     }
 
 }

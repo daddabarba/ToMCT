@@ -21,6 +21,7 @@ public class Main {
             GUI = Boolean.parseBoolean(args[6]);
 
         Game game = new Game(numPlayers, handSize, width, height, start);
+        game.startGame();
 
         if(GUI)
             new GameFrame("some title", game);

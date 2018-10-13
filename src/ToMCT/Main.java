@@ -2,6 +2,7 @@ package ToMCT;
 
 import ToMCT.Model.ColoredTrails.Game;
 import ToMCT.Model.ColoredTrails.GameUtils.Location;
+import ToMCT.View.GameFrame;
 
 public class Main {
 
@@ -15,6 +16,13 @@ public class Main {
 
         Location start = new Location(Integer.parseInt(args[4]), Integer.parseInt(args[5]));
 
+        boolean GUI = true;
+        if(args.length>6)
+            GUI = Boolean.parseBoolean(args[6]);
+
         Game game = new Game(numPlayers, handSize, width, height, start);
+
+        if(GUI)
+            new GameFrame("some title");
     }
 }

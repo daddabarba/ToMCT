@@ -24,6 +24,6 @@ public class Main {
         game.startGame();
 
         if(GUI)
-            new GameFrame("some title", game);
+            new GameFrame("Colored Trails", game);
     }
 }

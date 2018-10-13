@@ -4,8 +4,9 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Observable;
 
-public class Location {
+public class Location extends Observable {
     //Class to hold information regarding a location on the map
 
     private int x, y; //Its x(column) and y(row) coordinates respectively

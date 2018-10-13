@@ -23,6 +23,6 @@ public class Main {
         Game game = new Game(numPlayers, handSize, width, height, start);
 
         if(GUI)
-            new GameFrame("some title");
+            new GameFrame("some title", game);
     }
 }

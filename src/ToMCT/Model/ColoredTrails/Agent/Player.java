@@ -14,12 +14,15 @@ import java.util.Observer;
 public class Player implements Observer {
     //Player class (interface between ToM agent and game)
 
+    private int ID;
+
     private Hand hand; //Player's hand
 
     private Location goal, position; // The player's goal and current position
 
     //CONSTRUCTOR
-    public Player(){
+    public Player(int ID){
+        this.ID = ID;
         hand = new Hand();
     }
 
@@ -33,7 +36,7 @@ public class Player implements Observer {
         this.hand = hand;
     }
 
-    //GETTER
+    //GETTERS
 
     public Location getPosition(){
         return position;
@@ -41,6 +44,10 @@ public class Player implements Observer {
 
     public Hand getHand(){
         return hand;
+    }
+
+    public int getID(){
+        return ID;
     }
 
     //NOTIFICATION HANDLER

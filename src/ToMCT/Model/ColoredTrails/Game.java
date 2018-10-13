@@ -34,7 +34,7 @@ public class Game extends Observable {
         players = new ArrayList<>();
 
         for(int i=0; i<numPlayers; i++) {
-            Player player = new Player();
+            Player player = new Player(i);
 
             players.add(player);
             messageBox.addObserver(player);

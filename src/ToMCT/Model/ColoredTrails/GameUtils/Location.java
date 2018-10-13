@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
 
-public class Location extends Observable {
+public class Location extends QObservable {
     //Class to hold information regarding a location on the map
 
     private int x, y; //Its x(column) and y(row) coordinates respectively
@@ -32,12 +32,6 @@ public class Location extends Observable {
         removePlayer();
 
         this.trail = trail;
-    }
-
-    //Send notification to observer
-    private void quickNotification(){
-        setChanged();
-        notifyObservers();
     }
 
     //SETTERS

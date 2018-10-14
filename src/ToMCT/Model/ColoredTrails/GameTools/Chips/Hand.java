@@ -1,10 +1,13 @@
-package ToMCT.Model.ColoredTrails.GameUtils;
+package ToMCT.Model.ColoredTrails.GameTools.Chips;
+
+import ToMCT.Model.ColoredTrails.GameTools.Basic.Chip;
+import ToMCT.Model.ColoredTrails.GameUtils.QObservable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 
-public class Hand extends QObservable{
+public class Hand extends QObservable {
     //Object wrapping the hand (chips) of a player
 
     private Hashtable<Chip, Integer> chipCount; //Number of chips of each type

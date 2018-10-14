@@ -1,6 +1,6 @@
 package ToMCT.View.GraphicComponents.ComponentsTypes;
 
-import ToMCT.Model.ColoredTrails.GameTools.Map;
+import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
 import java.awt.*;

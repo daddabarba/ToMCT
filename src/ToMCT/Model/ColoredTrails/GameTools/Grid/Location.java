@@ -1,10 +1,11 @@
-package ToMCT.Model.ColoredTrails.GameUtils;
+package ToMCT.Model.ColoredTrails.GameTools.Grid;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
+import ToMCT.Model.ColoredTrails.GameUtils.QObservable;
+import ToMCT.Model.ColoredTrails.GameTools.Basic.Trail;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Observable;
 
 public class Location extends QObservable {
     //Class to hold information regarding a location on the map

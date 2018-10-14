@@ -1,7 +1,6 @@
-package ToMCT.Model.ColoredTrails.GameTools;
+package ToMCT.Model.ColoredTrails.GameTools.Grid;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
-import ToMCT.Model.ColoredTrails.GameUtils.Location;
 
 import ToMCT.Model.Messages.Message;
 import ToMCT.Model.Messages.MessageBox;

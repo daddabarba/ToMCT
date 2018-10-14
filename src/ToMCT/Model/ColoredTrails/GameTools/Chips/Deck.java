@@ -1,7 +1,6 @@
-package ToMCT.Model.ColoredTrails.GameTools;
+package ToMCT.Model.ColoredTrails.GameTools.Chips;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
-import ToMCT.Model.ColoredTrails.GameUtils.*;
 import ToMCT.Model.Messages.*;
 
 import java.util.Collection;

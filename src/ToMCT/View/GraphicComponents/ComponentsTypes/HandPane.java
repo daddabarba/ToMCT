@@ -1,7 +1,7 @@
 package ToMCT.View.GraphicComponents.ComponentsTypes;
 
-import ToMCT.Model.ColoredTrails.GameUtils.Chip;
-import ToMCT.Model.ColoredTrails.GameUtils.Hand;
+import ToMCT.Model.ColoredTrails.GameTools.Basic.Chip;
+import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
 import java.awt.*;

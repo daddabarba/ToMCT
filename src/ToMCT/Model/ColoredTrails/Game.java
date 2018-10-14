@@ -2,9 +2,9 @@ package ToMCT.Model.ColoredTrails;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
 
-import ToMCT.Model.ColoredTrails.GameTools.Deck;
-import ToMCT.Model.ColoredTrails.GameTools.Map;
-import ToMCT.Model.ColoredTrails.GameUtils.Location;
+import ToMCT.Model.ColoredTrails.GameTools.Chips.Deck;
+import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
+import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.Model.Messages.MessageBox;
 
 import java.util.ArrayList;

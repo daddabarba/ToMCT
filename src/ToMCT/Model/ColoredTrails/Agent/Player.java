@@ -1,9 +1,9 @@
 package ToMCT.Model.ColoredTrails.Agent;
 
-import ToMCT.Model.ColoredTrails.GameUtils.Hand;
-import ToMCT.Model.ColoredTrails.GameUtils.Location;
-
-import ToMCT.Model.ColoredTrails.GameTools.*;
+import ToMCT.Model.ColoredTrails.GameTools.Chips.Deck;
+import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
+import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
+import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 
 import ToMCT.Model.ColoredTrails.GameUtils.QObservable;
 import ToMCT.Model.Messages.Message;

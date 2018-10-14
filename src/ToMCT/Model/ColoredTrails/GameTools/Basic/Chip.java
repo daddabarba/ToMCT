@@ -1,4 +1,4 @@
-package ToMCT.Model.ColoredTrails.GameUtils;
+package ToMCT.Model.ColoredTrails.GameTools.Basic;
 
 import java.util.Random;
 

@@ -4,23 +4,19 @@ import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
-public class LocationPane extends RelJComponent implements Observer {
+public class LocationPane extends RelJComponent {
 
     public static int EDGE_THICKNESS = MapPane.EDGE_THICKNESS;
     public static Color EDGE_COLOR = MapPane.EDGE_COLOR;
-
-    public static Color PLAYER_COLOR = Color.DARK_GRAY;
 
     private Location location;
 
     public LocationPane(RelJComponent parent, Location location, double x, double y, double height, double width){
         super(parent, x, y, height, width);
 
-        location.addObserver(this);
         this.location = location;
+        new AvatarPane(this, location, 0.25, 0.25, 0.5, 0.5);
     }
 
     @Override
@@ -54,22 +50,7 @@ public class LocationPane extends RelJComponent implements Observer {
 
         g.fillRect(x, y, width, height);
 
-        //Paint player
-
-        if(location.getPlayers().size()>0) {
-            //Set player color
-            g.setColor(PLAYER_COLOR);
-
-            //Paint circle for player
-            g.fillOval(x+width/4, y+height/4, width/2+1, height/2+1);
-        }
-
         //Reset color
         g.setColor(oldColor);
-    }
-
-    @Override
-    public void update(Observable observable, Object message){
-        repaint();
     }
 }

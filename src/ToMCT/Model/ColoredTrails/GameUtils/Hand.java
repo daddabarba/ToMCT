@@ -8,7 +8,7 @@ public class Hand extends QObservable{
     //Object wrapping the hand (chips) of a player
 
     private Hashtable<Chip, Integer> chipCount; //Number of chips of each type
-
+    private int total;
 
     //CONSTRUCTOR
 
@@ -65,8 +65,10 @@ public class Hand extends QObservable{
     //Increases or decreases (action) the count fo each type of chip by a certain delta
     public void updateChip(Hashtable<Chip, Integer> deltas, Chip.Action action){
 
-        for(Chip chip : deltas.keySet())
-          chipCount.put(chip, chipCount.get(chip) + action.val()*deltas.get(chip));
+        for(Chip chip : deltas.keySet()) {
+            chipCount.put(chip, chipCount.get(chip) + action.val() * deltas.get(chip));
+            total += action.val() * deltas.get(chip);
+        }
 
         quickNotification();
     }
@@ -74,6 +76,9 @@ public class Hand extends QObservable{
     //Compare two hands
     public boolean equals(Hand h1){
         boolean ret = true;
+
+        if(total != h1.getTotal())
+            return false;
 
         for(Chip chip : chipCount.keySet())
             ret = ret && (chipCount.get(chip).equals(h1.getChipCount().get(chip)));
@@ -86,12 +91,18 @@ public class Hand extends QObservable{
 
         for(Chip chip : Chip.values())
             chipCount.put(chip, new Integer(0));
+
+        total = 0;
     }
 
     //GETTERS
 
     public Hashtable<Chip, Integer> getChipCount(){
         return chipCount;
+    }
+
+    public int getTotal(){
+        return total;
     }
 
     //STATIC METHODS

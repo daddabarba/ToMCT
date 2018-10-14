@@ -9,6 +9,8 @@ import java.text.AttributedString;
 
 public class IDPane extends RelJComponent{
 
+    public static Font ID_FONT = PlayerPane.FONT;
+
     private int ID;
 
     public IDPane(RelJComponent parent, int ID, double x, double y, double height, double width){
@@ -21,7 +23,7 @@ public class IDPane extends RelJComponent{
     public void PaintAbsElement(Graphics g, int x, int y, int height, int width){
 
         AttributedString attID = new AttributedString("ID: " + ID);
-        attID.addAttribute(TextAttribute.FONT, PlayerPane.FONT);
+        attID.addAttribute(TextAttribute.FONT, ID_FONT);
 
         //Print player ID
         g.drawString( attID.getIterator(), x, y);

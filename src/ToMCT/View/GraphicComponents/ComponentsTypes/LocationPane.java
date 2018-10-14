@@ -61,7 +61,7 @@ public class LocationPane extends RelJComponent implements Observer {
             g.setColor(PLAYER_COLOR);
 
             //Paint circle for player
-            g.fillOval(x+width/4, y+height/4, width/2, height/2);
+            g.fillOval(x+width/4, y+height/4, width/2+1, height/2+1);
         }
 
         //Reset color

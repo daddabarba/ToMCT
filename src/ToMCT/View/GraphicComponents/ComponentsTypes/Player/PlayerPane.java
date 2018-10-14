@@ -1,6 +1,10 @@
-package ToMCT.View.GraphicComponents.ComponentsTypes;
+package ToMCT.View.GraphicComponents.ComponentsTypes.Player;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
+import ToMCT.View.GraphicComponents.ComponentsTypes.Grid.MapPane;
+import ToMCT.View.GraphicComponents.ComponentsTypes.Player.Data.HandPane;
+import ToMCT.View.GraphicComponents.ComponentsTypes.Player.Data.IDPane;
+import ToMCT.View.GraphicComponents.ComponentsTypes.Player.Data.PlayerPostionPane;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
 import java.awt.*;

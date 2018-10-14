@@ -1,7 +1,8 @@
-package ToMCT.View.GraphicComponents.ComponentsTypes;
+package ToMCT.View.GraphicComponents.ComponentsTypes.Player.Data;
 
 import ToMCT.Model.ColoredTrails.GameTools.Basic.Chip;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
+import ToMCT.View.GraphicComponents.ComponentsTypes.Grid.MapPane;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
 import java.awt.*;

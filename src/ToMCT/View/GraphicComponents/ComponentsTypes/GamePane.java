@@ -1,6 +1,8 @@
 package ToMCT.View.GraphicComponents.ComponentsTypes;
 
 import ToMCT.Model.ColoredTrails.Game;
+import ToMCT.View.GraphicComponents.ComponentsTypes.Grid.MapPane;
+import ToMCT.View.GraphicComponents.ComponentsTypes.Player.PlayerListPane;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
 import java.awt.*;

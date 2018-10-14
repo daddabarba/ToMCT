@@ -1,9 +1,8 @@
-package ToMCT.View.GraphicComponents.ComponentsTypes;
+package ToMCT.View.GraphicComponents.ComponentsTypes.Player;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.View.GraphicComponents.RelJComponent;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
 

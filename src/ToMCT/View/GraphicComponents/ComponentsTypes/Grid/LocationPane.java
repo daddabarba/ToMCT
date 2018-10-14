@@ -1,4 +1,4 @@
-package ToMCT.View.GraphicComponents.ComponentsTypes;
+package ToMCT.View.GraphicComponents.ComponentsTypes.Grid;
 
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.View.GraphicComponents.RelJComponent;

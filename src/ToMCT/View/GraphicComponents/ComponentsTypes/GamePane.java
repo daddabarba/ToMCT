@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class GamePane extends RelJComponent {
 
-    public static Color BACKGROUND_COLOR = Color.GRAY;
+    public static Color BACKGROUND_COLOR = Color.WHITE;
 
     public static int EDGE_THICKNESS = 10;
     public static Color EDGE_COLOR = GamePane.BACKGROUND_COLOR;
@@ -16,7 +16,8 @@ public class GamePane extends RelJComponent {
         super(parent, 0, 0, 1, 1);
 
         //Generate sub components
-        new MapPane(this, game.getMap(), 0.25, 0.25, 0.5, 0.5);
+        new MapPane(this, game.getMap(), 0.02, 0.25, 0.4, 0.4);
+        new PlayerListPane(this, game.getPlayers(), 0.47, 0.15, 0.85, 0.52);
     }
 
     @Override

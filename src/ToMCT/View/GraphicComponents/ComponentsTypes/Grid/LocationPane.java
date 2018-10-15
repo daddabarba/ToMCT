@@ -37,7 +37,7 @@ public class LocationPane extends RelJComponent {
         g.setColor(EDGE_COLOR);
 
         //Draw frame
-        g.drawRect(x, y, width, height);
+        g.drawRoundRect(x, y, width, height, 25 , 25);
 
         //Reset edge thickness
         if (oldStroke != null)
@@ -48,7 +48,7 @@ public class LocationPane extends RelJComponent {
         //Set filling color
         g.setColor(location.getTrail().color());
 
-        g.fillRect(x, y, width, height);
+        g.fillRoundRect(x, y, width, height,25,25);
 
         //Reset color
         g.setColor(oldColor);

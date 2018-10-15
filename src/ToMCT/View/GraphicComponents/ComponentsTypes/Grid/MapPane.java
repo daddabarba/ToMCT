@@ -11,6 +11,8 @@ public class MapPane extends RelJComponent {
     public static int EDGE_THICKNESS = GamePane.EDGE_THICKNESS;
     public static Color EDGE_COLOR = Color.LIGHT_GRAY;
 
+    public static double PADDING = -0.05;
+
     public MapPane(RelJComponent parent, Map map, double x, double y, double height, double width){
         super(parent, x, y, height, width);
 
@@ -19,8 +21,8 @@ public class MapPane extends RelJComponent {
 
                 double locX = ((double) c)/map.getWidth();
                 double locY = ((double) r)/map.getHeight();
-                double locW = ((double) 1)/map.getWidth();
-                double locH = ((double) 1)/map.getHeight();
+                double locW = ((double) 1)/map.getWidth() + PADDING;
+                double locH = ((double) 1)/map.getHeight() + PADDING;
 
                 new LocationPane(this, map.getLocations()[r][c], locX, locY, locH, locW);
             }
@@ -29,27 +31,7 @@ public class MapPane extends RelJComponent {
 
     @Override
     public void PaintAbsElement(Graphics g, int x, int y, int height, int width){
-        //Make frame of map
-
-        //Set edge thickness
-        Stroke oldStroke = null;
-        if(g instanceof Graphics2D) {
-            oldStroke =((Graphics2D) g).getStroke();
-            ((Graphics2D) g).setStroke(new BasicStroke(EDGE_THICKNESS));
-        }
-
-        //Set color
-        Color oldColor = g.getColor();
-        g.setColor(EDGE_COLOR);
-
-        //Draw frame
-        g.drawRect(x, y, width, height);
-
-        //reset edge thickness
-        if(oldStroke!=null)
-            ((Graphics2D) g).setStroke(oldStroke);
-
-        //Reset color
-        g.setColor(oldColor);
+        //Paint nothing
+        return;
     }
 }

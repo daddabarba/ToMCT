@@ -20,14 +20,14 @@ public class Hand extends QObservable {
         resetHand();
     }
 
-    public Hand(int size){
-        this(generateHand(size));
-    }
-
     public Hand(Collection<Chip> chips){
         this();
 
         updateChip(chips);
+    }
+
+    public Hand(int size){
+        this(generateHand(size));
     }
 
     public Hand(Hashtable<Chip, Integer> chipCount){
@@ -87,6 +87,28 @@ public class Hand extends QObservable {
             ret = ret && (chipCount.get(chip).equals(h1.getChipCount().get(chip)));
 
         return ret;
+    }
+
+    //Sum two hands
+    public Hand add(Hand h){
+        return this.mix(h, Chip.Action.ADD);
+    }
+
+    //Subtract two hands
+    public Hand sub(Hand h){
+        return this.mix(h, Chip.Action.REMOVE);
+    }
+
+    private Hand mix(Hand h, Chip.Action action){
+        if(h.getChipCount().size() != this.chipCount.size())
+            return null;
+
+        Hashtable<Chip, Integer> newCount = new Hashtable<>();
+
+        for(Chip chip : this.chipCount.keySet())
+            newCount.put(chip, h.getChipCount().get(chip) + action.val()*this.chipCount.get(chip));
+
+        return new Hand(newCount);
     }
 
     //reset chip counts to all zeros

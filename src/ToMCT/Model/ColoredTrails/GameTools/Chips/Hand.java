@@ -89,6 +89,11 @@ public class Hand extends QObservable {
         return ret;
     }
 
+    //Make a copy of the hand
+    public Hand copy(){
+        return new Hand(this.chipCount);
+    }
+
     //Sum two hands
     public Hand add(Hand h){
         return this.mix(h, Chip.Action.ADD);

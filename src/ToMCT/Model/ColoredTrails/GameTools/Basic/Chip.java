@@ -50,4 +50,13 @@ public enum Chip {
     public static Chip randomChip(){
         return values()[new Random().nextInt(Trail.nTrails())];
     }
+
+    public static Chip fromTrail(Trail trail){
+
+        for(Chip chip : values())
+            if(chip.trail().equals(trail))
+                return chip;
+
+        return null;
+    }
 }

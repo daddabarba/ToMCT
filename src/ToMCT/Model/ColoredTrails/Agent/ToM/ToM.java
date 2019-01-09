@@ -13,9 +13,9 @@ public interface ToM {
     double EV(Offer o, Player player, Player opponent);
     //double EV(Offer o);
 
-    double U(Offer o, Player player, Player opponent);
+    //double U(Offer o, Player player, Player opponent);
     //double U(Offer o);
 
-    double EV(Offer o, Location l, Player player, Player opponent);
+    //double EV(Offer o, Location l, Player player, Player opponent);
     //double EV(Offer o, Location l);
 }

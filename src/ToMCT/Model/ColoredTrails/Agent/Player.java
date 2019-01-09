@@ -27,6 +27,18 @@ public class Player extends QObservable implements Observer {
         hand = new Hand();
     }
 
+    // METHODS
+
+    @Override
+    public boolean equals(Object object){
+
+        if(!(object instanceof Player))
+            return false;
+
+        Player player = (Player)object;
+        return ID == player.getID();
+    }
+
     //SETTER
 
     private void setPosition(Location position){

@@ -42,6 +42,10 @@ public class Location extends QObservable {
 
     // METHODS
 
+    public int distance(Location l){
+        return Math.abs(x-l.getX()) + Math.abs(y-l.getX());
+    }
+
     @Override
     public boolean equals(Object o){
 
@@ -114,5 +118,9 @@ public class Location extends QObservable {
 
     public Trail getTrail(){
         return trail;
+    }
+
+    public Collection<Location> getNeighbours(){
+        return neighbours;
     }
 }

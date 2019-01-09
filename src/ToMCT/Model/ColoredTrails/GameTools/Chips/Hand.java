@@ -40,12 +40,20 @@ public class Hand extends QObservable {
 
     //Add one chip of a given type
     public void updateChip(Chip chip){
-        updateChip(chip, Chip.Action.ADD);
+        updateChip(chip, 1);
     }
 
     //Adds or remove (action) one chip of a given type
     public void updateChip(Chip chip, Chip.Action action){
-        updateChip(new Hashtable<Chip, Integer>(){{put(chip, 1);}} , action);
+        updateChip(chip, 1, action);
+    }
+
+    public void updateChip(Chip chip, Integer value){
+        updateChip(chip, value, Chip.Action.ADD);
+    }
+
+    public void updateChip(Chip chip, Integer value, Chip.Action action){
+        updateChip(new Hashtable<Chip, Integer>(){{put(chip, value);}} , action);
     }
 
     //Adds several chips (in a collection)

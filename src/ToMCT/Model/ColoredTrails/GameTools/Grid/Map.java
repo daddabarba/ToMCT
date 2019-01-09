@@ -35,9 +35,21 @@ public class Map extends Observable {
         this.locations = new Location[height][width];
 
         //Init locations to their respective coordinates (and random trail)
-        for(int r=0; r<height; r++)
-            for(int c=0; c<width; c++)
-                locations[r][c] = new Location(c,r);
+        for(int r=0; r<height; r++) {
+            for (int c = 0; c < width; c++) {
+                locations[r][c] = new Location(c, r);
+
+                if(r>0) {
+                    locations[r][c].connect(locations[r-1][c]);
+                    locations[r-1][c].connect(locations[r][c]);
+                }
+
+                if(c>0){
+                    locations[r][c].connect(locations[r][c-1]);
+                    locations[r][c-1].connect(locations[r][c]);
+                }
+            }
+        }
 
         resetMap();
     }

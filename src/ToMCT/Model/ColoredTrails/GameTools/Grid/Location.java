@@ -13,6 +13,8 @@ public class Location extends QObservable {
     private int x, y; //Its x(column) and y(row) coordinates respectively
     private Collection<Player> players; //The player in that location (null if there is no player)
 
+    private Collection<Location> neighbours; //Locations accessible from this one
+
     private Trail trail; //Trail (color) of location
 
     //CONSTRUCTORS
@@ -33,9 +35,15 @@ public class Location extends QObservable {
         removePlayer();
 
         this.trail = trail;
+
+        this.neighbours = new ArrayList<>();
     }
 
     //SETTERS
+
+    public void connect(Location neighbour){
+        neighbours.add(neighbour);
+    }
 
     public void set(int x, int y){
         setX(x);

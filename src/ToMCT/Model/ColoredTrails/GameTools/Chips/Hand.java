@@ -99,6 +99,10 @@ public class Hand extends QObservable {
         return ret;
     }
 
+    public boolean isempty(){
+        return total < 1;
+    }
+
     //Make a copy of the hand
     public Hand copy(){
         return new Hand(this.chipCount);
@@ -139,6 +143,10 @@ public class Hand extends QObservable {
 
     public Hashtable<Chip, Integer> getChipCount(){
         return chipCount;
+    }
+
+    public int getChipCount(Chip chip){
+        return chipCount.get(chip);
     }
 
     public int getTotal(){

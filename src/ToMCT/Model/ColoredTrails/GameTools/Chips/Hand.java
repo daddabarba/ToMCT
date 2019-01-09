@@ -77,7 +77,17 @@ public class Hand extends QObservable {
     }
 
     //Compare two hands
-    public boolean equals(Hand h1){
+    @Override
+    public boolean equals(Object o){
+
+        if(o == this)
+            return true;
+
+        if(!(o instanceof Hand))
+            return false;
+
+        Hand h1 = (Hand)o;
+
         boolean ret = true;
 
         if(total != h1.getTotal())

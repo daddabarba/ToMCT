@@ -6,6 +6,7 @@ import ToMCT.Model.ColoredTrails.GameTools.Basic.Trail;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Observable;
 
 public class Location extends QObservable {
     //Class to hold information regarding a location on the map
@@ -37,6 +38,22 @@ public class Location extends QObservable {
         this.trail = trail;
 
         this.neighbours = new ArrayList<>();
+    }
+
+    // METHODS
+
+    @Override
+    public boolean equals(Object o){
+
+        if(o == this)
+            return true;
+
+        if(!(o instanceof Location))
+            return false;
+
+        Location l = (Location)o;
+
+        return l.getX()==x && l.getY()==y && l.getTrail()==trail;
     }
 
     //SETTERS

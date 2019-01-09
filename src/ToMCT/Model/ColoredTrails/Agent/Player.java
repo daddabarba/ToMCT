@@ -32,6 +32,9 @@ public class Player extends QObservable implements Observer {
     @Override
     public boolean equals(Object object){
 
+        if(object == this)
+            return true;
+
         if(!(object instanceof Player))
             return false;
 

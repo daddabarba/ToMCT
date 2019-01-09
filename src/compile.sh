@@ -1,1 +1,1 @@
-javac ToMCT/Main.java -d ./target
+javac ToMCT/Main.java -d ../target

@@ -68,7 +68,7 @@ public class ToMAgent implements ToM{
     public double U(Offer o){
 
         double val = 0.0;
-        Iterator it = goalBelief.getPDist().entrySet().iterator();
+        Iterator it = goalBelief.entrySet().iterator();
 
         while(it.hasNext()){
             Map.Entry<Location, Double> entry = (Map.Entry)it.next();

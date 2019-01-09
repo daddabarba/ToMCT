@@ -1,18 +1,15 @@
 package ToMCT.Model.ColoredTrails.Agent.ToM;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
-public abstract class Belief<T> {
-
-    // FIELDS
-
-    private HashMap<T,Double> pDist;
+public abstract class Belief<T> extends HashMap<T, Double> {
 
     // CONSTRUCTORS
 
     public Belief(){
-        pDist = new HashMap<>();
+        super();
     }
 
     public Belief(Collection<T> ts){
@@ -25,26 +22,33 @@ public abstract class Belief<T> {
     // SETTERS
 
     public void init(T t){
-        pDist.put(t, 0.0);
+        this.put(t, 0.0);
     }
 
-    public void set(T t, Double val){
+    @Override
+    public Double put(T t, Double val){
         if(val<0.0 || val>1.0)
-            return;
+            return null;
 
-        pDist.put(t, val);
+        return super.put(t, val);
     }
 
     // GETTERS
 
-    public double get(T t){
-        if(!pDist.containsKey(t))
+    @Override
+    public Double get(Object o){
+
+        T t;
+
+        try {
+            t = (T) o;
+        }catch (ClassCastException e){
+            return null;
+        }
+
+        if(!containsKey(t))
             init(t);
 
-        return pDist.get(t);
-    }
-
-    public HashMap<T, Double> getPDist(){
-        return pDist;
+        return super.get(t);
     }
 }

@@ -11,14 +11,22 @@ public abstract class Belief<T> {
 
     // CONSTRUCTORS
 
-    public Belief(Collection<T> ts){
+    public Belief(){
         pDist = new HashMap<>();
+    }
+
+    public Belief(Collection<T> ts){
+        this();
 
         for(T t : ts)
-            pDist.put(t, 0.0);
+            init(t);
     }
 
     // SETTERS
+
+    public void init(T t){
+        pDist.put(t, 0.0);
+    }
 
     public void set(T t, Double val){
         if(val<0.0 || val>1.0)
@@ -30,6 +38,9 @@ public abstract class Belief<T> {
     // GETTERS
 
     public double get(T t){
+        if(!pDist.containsKey(t))
+            init(t);
+
         return pDist.get(t);
     }
 }

@@ -6,6 +6,7 @@ import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 
 import ToMCT.Model.ColoredTrails.GameUtils.QObservable;
+import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
 import ToMCT.Model.Messages.Message;
 import ToMCT.Model.Messages.MessageBox;
 
@@ -21,10 +22,14 @@ public class Player extends QObservable implements Observer {
 
     private Location goal, position; // The player's goal and current position
 
+    private ScoreKeeper scoreKeeper;
+
     //CONSTRUCTOR
-    public Player(int ID){
+    public Player(int ID, ScoreKeeper scoreKeeper){
         this.ID = ID;
         hand = new Hand();
+
+        this.scoreKeeper = scoreKeeper;
     }
 
     // METHODS
@@ -68,6 +73,10 @@ public class Player extends QObservable implements Observer {
 
     public int getID(){
         return ID;
+    }
+
+    public ScoreKeeper getScoreKeeper(){
+        return scoreKeeper;
     }
 
     //NOTIFICATION HANDLER

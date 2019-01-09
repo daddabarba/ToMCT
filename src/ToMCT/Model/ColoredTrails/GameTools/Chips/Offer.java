@@ -15,6 +15,12 @@ public class Offer {
     private Map.Entry<Player, Hand> got, given;
     private Hand plate;
 
+    public enum Intention{
+        WITHDRAW, ACCEPT, MAKEOFFER;
+    }
+
+    private Intention intention;
+
     public static class OfferIterator implements Iterator<Offer>{
 
         private Player sender, receiver;
@@ -77,13 +83,38 @@ public class Offer {
 
     // CONSTRUCTOR
 
-    //Given the two exchanging player, and the hand offered to the receiver
+    public Offer(Offer o, Intention intention){
+        this(o);
+        this.intention = intention;
+    }
+
+    public Offer(Offer o){
+        this(o.getSender(), o.getReceiver(), o.getGiven());
+    }
+
+    public Offer(Intention intention){
+        this(null, null, null, intention);
+    }
+
     public Offer(Player sender, Player receiver, Hand offered){
+        this(sender, receiver, offered, Intention.MAKEOFFER);
+    }
 
-        plate = sender.getHand().add(receiver.getHand());
+    //Given the two exchanging player, and the hand offered to the receiver
+    public Offer(Player sender, Player receiver, Hand offered, Intention intention){
 
-        this.got = new AbstractMap.SimpleEntry<>(sender, plate.sub(offered));
-        this.given = new AbstractMap.SimpleEntry<>(receiver, offered.copy());
+        this.intention = intention;
+
+        if(sender!=null && receiver!=null) {
+            plate = getPlate(sender, receiver);
+            this.got = new AbstractMap.SimpleEntry<>(sender, plate.sub(offered));
+            this.given = new AbstractMap.SimpleEntry<>(receiver, offered.copy());
+        }else {
+            this.plate = null;
+            this.got = null;
+            this.given = null;
+        }
+
     }
 
     // METHODS
@@ -91,10 +122,21 @@ public class Offer {
     //Turn around offer (change prospective)
     public void invert(){
 
+        if(got==null || given==null)
+            return;
+
         Map.Entry<Player, Hand> temp = this.got;
 
         this.got = this.given;
         this.given = temp;
+    }
+
+    public static Hand getPlate(Player sender, Player receiver){
+        return sender.getHand().add(receiver.getHand());
+    }
+
+    public static Iterator<Offer> getIterator(Player sender, Player receiver){
+        return getIterator(getPlate(sender, receiver), sender, receiver);
     }
 
     public static Iterator<Offer> getIterator(Hand plate, Player sender, Player receiver){
@@ -104,21 +146,44 @@ public class Offer {
     // GETTERS
 
     public Player getSender(){
+        if(got==null)
+            return null;
+
         return this.got.getKey();
     }
     public Player getReceiver(){
+        if(given==null)
+            return null;
+
         return this.given.getKey();
     }
 
     public Hand getGot(){
+        if(got==null)
+            return null;
+
         return this.got.getValue();
     }
 
     public Hand getGiven(){
+        if(given==null)
+            return null;
+
         return this.given.getValue();
     }
 
     public Hand getPlate(){
+        if(plate==null)
+            return null;
+
         return plate;
+    }
+
+    public boolean isWithdraw(){
+        return intention.equals(Intention.WITHDRAW);
+    }
+
+    public boolean isAccept(){
+        return intention.equals(Intention.ACCEPT);
     }
 }

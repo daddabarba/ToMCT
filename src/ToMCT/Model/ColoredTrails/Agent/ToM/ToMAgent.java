@@ -11,16 +11,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ToMAgent implements ToM{
+public abstract class ToMAgent implements ToM{
 
     // FIELDS
 
-    private Player agent;
-
-    private ToM model;
-    private HashMap<Player, GoalBelief> goalBeliefs;
-
-    private Location goal;
+    Player agent;
+    Location goal;
 
     // parameters
 
@@ -28,38 +24,26 @@ public class ToMAgent implements ToM{
 
     // state
 
-    private GoalBelief goalBelief;
-    private Player player;
-    private Player opponent;
+    Player player;
+    Player opponent;
 
     // CONSTRUCTOR
 
-    public ToMAgent(Player agent, int order, Collection<Player> players, Collection<Location> locations, Location goal){
-
+    public ToMAgent(Player agent, Location goal){
         this.goal = goal;
         this.agent = agent;
-
-        if(order>1)
-            model = new ToMAgent(player, order-1, players, locations, goal);
-        else
-            model = new ZeroToMAgent();
-
-        goalBeliefs = new HashMap<>();
-        goalBeliefs.put(player, new GoalBelief(locations));
-
-        for(Player player : players)
-            goalBeliefs.put(player, new GoalBelief(locations));
-
     }
+
+    // METHODS
 
     public Offer ToM(Offer o, Player player, Player opponent){
         setPlayer(player, opponent);
 
         Offer bestOffer = bestOffer(player, opponent);
 
-        double valBest = EV(bestOffer);
-        double valOffer = player.getScoreKeeper().score(o.getGiven(), player.getPosition(), goal);
-        double valHand = player.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
+        double valBest = EV(bestOffer, player, opponent);
+        double valOffer = agent.getScoreKeeper().score(o.getGiven(), player.getPosition(), goal);
+        double valHand = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
 
         if(valBest>valOffer && valBest>valHand)
             return bestOffer;
@@ -92,61 +76,13 @@ public class ToMAgent implements ToM{
 
     }
 
-    public double EV(Offer o, Player player, Player opponent){
-        setPlayer(player, opponent);
-        return this.EV(o);
-    }
-
-    private double EV(Offer o){
-        return confidence*this.U(o) + (1-confidence)*model.EV(o, player, opponent);
-    }
-
-    public double U(Offer o, Player player, Player opponent){
-        setPlayer(player, opponent);
-        return this.U(o);
-    }
-
-    private double U(Offer o){
-
-        double val = 0.0;
-        Iterator it = goalBelief.entrySet().iterator();
-
-        while(it.hasNext()){
-            Map.Entry<Location, Double> entry = (Map.Entry)it.next();
-            val += entry.getValue()*this.EV(o,entry.getKey());
-        }
-
-        return val;
-    }
-
-    public  double EV(Offer o, Location l, Player player, Player opponent){
-        setPlayer(player, opponent);
-        return this.EV(o,l);
-    }
-
-    private double EV(Offer o, Location l){
-
-        Offer predictedResponse = model.ToM(o, opponent, player);
-
-        if(predictedResponse.isWithdraw())
-            return player.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
-
-        if(predictedResponse.isAccept())
-            return player.getScoreKeeper().score(o.getGot(), player.getPosition(), goal);
-
-        double scorePredictedOffer = player.getScoreKeeper().score(predictedResponse.getGiven(), player.getPosition(), goal);
-        double scoreRefuse = player.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
-
-        return Math.max(scorePredictedOffer, scoreRefuse);
-
-    }
-
     // SETTERS
 
-    private void setPlayer(Player player, Player opponent){
-        this.player = player;
-        this.opponent = opponent;
-        this.goalBelief = goalBeliefs.get(opponent);
+    abstract void setPlayer(Player player, Player opponent);
+
+    // GETTERS
+    public double getConfidence(){
+        return confidence;
     }
 
 }

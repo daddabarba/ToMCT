@@ -43,4 +43,8 @@ public abstract class Belief<T> {
 
         return pDist.get(t);
     }
+
+    public HashMap<T, Double> getPDist(){
+        return pDist;
+    }
 }

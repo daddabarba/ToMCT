@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public abstract class ToMAgent implements ToM{
+public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
     // FIELDS
 

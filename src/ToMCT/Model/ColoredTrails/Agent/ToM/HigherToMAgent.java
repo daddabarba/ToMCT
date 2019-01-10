@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class HigherToMAgent extends ToMAgent {
+public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     private ToM model;
 
@@ -36,6 +36,18 @@ public class HigherToMAgent extends ToMAgent {
     }
 
     // METHODS
+
+    public Offer ToM(Offer o, Player player, Player opponent, Location goal, GoalBelief beliefs){
+
+        GoalBelief temp = goalBeliefs.get(opponent);
+        goalBeliefs.put(opponent, beliefs);
+
+        Offer ret = ToM(o, player, opponent, goal);
+
+        goalBeliefs.put(opponent, temp);
+        return ret;
+
+    }
 
     public double EV(Offer o, Player player, Player opponent, Location goal){
         setPlayer(player, opponent);

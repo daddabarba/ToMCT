@@ -7,10 +7,12 @@ import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class ZeroToMAgent extends ToMAgent {
+public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     private HashMap<Player, ZeroBelief> zeroBeliefs;
     private ZeroBelief zeroBelief;
+
+    // CONSTRUCTOR
 
     public ZeroToMAgent(Player agent, Collection<Player> players){
         super(agent);
@@ -20,6 +22,22 @@ public class ZeroToMAgent extends ToMAgent {
 
         for(Player player : players)
             zeroBeliefs.put(player, new ZeroBelief());
+    }
+
+    // METHODS
+
+    // POLICY
+
+    public Offer ToM(Offer o, Player player, Player opponent, Location goal, ZeroBelief beliefs){
+
+        ZeroBelief temp = zeroBeliefs.get(opponent);
+        zeroBeliefs.put(opponent, beliefs);
+
+        Offer ret = ToM(o, player, opponent, goal);
+
+        zeroBeliefs.put(opponent, temp);
+        return ret;
+
     }
 
     public double EV(Offer o, Player player, Player opponent, Location goal){

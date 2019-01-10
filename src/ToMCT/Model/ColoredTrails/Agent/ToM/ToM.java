@@ -6,16 +6,8 @@ import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 
 public interface ToM {
 
-    Offer ToM(Offer o, Player player, Player opponent);
+    Offer ToM(Offer o, Player player, Player opponent, Location goal);
+    Offer bestOffer(Player player, Player opponent, Location goal);
 
-    Offer bestOffer(Player player, Player opponent);
-
-    double EV(Offer o, Player player, Player opponent);
-    //double EV(Offer o);
-
-    //double U(Offer o, Player player, Player opponent);
-    //double U(Offer o);
-
-    //double EV(Offer o, Location l, Player player, Player opponent);
-    //double EV(Offer o, Location l);
+    double EV(Offer o, Player player, Player opponent, Location goal);
 }

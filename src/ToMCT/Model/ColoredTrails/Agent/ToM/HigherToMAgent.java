@@ -18,14 +18,14 @@ public class HigherToMAgent extends ToMAgent {
     private GoalBelief goalBelief;
 
     // CONSTRUCTOR
-    public HigherToMAgent(Player agent, int order, Collection<Player> players, Collection<Location> locations, Location goal){
+    public HigherToMAgent(Player agent, int order, Collection<Player> players, Collection<Location> locations){
 
-        super(agent, goal);
+        super(agent);
 
         if(order>1)
-            model = new HigherToMAgent(player, order-1, players, locations, goal);
+            model = new HigherToMAgent(player, order-1, players, locations);
         else
-            model = new ZeroToMAgent(agent, players, goal);
+            model = new ZeroToMAgent(agent, players);
 
         goalBeliefs = new HashMap<>();
         goalBeliefs.put(agent, new GoalBelief(locations));
@@ -37,50 +37,41 @@ public class HigherToMAgent extends ToMAgent {
 
     // METHODS
 
-    public double EV(Offer o, Player player, Player opponent){
+    public double EV(Offer o, Player player, Player opponent, Location goal){
         setPlayer(player, opponent);
-        return this.EV(o);
+        return this.EV(o, goal);
     }
 
-    private double EV(Offer o){
-        return getConfidence()*this.U(o) + (1-getConfidence())*model.EV(o, player, opponent);
+    private double EV(Offer o, Location goal){
+        return getConfidence()*this.U(o, goal) + (1-getConfidence())*model.EV(o, player, opponent, goal);
     }
 
-    public double U(Offer o, Player player, Player opponent){
-        setPlayer(player, opponent);
-        return this.U(o);
-    }
 
-    private double U(Offer o){
+    private double U(Offer o, Location goal){
 
         double val = 0.0;
         Iterator it = goalBelief.entrySet().iterator();
 
         while(it.hasNext()){
             Map.Entry<Location, Double> entry = (Map.Entry)it.next();
-            val += entry.getValue()*this.EV(o,entry.getKey());
+            val += entry.getValue()*this.EV(o,goal, entry.getKey());
         }
 
         return val;
     }
 
-    public  double EV(Offer o, Location l, Player player, Player opponent){
-        setPlayer(player, opponent);
-        return this.EV(o,l);
-    }
+    private double EV(Offer o, Location goal, Location l){
 
-    private double EV(Offer o, Location l){
-
-        Offer predictedResponse = model.ToM(o, opponent, player);
+        Offer predictedResponse = model.ToM(o, opponent, player, l);
 
         if(predictedResponse.isWithdraw())
-            return agent.getScoreKeeper().score(player.getHand(), agent.getPosition(), goal);
+            return agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
 
         if(predictedResponse.isAccept())
-            return agent.getScoreKeeper().score(o.getGot(), agent.getPosition(), goal);
+            return agent.getScoreKeeper().score(o.getGot(), player.getPosition(), goal);
 
-        double scorePredictedOffer = agent.getScoreKeeper().score(predictedResponse.getGiven(), agent.getPosition(), goal);
-        double scoreRefuse = agent.getScoreKeeper().score(player.getHand(), agent.getPosition(), goal);
+        double scorePredictedOffer = agent.getScoreKeeper().score(predictedResponse.getGiven(), player.getPosition(), goal);
+        double scoreRefuse = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
 
         return Math.max(scorePredictedOffer, scoreRefuse);
 

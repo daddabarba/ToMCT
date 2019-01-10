@@ -16,7 +16,6 @@ public abstract class ToMAgent implements ToM{
     // FIELDS
 
     Player agent;
-    Location goal;
 
     // parameters
 
@@ -29,19 +28,18 @@ public abstract class ToMAgent implements ToM{
 
     // CONSTRUCTOR
 
-    public ToMAgent(Player agent, Location goal){
-        this.goal = goal;
+    public ToMAgent(Player agent){
         this.agent = agent;
     }
 
     // METHODS
 
-    public Offer ToM(Offer o, Player player, Player opponent){
+    public Offer ToM(Offer o, Player player, Player opponent, Location goal){
         setPlayer(player, opponent);
 
-        Offer bestOffer = bestOffer(player, opponent);
+        Offer bestOffer = bestOffer(player, opponent, goal);
 
-        double valBest = EV(bestOffer, player, opponent);
+        double valBest = EV(bestOffer, player, opponent, goal);
         double valOffer = agent.getScoreKeeper().score(o.getGiven(), player.getPosition(), goal);
         double valHand = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
 
@@ -54,7 +52,7 @@ public abstract class ToMAgent implements ToM{
         return new Offer(o, Offer.Intention.WITHDRAW);
     }
 
-    public Offer bestOffer(Player player, Player opponent){
+    public Offer bestOffer(Player player, Player opponent, Location goal){
 
         Iterator<Offer> offerIterator = Offer.getIterator(player, opponent);
 
@@ -64,7 +62,7 @@ public abstract class ToMAgent implements ToM{
         while(offerIterator.hasNext()){
 
             Offer currentOffer = offerIterator.next();
-            double offerVal = EV(currentOffer, player, opponent);
+            double offerVal = EV(currentOffer, player, opponent, goal);
 
             if(maxVal<0 || offerVal>maxVal){
                 maxVal = offerVal;

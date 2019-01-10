@@ -12,8 +12,8 @@ public class ZeroToMAgent extends ToMAgent {
     private HashMap<Player, ZeroBelief> zeroBeliefs;
     private ZeroBelief zeroBelief;
 
-    public ZeroToMAgent(Player agent, Collection<Player> players, Location goal){
-        super(agent, goal);
+    public ZeroToMAgent(Player agent, Collection<Player> players){
+        super(agent);
 
         zeroBeliefs = new HashMap<>();
         zeroBeliefs.put(agent, new ZeroBelief());
@@ -22,11 +22,11 @@ public class ZeroToMAgent extends ToMAgent {
             zeroBeliefs.put(player, new ZeroBelief());
     }
 
-    public double EV(Offer o, Player player, Player opponent){
+    public double EV(Offer o, Player player, Player opponent, Location goal){
         double b = zeroBelief.get(o);
 
-        double scoreOffer = agent.getScoreKeeper().score(o.getGot(), agent.getPosition(), goal);
-        double scoreHand = agent.getScoreKeeper().score(agent.getHand(), agent.getPosition(), goal);
+        double scoreOffer = agent.getScoreKeeper().score(o.getGot(), player.getPosition(), goal);
+        double scoreHand = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
 
         return b*scoreOffer + (1-b)*scoreHand;
     }

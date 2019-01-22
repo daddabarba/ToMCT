@@ -23,7 +23,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         super(agent, players);
 
         if(order>1)
-            model = new HigherToMAgent(player, order-1, players, locations);
+            model = new HigherToMAgent(agent, order-1, players, locations);
         else
             model = new ZeroToMAgent(agent, players);
 

@@ -1,15 +1,19 @@
 package ToMCT.Model.ColoredTrails.Agent.ToM;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 
 public abstract class Belief<T> extends HashMap<T, Double> {
+
+    // FIELDS
+    private double def;
 
     // CONSTRUCTORS
 
     public Belief(){
         super();
+
+        def = 0.0;
     }
 
     public Belief(Collection<T> ts){
@@ -22,7 +26,7 @@ public abstract class Belief<T> extends HashMap<T, Double> {
     // SETTERS
 
     public void init(T t){
-        this.put(t, 0.0);
+        this.put(t, this.def);
     }
 
     @Override
@@ -31,6 +35,11 @@ public abstract class Belief<T> extends HashMap<T, Double> {
             return null;
 
         return super.put(t, val);
+    }
+
+    public Belief setDef(double val){
+        this.def = val;
+        return this;
     }
 
     // GETTERS

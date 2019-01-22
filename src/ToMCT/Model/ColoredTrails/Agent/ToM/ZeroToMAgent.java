@@ -15,7 +15,7 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
     // CONSTRUCTOR
 
     public ZeroToMAgent(Player agent, Collection<Player> players){
-        super(agent);
+        super(agent, players);
 
         zeroBeliefs = new HashMap<>();
         zeroBeliefs.put(agent, new ZeroBelief());
@@ -51,6 +51,9 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     @Override
     void setPlayer(Player player, Player opponent){
+
+        super.setPlayer(player, opponent);
+
         this.player = player;
         this.opponent = opponent;
         this.zeroBelief = zeroBeliefs.get(opponent);

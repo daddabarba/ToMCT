@@ -79,7 +79,7 @@ public class Game extends Observable implements ScoreKeeper {
         players = new ArrayList<>();
 
         for(int i=0; i<numPlayers; i++) {
-            Player player = new Player(i);
+            Player player = new Player(i, (ScoreKeeper)this);
 
             players.add(player);
             messageBox.addObserver(player);

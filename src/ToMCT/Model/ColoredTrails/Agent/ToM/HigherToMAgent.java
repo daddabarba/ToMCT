@@ -20,7 +20,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
     // CONSTRUCTOR
     public HigherToMAgent(Player agent, int order, Collection<Player> players, Collection<Location> locations){
 
-        super(agent);
+        super(agent, players);
 
         if(order>1)
             model = new HigherToMAgent(player, order-1, players, locations);
@@ -55,7 +55,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
     }
 
     private double EV(Offer o, Location goal){
-        return getConfidence()*this.U(o, goal) + (1-getConfidence())*model.EV(o, player, opponent, goal);
+        return confidence*this.U(o, goal) + (1-confidence)*model.EV(o, player, opponent, goal);
     }
 
 
@@ -91,6 +91,9 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     @Override
     void setPlayer(Player player, Player opponent){
+
+        super.setPlayer(player, opponent);
+
         this.player = player;
         this.opponent = opponent;
         this.goalBelief = goalBeliefs.get(opponent);

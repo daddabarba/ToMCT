@@ -143,8 +143,8 @@ public class Hand extends QObservable {
 
         Hashtable<Chip, Integer> newCount = new Hashtable<>();
 
-        for(Chip chip : this.chipCount.keySet())
-            newCount.put(chip, h.getChipCount().get(chip) + action.val()*this.chipCount.get(chip));
+        for(Map.Entry<Chip, Integer> e : this.chipCount.entrySet())
+            newCount.put(e.getKey(), e.getValue() + action.val() * h.getChipCount().get(e.getKey()));
 
         return new Hand(newCount);
     }

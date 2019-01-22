@@ -41,7 +41,7 @@ public class Offer {
             max = 1;
 
             for(Integer i : plate.getChipCount().values())
-                max *= (i+1);
+                max *= (i + 1);
 
             max -= 1;
 
@@ -69,8 +69,10 @@ public class Offer {
 
                 currentOffer.updateChip(chip, newVal - currentChip);
 
-                if(newVal > 0)
+                if(newVal > 0) {
+                    count+=1;
                     return new Offer(sender, receiver, currentOffer);
+                }
             }
 
             return new Offer(sender, receiver, currentOffer);

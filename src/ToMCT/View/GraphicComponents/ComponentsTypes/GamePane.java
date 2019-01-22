@@ -19,7 +19,7 @@ public class GamePane extends RelJComponent {
 
         //Generate sub components
         new MapPane(this, game.getMap(), 0.02, 0.25, 0.4, 0.4);
-        new PlayerListPane(this, game.getPlayers(), 0.47, 0.15, 0.85, 0.52);
+        new PlayerListPane(this, game.getPlayers(), 0.47, 0.15, 0.4, 0.52);
     }
 
     @Override

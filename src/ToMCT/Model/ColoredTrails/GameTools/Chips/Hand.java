@@ -6,6 +6,7 @@ import ToMCT.Model.ColoredTrails.GameUtils.QObservable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
+import java.util.Map;
 
 public class Hand extends QObservable {
     //Object wrapping the hand (chips) of a player
@@ -37,6 +38,16 @@ public class Hand extends QObservable {
     }
 
     //METHODS
+
+    //Set hand
+    public void setHand(Hand hand){
+
+        resetHand();
+
+        for(Map.Entry<Chip, Integer> e : hand.getChipCount().entrySet())
+            chipCount.put(e.getKey(), e.getValue());
+
+    }
 
     //Add one chip of a given type
     public void updateChip(Chip chip){
@@ -195,4 +206,20 @@ public class Hand extends QObservable {
         return hand;
     }
 
+    // DATA STORAGE
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{ ");
+        for(Map.Entry<Chip, Integer> e : chipCount.entrySet())
+            sb.append("\"" + e.getKey().toString() + "\":\"" + e.getValue() + "\",");
+
+        String ret = sb.toString();
+        ret = ret.substring(0, ret.length()-1) + "}";
+
+        return ret;
+    }
 }

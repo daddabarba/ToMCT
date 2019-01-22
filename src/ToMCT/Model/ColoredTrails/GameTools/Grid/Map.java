@@ -5,11 +5,7 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.Messages.Message;
 import ToMCT.Model.Messages.MessageBox;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
-
-import java.util.Observable;
+import java.util.*;
 
 public class Map extends Observable {
     //Holds map of game (all its locations) and current position of players
@@ -166,5 +162,22 @@ public class Map extends Observable {
 
     public Collection<Location> getLocationList() {
         return locationList;
+    }
+
+    public Location getRandomGoal(){
+
+        Random rand = new Random();
+
+        int offset_x = rand.nextInt(2);
+        int side_x = rand.nextInt(2);
+
+        int offset_y = rand.nextInt(2);
+        int side_y = rand.nextInt(2);
+
+        int y = (side_y>0) ? (offset_y) : (height-offset_y);
+        int x = (side_x>0) ? (offset_x) : (height-offset_x);
+
+        return locations[x][y];
+
     }
 }

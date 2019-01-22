@@ -5,9 +5,11 @@ import ToMCT.Model.ColoredTrails.Agent.ToM.ToMAgent;
 import ToMCT.Model.ColoredTrails.Agent.ToM.ZeroToMAgent;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Deck;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
+import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 
+import ToMCT.Model.ColoredTrails.GameUtils.Mediator;
 import ToMCT.Model.ColoredTrails.GameUtils.QObservable;
 import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
 import ToMCT.Model.Messages.Message;
@@ -27,21 +29,76 @@ public class Player extends QObservable implements Observer {
     private Location goal, position; // The player's goal and current position
 
     private ScoreKeeper scoreKeeper;
+    private Mediator mediator;
+
     private ToMAgent toMAgent;
 
+    private Collection<Player> players;
+
     //CONSTRUCTOR
-    public Player(int ID, ScoreKeeper scoreKeeper){
+    public Player(int ID, ScoreKeeper scoreKeeper, Mediator mediator){
         this.ID = ID;
         hand = new Hand();
 
         this.scoreKeeper = scoreKeeper;
+        this.mediator = mediator;
+
+        this.toMAgent = null;
     }
 
-    public void init(int order, Collection<Player> players, Collection<Location> locations){
-        if(order>0)
-            this.toMAgent = new HigherToMAgent(this, order, players, locations);
-        else
-            this.toMAgent = new ZeroToMAgent(this, players);
+    public void init(Location goal, int order, Collection<Player> players, Collection<Location> locations){
+
+        this.goal = goal;
+        this.players = players;
+
+        if(this.toMAgent==null)
+            if(order>0)
+                this.toMAgent = new HigherToMAgent(this, order, players, locations);
+            else
+                this.toMAgent = new ZeroToMAgent(this, players);
+    }
+
+    // PLAY
+
+    public void Play(){
+        Play(selectOpponent());
+    }
+
+    private Player selectOpponent(){
+        for(Player player : players)
+            if(!player.equals(this))
+                return player;
+
+        return null;
+    }
+
+    private void Play(Player opponent){
+
+        if(opponent==null)
+            return;
+
+        Offer firstOffer = this.toMAgent.bestOffer(this, opponent, goal);
+        opponent.makeOffer(this, firstOffer);
+    }
+
+    protected void makeOffer(Player opponent,  Offer o){
+
+        if(o.isWithdraw())
+            return;
+
+        if(o.isAccept())
+            mediator.mediate(o);
+
+        Offer response = this.toMAgent.ToM(o, this, opponent, goal);
+
+        if(response.isWithdraw())
+            return;
+
+        if(response.isAccept())
+            mediator.mediate(response);
+
+        opponent.makeOffer(this, response);
+
     }
 
     // METHODS

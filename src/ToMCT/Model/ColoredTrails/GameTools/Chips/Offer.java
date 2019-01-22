@@ -186,4 +186,20 @@ public class Offer {
     public boolean isAccept(){
         return intention.equals(Intention.ACCEPT);
     }
+
+    // DATA STORAGE
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{ \"sender_ID\": \"" + getSender().getID()+"\", ");
+        sb.append("\"receiver_ID\": \"" + getReceiver().getID()+"\", ");
+        sb.append("\"plate\": \"" + plate.toString()+"\", ");
+        sb.append("\"got\": \"" + getGot().toString()+"\", ");
+        sb.append("\"given\": \"" + getGiven().toString()+"\"}");
+
+        return sb.toString();
+    }
 }

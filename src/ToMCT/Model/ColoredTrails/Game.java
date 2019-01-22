@@ -5,18 +5,23 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.ColoredTrails.GameTools.Basic.Chip;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Deck;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
+import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
+import ToMCT.Model.ColoredTrails.GameUtils.Mediator;
 import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
 import ToMCT.Model.Messages.MessageBox;
 import org.omg.PortableInterceptor.LOCATION_FORWARD;
 
 import java.util.*;
 
-public class Game extends Observable implements ScoreKeeper {
+public class Game extends Observable implements ScoreKeeper, Mediator {
     //Class coordinating the different components of the CT game
 
     private Collection<Player> players; //List of participants
+    private HashMap<Player, Location> goals;
+    private HashMap<Player, Double> finalScore;
+    private Player startingPlayer;
 
     private Map map; //Game map
     private Deck deck; //Game deck
@@ -25,6 +30,8 @@ public class Game extends Observable implements ScoreKeeper {
 
     private int handSize;
     private Location start;
+
+    private Collection<String> offersMade;
 
     private class AgentState {
 
@@ -83,7 +90,10 @@ public class Game extends Observable implements ScoreKeeper {
         players = new ArrayList<>();
 
         for(int i=0; i<orders.length; i++) {
-            Player player = new Player(i,this);
+            Player player = new Player(i,this, this);
+
+            if(i==0)
+                startingPlayer = player;
 
             players.add(player);
             messageBox.addObserver(player);
@@ -96,18 +106,50 @@ public class Game extends Observable implements ScoreKeeper {
 
         int i=0;
         for(Player player :players) {
-            player.init(orders[i], players, getMap().getLocationList());
+            Location goal = map.getRandomGoal();
+            player.init(goal, orders[i], players, getMap().getLocationList());
+            goals.put(player, goal);
+
             i++;
         }
     }
 
     public void startGame(){
+        offersMade = new ArrayList<>();
 
         deck.shuffle(handSize);
         map.initialize(start);
     }
 
+    public void play(){
+        startingPlayer.Play();
+
+        for(Player player : players)
+            finalScore.put(player, score(player.getHand(), player.getPosition(), goals.get(player)));
+
+        System.out.println("\nFinal score: \n" + finalScore.toString());
+    }
+
     // METHODS
+
+    // Mediator
+    @Override
+    public void mediate(Offer offer){
+        Player sender = offer.getSender();
+        Player receiver = offer.getReceiver();
+
+        if(Offer.getPlate(sender, receiver).equals(offer.getPlate())) {
+
+            String offerMade = offer.toString();
+            offersMade.add(offerMade);
+            System.out.println("Offer Made:\n" + offerMade + "\n");
+
+            sender.getHand().setHand(offer.getGot());
+            receiver.getHand().setHand(offer.getGiven());
+        }
+    }
+
+    // Score Keeper
 
     @Override
     public double score(Hand hand, Location start, Location goal){

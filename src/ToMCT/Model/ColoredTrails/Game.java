@@ -102,6 +102,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         map = new Map(mazeSize, mazeSize, messageBox, players);
         deck = new Deck(messageBox, players);
 
+        goals = new HashMap<>();
         scoreTable = new HashMap<>();
 
         int i=0;

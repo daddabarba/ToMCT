@@ -7,8 +7,24 @@ import ToMCT.View.GraphicComponents.RelJComponent;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class GameFrame extends JFrame {
+
+    private class ActionPlay extends AbstractAction{
+
+        private Game game;
+        public ActionPlay(String name, Game game){
+            super(name);
+            this.game = game;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+            game.play();
+        }
+
+    }
 
     public GameFrame(String title, Game game){
         super(title);
@@ -16,6 +32,13 @@ public class GameFrame extends JFrame {
         RelJComponent window = new EmptyComponent();
         new GamePane(window, game);
 
+        JMenuBar menuBar = new JMenuBar();
+        JButton playButton = new JButton("Play");
+        playButton.setAction(new ActionPlay("Play", game));
+
+        menuBar.add(playButton);
+
+        setJMenuBar(menuBar);
         add(window);
 
         //set preferences

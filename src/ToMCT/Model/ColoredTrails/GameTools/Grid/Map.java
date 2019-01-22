@@ -174,8 +174,8 @@ public class Map extends Observable {
         int offset_y = rand.nextInt(2);
         int side_y = rand.nextInt(2);
 
-        int y = (side_y>0) ? (offset_y) : (height-offset_y);
-        int x = (side_x>0) ? (offset_x) : (height-offset_x);
+        int y = (side_y>0) ? (offset_y) : (height-offset_y-1);
+        int x = (side_x>0) ? (offset_x) : (height-offset_x-1);
 
         return locations[x][y];
 

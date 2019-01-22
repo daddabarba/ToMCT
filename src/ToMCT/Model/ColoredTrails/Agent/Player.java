@@ -1,5 +1,8 @@
 package ToMCT.Model.ColoredTrails.Agent;
 
+import ToMCT.Model.ColoredTrails.Agent.ToM.HigherToMAgent;
+import ToMCT.Model.ColoredTrails.Agent.ToM.ToMAgent;
+import ToMCT.Model.ColoredTrails.Agent.ToM.ZeroToMAgent;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Deck;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
@@ -10,6 +13,7 @@ import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
 import ToMCT.Model.Messages.Message;
 import ToMCT.Model.Messages.MessageBox;
 
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +27,7 @@ public class Player extends QObservable implements Observer {
     private Location goal, position; // The player's goal and current position
 
     private ScoreKeeper scoreKeeper;
+    private ToMAgent toMAgent;
 
     //CONSTRUCTOR
     public Player(int ID, ScoreKeeper scoreKeeper){
@@ -30,6 +35,13 @@ public class Player extends QObservable implements Observer {
         hand = new Hand();
 
         this.scoreKeeper = scoreKeeper;
+    }
+
+    public void init(int order, Collection<Player> players, Collection<Location> locations){
+        if(order>0)
+            this.toMAgent = new HigherToMAgent(this, order, players, locations);
+        else
+            this.toMAgent = new ZeroToMAgent(this, players);
     }
 
     // METHODS

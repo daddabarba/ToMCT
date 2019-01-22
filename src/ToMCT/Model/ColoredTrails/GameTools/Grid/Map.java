@@ -5,6 +5,7 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.Messages.Message;
 import ToMCT.Model.Messages.MessageBox;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 
@@ -17,6 +18,7 @@ public class Map extends Observable {
     private Hashtable<Player, Location> playersLocation; //Map from player to its location
 
     private Location[][] locations; //Locations grid
+    private Collection<Location> locationList;
     private int width, height; //Dimensions of map
 
     private MessageBox messageBox; //Message box (to notify players)
@@ -32,12 +34,14 @@ public class Map extends Observable {
         this.players = players;
         this.playersLocation = new Hashtable<>();
 
+        this.locationList = new ArrayList<>();
         this.locations = new Location[height][width];
 
         //Init locations to their respective coordinates (and random trail)
         for(int r=0; r<height; r++) {
             for (int c = 0; c < width; c++) {
                 locations[r][c] = new Location(c, r);
+                locationList.add(locations[r][c]);
 
                 if(r>0) {
                     locations[r][c].connect(locations[r-1][c]);
@@ -158,5 +162,9 @@ public class Map extends Observable {
 
     public Location[][] getLocations(){
         return locations;
+    }
+
+    public Collection<Location> getLocationList() {
+        return locationList;
     }
 }

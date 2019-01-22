@@ -4,7 +4,6 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
-import sun.java2d.opengl.OGLContext;
 
 import java.util.Collection;
 import java.util.HashMap;

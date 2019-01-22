@@ -69,7 +69,11 @@ public class Game extends Observable implements ScoreKeeper {
 
     private HashMap<AgentState, Double> scoreTable;
 
-    public Game(int numPlayers, int handSize, int width, int height, Location start){
+    public Game(Integer[] orders, int handSize, int mazeSize){
+        this(orders, handSize, mazeSize, new Location((int)mazeSize/2, (int)mazeSize/2));
+    }
+
+    public Game(Integer[] orders, int handSize, int mazeSize, Location start){
 
         this.handSize = handSize;
         this.start = start;
@@ -78,17 +82,23 @@ public class Game extends Observable implements ScoreKeeper {
 
         players = new ArrayList<>();
 
-        for(int i=0; i<numPlayers; i++) {
-            Player player = new Player(i, (ScoreKeeper)this);
+        for(int i=0; i<orders.length; i++) {
+            Player player = new Player(i,this);
 
             players.add(player);
             messageBox.addObserver(player);
         }
 
-        map = new Map(width, height, messageBox, players);
+        map = new Map(mazeSize, mazeSize, messageBox, players);
         deck = new Deck(messageBox, players);
 
         scoreTable = new HashMap<>();
+
+        int i=0;
+        for(Player player :players) {
+            player.init(orders[i], players, getMap().getLocationList());
+            i++;
+        }
     }
 
     public void startGame(){

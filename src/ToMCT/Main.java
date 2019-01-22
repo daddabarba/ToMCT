@@ -3,12 +3,13 @@ package ToMCT;
 import ToMCT.Model.ColoredTrails.Game;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.View.GameFrame;
+import ToMCT.View.Menu;
 
 public class Main {
 
     public static void main(String[] args){
-
-        int numPlayers = Integer.parseInt(args[0]);
+        new Menu("Menu");
+        /*int numPlayers = Integer.parseInt(args[0]);
         int handSize = Integer.parseInt(args[1]);
 
         int width = Integer.parseInt(args[2]);
@@ -24,6 +25,6 @@ public class Main {
         game.startGame();
 
         if(GUI)
-            new GameFrame("Colored Trails", game);
+            new GameFrame("Colored Trails", game);*/
     }
 }

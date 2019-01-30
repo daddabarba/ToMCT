@@ -5,10 +5,7 @@ import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
@@ -42,9 +39,10 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
     public Offer ToM(Offer o, Player player, Player opponent, Location goal){
         setPlayer(player, opponent);
 
-        Offer bestOffer = bestOffer(player, opponent, goal);
+        Map.Entry<Offer, Double> bo = bestOffer(player, opponent, goal);
+        Offer bestOffer = bo.getKey();
 
-        double valBest = EV(bestOffer, player, opponent, goal);
+        double valBest = bo.getValue();
         double valOffer = agent.getScoreKeeper().score(o.getGiven(), player.getPosition(), goal);
         double valHand = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
 
@@ -57,7 +55,7 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
         return new Offer(o, Offer.Intention.WITHDRAW);
     }
 
-    public Offer bestOffer(Player player, Player opponent, Location goal){
+    public Map.Entry<Offer, Double> bestOffer(Player player, Player opponent, Location goal){
 
         Iterator<Offer> offerIterator = Offer.getIterator(player, opponent);
 
@@ -75,7 +73,7 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
             }
         }
 
-        return bestOffer;
+        return new AbstractMap.SimpleEntry<Offer, Double>(bestOffer, maxVal);
 
     }
 

@@ -15,12 +15,13 @@ public class Map extends Observable {
 
     private Location[][] locations; //Locations grid
     private Collection<Location> locationList;
+    private List<Location> goals;
     private int width, height; //Dimensions of map
 
     private MessageBox messageBox; //Message box (to notify players)
 
     //CONSTRUCTOR
-    public Map(int width, int height, MessageBox messageBox, Collection<Player> players){
+    public Map(int width, int height, MessageBox messageBox, Collection<Player> players, Location start){
 
         this.messageBox = messageBox;
 
@@ -31,6 +32,7 @@ public class Map extends Observable {
         this.playersLocation = new Hashtable<>();
 
         this.locationList = new ArrayList<>();
+        this.goals = new ArrayList<>();
         this.locations = new Location[height][width];
 
         //Init locations to their respective coordinates (and random trail)
@@ -48,6 +50,13 @@ public class Map extends Observable {
                     locations[r][c].connect(locations[r][c-1]);
                     locations[r][c-1].connect(locations[r][c]);
                 }
+            }
+        }
+
+        for(int r=0; r<height; r++) {
+            for(int c=0; c<width; c++) {
+                if(locations[r][c].distance(start)>2)
+                    goals.add(locations[r][c]);
             }
         }
 
@@ -164,20 +173,11 @@ public class Map extends Observable {
         return locationList;
     }
 
+    public Collection<Location> getGoals() {
+        return goals;
+    }
+
     public Location getRandomGoal(){
-
-        Random rand = new Random();
-
-        int offset_x = rand.nextInt(2);
-        int side_x = rand.nextInt(2);
-
-        int offset_y = rand.nextInt(2);
-        int side_y = rand.nextInt(2);
-
-        int y = (side_y>0) ? (offset_y) : (height-offset_y-1);
-        int x = (side_x>0) ? (offset_x) : (height-offset_x-1);
-
-        return locations[x][y];
-
+        return goals.get(new Random().nextInt(goals.size()));
     }
 }

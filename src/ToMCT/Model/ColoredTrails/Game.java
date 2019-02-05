@@ -99,7 +99,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
             messageBox.addObserver(player);
         }
 
-        map = new Map(mazeSize, mazeSize, messageBox, players);
+        map = new Map(mazeSize, mazeSize, messageBox, players, start);
         deck = new Deck(messageBox, players);
 
         goals = new HashMap<>();
@@ -108,7 +108,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         int i=0;
         for(Player player :players) {
             Location goal = map.getRandomGoal();
-            player.init(goal, orders[i], players, getMap().getLocationList());
+            player.init(goal, orders[i], players, getMap().getGoals());
             goals.put(player, goal);
 
             i++;

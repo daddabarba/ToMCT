@@ -23,10 +23,13 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
     Player player;
     Player opponent;
 
+    private int order;
+
     // CONSTRUCTOR
 
-    public ToMAgent(Player agent, Collection<Player> players){
+    public ToMAgent(int order, Player agent, Collection<Player> players){
         this.agent = agent;
+        this.order = order;
 
         confidences = new HashMap<>();
 
@@ -69,7 +72,7 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
             if(maxVal<0 || offerVal>maxVal){
                 maxVal = offerVal;
-                bestOffer = currentOffer;
+                bestOffer = new Offer(currentOffer);
             }
         }
 

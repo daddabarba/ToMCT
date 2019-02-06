@@ -21,7 +21,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
     // CONSTRUCTOR
     public HigherToMAgent(Player agent, int order, Collection<Player> players, ToMCT.Model.ColoredTrails.GameTools.Grid.Map map){
 
-        super(agent, players);
+        super(order, agent, players);
         this.map = map;
 
         if(order>1)

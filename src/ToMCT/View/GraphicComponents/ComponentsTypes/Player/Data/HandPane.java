@@ -14,17 +14,19 @@ public class HandPane extends RelJComponent implements Observer {
 
     public static Color EDGE_COLOR = MapPane.EDGE_COLOR;
 
-    private int hand;
+    private Player player;
 
     public HandPane(RelJComponent parent, Player player, double x, double y, double height, double width){
         super(parent, x, y, height, width);
 
         player.addObserver(this);
-        this.hand = hand;
+        this.player = player;
     }
 
     @Override
     public void PaintAbsElement(Graphics g, int x, int y, int height, int width){
+
+        int hand = player.getHand();
 
         int offset = 0;
         int nChips = HandUtils.getTotal(hand);

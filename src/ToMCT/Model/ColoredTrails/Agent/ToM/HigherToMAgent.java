@@ -16,22 +16,24 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
     private HashMap<Player, GoalBelief> goalBeliefs;
 
     private GoalBelief goalBelief;
+    private ToMCT.Model.ColoredTrails.GameTools.Grid.Map map;
 
     // CONSTRUCTOR
-    public HigherToMAgent(Player agent, int order, Collection<Player> players, Collection<Location> locations){
+    public HigherToMAgent(Player agent, int order, Collection<Player> players, ToMCT.Model.ColoredTrails.GameTools.Grid.Map map){
 
         super(agent, players);
+        this.map = map;
 
         if(order>1)
-            model = new HigherToMAgent(agent, order-1, players, locations);
+            model = new HigherToMAgent(agent, order-1, players, map);
         else
             model = new ZeroToMAgent(agent, players);
 
         goalBeliefs = new HashMap<>();
-        goalBeliefs.put(agent, new GoalBelief(locations));
+        goalBeliefs.put(agent, new GoalBelief(map.getHeight(), map.getWidth()));
 
         for(Player player : players)
-            goalBeliefs.put(player, new GoalBelief(locations));
+            goalBeliefs.put(player, new GoalBelief(map.getHeight(), map.getWidth()));
 
     }
 
@@ -62,12 +64,9 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
     private double U(Offer o, Location goal){
 
         double val = 0.0;
-        Iterator it = goalBelief.entrySet().iterator();
 
-        while(it.hasNext()){
-            Map.Entry<Location, Double> entry = (Map.Entry)it.next();
-            val += entry.getValue()*this.EV(o,goal, entry.getKey());
-        }
+        for(Location l : map.getGoals())
+            val += this.goalBelief.get(l)*this.EV(o,goal, l);
 
         return val;
     }

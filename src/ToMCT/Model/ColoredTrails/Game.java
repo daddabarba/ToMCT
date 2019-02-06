@@ -4,14 +4,13 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 
 import ToMCT.Model.ColoredTrails.GameTools.Basic.Chip;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Deck;
-import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
+import ToMCT.Model.ColoredTrails.GameTools.Chips.HandUtils;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.Model.ColoredTrails.GameUtils.Mediator;
 import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
 import ToMCT.Model.Messages.MessageBox;
-import org.omg.PortableInterceptor.LOCATION_FORWARD;
 
 import java.util.*;
 
@@ -35,11 +34,11 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
 
     private class AgentState {
 
-        private final Hand hand;
+        private final int hand;
         private final Location start;
         private final Location goal;
 
-        public AgentState(Hand hand, Location start, Location goal){
+        public AgentState(int hand, Location start, Location goal){
             this.hand = hand;
             this.start = start;
             this.goal = goal;
@@ -54,14 +53,14 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
                 return false;
 
             AgentState as = (AgentState)o;
-            return as.getGoal().equals(goal) && as.getStart().equals(start) && as.getHand().equals(hand);
+            return as.getGoal().equals(goal) && as.getStart().equals(start) && as.getHand()==(hand);
         }
 
         @Override public int hashCode() {
             return Objects.hash(hand, start, goal);
         }
 
-        public Hand getHand(){
+        public int getHand(){
             return hand;
         }
 
@@ -108,7 +107,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         int i=0;
         for(Player player :players) {
             Location goal = map.getRandomGoal();
-            player.init(goal, orders[i], players, getMap().getGoals());
+            player.init(goal, orders[i], players, getMap());
             goals.put(player, goal);
 
             i++;
@@ -139,21 +138,21 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         Player sender = offer.getSender();
         Player receiver = offer.getReceiver();
 
-        if(Offer.getPlate(sender, receiver).equals(offer.getPlate())) {
+        if(Offer.getPlate(sender, receiver)==(offer.getPlate())) {
 
             String offerMade = offer.toString();
             offersMade.add(offerMade);
             System.out.println("Offer Made:\n" + offerMade + "\n");
 
-            sender.getHand().setHand(offer.getGot());
-            receiver.getHand().setHand(offer.getGiven());
+            sender.setHand(offer.getGot());
+            receiver.setHand(offer.getGiven());
         }
     }
 
     // Score Keeper
 
     @Override
-    public double score(Hand hand, Location start, Location goal){
+    public double score(int hand, Location start, Location goal){
 
         AgentState state = new AgentState(hand, start, goal);
 
@@ -166,35 +165,30 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         return score;
     }
 
-    private double score(Hand hand, Location current, Location goal, double score){
+    private double score(int hand, Location current, Location goal, double score){
 
-        if(hand.isempty())
+        if(HandUtils.isempty(hand))
             return score;
 
         if(current.equals(goal))
-            return score + 500 + 50*hand.getTotal();
+            return score + 500 + 50*HandUtils.getTotal(hand);
 
         Double max = null;
 
         for(Location l : current.getNeighbours()) {
 
             Chip chip = Chip.fromTrail(l.getTrail());
-            if( hand.getChipCount(chip) > 0 ) {
-
-                hand.updateChip(chip, Chip.Action.REMOVE);
-
+            if( HandUtils.getChipCount(hand, chip) > 0 ) {
                 int increment = (l.distance(goal)<current.distance(goal)) ? (100) : (0);
                 
-                double newScore = score(hand, l, goal, score+increment);
+                double newScore = score(HandUtils.updateChip(hand, chip, -1), l, goal, score+increment);
                 if (max == null || newScore > max)
                     max = newScore;
-
-                hand.updateChip(chip, Chip.Action.ADD);
             }
         }
 
         if(max == null)
-            return score + 50*hand.getTotal();
+            return score + 50*HandUtils.getTotal(hand);
 
         return max;
 

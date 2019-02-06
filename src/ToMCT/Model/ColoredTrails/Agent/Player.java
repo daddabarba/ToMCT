@@ -4,7 +4,6 @@ import ToMCT.Model.ColoredTrails.Agent.ToM.HigherToMAgent;
 import ToMCT.Model.ColoredTrails.Agent.ToM.ToMAgent;
 import ToMCT.Model.ColoredTrails.Agent.ToM.ZeroToMAgent;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Deck;
-import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
@@ -24,7 +23,7 @@ public class Player extends QObservable implements Observer {
 
     private int ID;
 
-    private Hand hand; //Player's hand
+    private int hand; //Player's hand
 
     private Location goal, position; // The player's goal and current position
 
@@ -38,7 +37,7 @@ public class Player extends QObservable implements Observer {
     //CONSTRUCTOR
     public Player(int ID, ScoreKeeper scoreKeeper, Mediator mediator){
         this.ID = ID;
-        hand = new Hand();
+        hand = 0;
 
         this.scoreKeeper = scoreKeeper;
         this.mediator = mediator;
@@ -46,14 +45,14 @@ public class Player extends QObservable implements Observer {
         this.toMAgent = null;
     }
 
-    public void init(Location goal, int order, Collection<Player> players, Collection<Location> locations){
+    public void init(Location goal, int order, Collection<Player> players, Map map){
 
         this.goal = goal;
         this.players = players;
 
         if(this.toMAgent==null)
             if(order>0)
-                this.toMAgent = new HigherToMAgent(this, order, players, locations);
+                this.toMAgent = new HigherToMAgent(this, order, players, map);
             else
                 this.toMAgent = new ZeroToMAgent(this, players);
     }
@@ -79,8 +78,8 @@ public class Player extends QObservable implements Observer {
 
         System.out.println("Computing first offer");
         java.util.Map.Entry<Offer, Double> bo = this.toMAgent.bestOffer(this, opponent, goal);
-        System.out.println("Computed best offer");
-        opponent.makeOffer(this, bo.getKey());
+        System.out.println("Computed best offer: " + bo.getKey().toString());
+        //opponent.makeOffer(this, bo.getKey());
     }
 
     protected void makeOffer(Player opponent,  Offer o){
@@ -128,9 +127,8 @@ public class Player extends QObservable implements Observer {
         quickNotification();
     }
 
-    private void setHand(Hand hand){
+    public void setHand(int hand){
         this.hand = hand;
-
         quickNotification();
     }
 
@@ -140,7 +138,7 @@ public class Player extends QObservable implements Observer {
         return position;
     }
 
-    public Hand getHand(){
+    public int getHand(){
         return hand;
     }
 
@@ -194,10 +192,10 @@ public class Player extends QObservable implements Observer {
         //Identifies goal message
 
         //If a hand is sent with no context
-        if(message.getContent() instanceof Hand)
+        if(message.getContent() instanceof Integer)
             if(message.getContext() == null)
                 //It must be the player's own hand
-                setHand(((Message<Hand>)message).getContent());
+                setHand(((Message<Integer>)message).getContent());
     }
 
 

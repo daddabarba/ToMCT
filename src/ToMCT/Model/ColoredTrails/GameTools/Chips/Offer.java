@@ -12,8 +12,9 @@ public class Offer {
 
     // FIELDS
 
-    private Map.Entry<Player, Hand> got, given;
-    private Hand plate;
+    private Player sender, receiver;
+    private int got, given;
+    private int plate;
 
     public enum Intention{
         WITHDRAW, ACCEPT, MAKEOFFER;
@@ -24,13 +25,13 @@ public class Offer {
     public static class OfferIterator implements Iterator<Offer>{
 
         private Player sender, receiver;
-        private Hand currentOffer;
-        private Hand plate;
+        private Offer currentOffer;
+        private int plate;
 
         private int count;
         private int max;
 
-        public OfferIterator(Hand plate, Player sender, Player receiver){
+        public OfferIterator(int plate, Player sender, Player receiver){
 
             this.sender = sender;
             this.receiver = receiver;
@@ -40,13 +41,15 @@ public class Offer {
             count = 0;
             max = 1;
 
-            for(Integer i : plate.getChipCount().values())
-                max *= (i + 1);
+            int tempPlate = plate;
+            for(int i=0; i<Chip.values().length; i++) {
+                max *= (tempPlate%10 + 1);
+                tempPlate = tempPlate/10;
+            }
 
             max -= 1;
 
-            currentOffer = new Hand(Chip.values().length);
-            currentOffer.resetHand();
+            currentOffer = new Offer(sender, receiver, 0);
         }
 
         @Override
@@ -60,22 +63,35 @@ public class Offer {
             if(!hasNext())
                 return null;
 
-            for(Chip chip : Chip.values()){
+            int tempGiven = currentOffer.getGiven();
+            int tempPlate = plate;
 
-                int maxChip = plate.getChipCount(chip);
-                int currentChip = currentOffer.getChipCount(chip);
+            int pos = 1;
 
-                int newVal = (currentChip+1)%(maxChip+1);
+            int maxChip, currentChip, newVal, removed = 0, added = 0;
 
-                currentOffer.updateChip(chip, newVal - currentChip);
+            for(int i=0; i<Chip.values().length; i++){
+
+                maxChip = tempPlate%10;
+                currentChip = tempGiven%10;
+
+                newVal = (currentChip+1)%(maxChip+1);
+
+                removed += pos*currentChip;
+                added += pos*newVal;
 
                 if(newVal > 0) {
                     count+=1;
-                    return new Offer(sender, receiver, currentOffer);
+                    break;
                 }
+
+                tempGiven/=10;
+                tempPlate/=10;
+                pos *= 10;
             }
 
-            return new Offer(sender, receiver, currentOffer);
+            currentOffer.setGiven(currentOffer.getGiven() - removed + added);
+            return currentOffer;
 
         }
 
@@ -94,27 +110,26 @@ public class Offer {
         this(o.getSender(), o.getReceiver(), o.getGiven());
     }
 
-    public Offer(Intention intention){
-        this(null, null, null, intention);
-    }
-
-    public Offer(Player sender, Player receiver, Hand offered){
+    public Offer(Player sender, Player receiver, int offered){
         this(sender, receiver, offered, Intention.MAKEOFFER);
     }
 
     //Given the two exchanging player, and the hand offered to the receiver
-    public Offer(Player sender, Player receiver, Hand offered, Intention intention){
+    public Offer(Player sender, Player receiver, int offered, Intention intention){
 
         this.intention = intention;
 
+        this.sender = sender;
+        this.receiver = receiver;
+
         if(sender!=null && receiver!=null) {
             plate = getPlate(sender, receiver);
-            this.got = new AbstractMap.SimpleEntry<>(sender, plate.sub(offered));
-            this.given = new AbstractMap.SimpleEntry<>(receiver, offered.copy());
+            this.got = plate - offered;
+            this.given = offered;
         }else {
-            this.plate = null;
-            this.got = null;
-            this.given = null;
+            this.plate = -1;
+            this.got = -1;
+            this.given = -1;
         }
 
     }
@@ -124,61 +139,50 @@ public class Offer {
     //Turn around offer (change prospective)
     public void invert(){
 
-        if(got==null || given==null)
+        if(got<0 || given<0)
             return;
 
-        Map.Entry<Player, Hand> temp = this.got;
+        int temp = this.got;
+        Player tempPlayer = this.sender;
 
         this.got = this.given;
         this.given = temp;
+
+        this.sender = this.receiver;
+        this.receiver = tempPlayer;
     }
 
-    public static Hand getPlate(Player sender, Player receiver){
-        return sender.getHand().add(receiver.getHand());
+    public static int getPlate(Player sender, Player receiver){
+        return sender.getHand()+ receiver.getHand();
     }
 
     public static Iterator<Offer> getIterator(Player sender, Player receiver){
         return getIterator(getPlate(sender, receiver), sender, receiver);
     }
 
-    public static Iterator<Offer> getIterator(Hand plate, Player sender, Player receiver){
+    public static Iterator<Offer> getIterator(int plate, Player sender, Player receiver){
         return new OfferIterator(plate, sender, receiver);
     }
 
     // GETTERS
 
     public Player getSender(){
-        if(got==null)
-            return null;
-
-        return this.got.getKey();
+        return this.sender;
     }
     public Player getReceiver(){
-        if(given==null)
-            return null;
-
-        return this.given.getKey();
+        return this.receiver;
     }
 
-    public Hand getGot(){
-        if(got==null)
-            return null;
-
-        return this.got.getValue();
+    public int getGot(){
+        return this.got;
     }
 
-    public Hand getGiven(){
-        if(given==null)
-            return null;
-
-        return this.given.getValue();
+    public int getGiven(){
+        return this.given;
     }
 
-    public Hand getPlate(){
-        if(plate==null)
-            return null;
-
-        return plate;
+    public int getPlate(){
+        return this.plate;
     }
 
     public boolean isWithdraw(){
@@ -187,6 +191,18 @@ public class Offer {
 
     public boolean isAccept(){
         return intention.equals(Intention.ACCEPT);
+    }
+
+    // SETTERS
+
+    public void setGot(int hand){
+        this.got = hand;
+        this.given = plate - hand;
+    }
+
+    public void setGiven(int hand){
+        this.given = hand;
+        this.got = plate - hand;
     }
 
     // DATA STORAGE
@@ -198,9 +214,9 @@ public class Offer {
 
         sb.append("{ \"sender_ID\": \"" + getSender().getID()+"\", ");
         sb.append("\"receiver_ID\": \"" + getReceiver().getID()+"\", ");
-        sb.append("\"plate\": \"" + plate.toString()+"\", ");
-        sb.append("\"got\": \"" + getGot().toString()+"\", ");
-        sb.append("\"given\": \"" + getGiven().toString()+"\"}");
+        sb.append("\"plate\": \"" + HandUtils.toString(plate)+"\", ");
+        sb.append("\"got\": \"" + HandUtils.toString(got)+"\", ");
+        sb.append("\"given\": \"" + HandUtils.toString(given)+"\"}");
 
         return sb.toString();
     }

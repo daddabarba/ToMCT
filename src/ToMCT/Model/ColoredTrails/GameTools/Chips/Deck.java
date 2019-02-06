@@ -12,7 +12,7 @@ public class Deck extends Observable {
     //Class keeping track of the (initial) hands of all players
 
     private Collection<Player> players; //List of players
-    private Hashtable<Player, Hand> hands; //Map from player to hand
+    private Hashtable<Player, Integer> hands; //Map from player to hand
 
     private MessageBox messageBox; //message box to notify players of their hand
     //CONSTRUCTOR
@@ -35,7 +35,7 @@ public class Deck extends Observable {
     //Notifies players of the hands that each player has
     private void notifyHands(){
 
-        Hashtable<Player, Message<Hand>> handNotification = new Hashtable<>();
+        Hashtable<Player, Message<Integer>> handNotification = new Hashtable<>();
 
         for(Player player : hands.keySet())
             handNotification.put(player, new Message<>(this, hands.get(player)));
@@ -47,7 +47,7 @@ public class Deck extends Observable {
     private void initHands(int handSize){
 
         for(Player player : players)
-            hands.put(player, new Hand(handSize));
+            hands.put(player, HandUtils.randomHand(handSize));
 
     }
 

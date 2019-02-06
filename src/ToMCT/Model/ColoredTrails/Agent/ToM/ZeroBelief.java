@@ -1,71 +1,56 @@
 package ToMCT.Model.ColoredTrails.Agent.ToM;
 
 import ToMCT.Model.ColoredTrails.GameTools.Basic.Chip;
-import ToMCT.Model.ColoredTrails.GameTools.Chips.Hand;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 
-import java.util.Collection;
-import java.util.Map;
+public class ZeroBelief extends Belief{
 
-public class ZeroBelief extends Belief<ZeroBelief.AbstractOffer> {
+    private double[][] beliefs;
+    private double def;
 
-    public class AbstractOffer{
-
-        private Integer numPos, numNeg;
-
-        public AbstractOffer(Offer offer){
-
-            numPos = 0;
-            numNeg = 0;
-
-            Hand got = offer.getGot();
-            Hand given = offer.getGiven();
-
-            for(Map.Entry<Chip, Integer> e : given.getChipCount().entrySet())
-                if(e.getValue() > got.getChipCount(e.getKey()))
-                    numPos += 1;
-                else
-                    numNeg +=1;
-        }
-
-        @Override
-        public boolean equals(Object o){
-            if(!(o instanceof AbstractOffer))
-                return false;
-
-            return  (((AbstractOffer)o).getNumNeg().equals(numNeg)) && (((AbstractOffer)o).getNumPos().equals(numPos));
-        }
-
-        public Integer getNumPos(){
-            return numPos;
-        }
-
-        public Integer getNumNeg(){
-            return numNeg;
-        }
+    public ZeroBelief() {
+        super(Chip.values().length+1, Chip.values().length+1);
     }
 
-    public ZeroBelief(){
-        super();
-    }
+    // OFFER ABSTRACTION
 
-    public ZeroBelief(Collection<AbstractOffer> offers){
-        super(offers);
+    public static int abstractOffer(Offer offer){
+
+        int numPos = 0;
+        int numNeg = 0;
+
+        int got = offer.getGot();
+        int given = offer.getGiven();
+
+        for(int i=0; i<Chip.values().length; i++) {
+            if (given % 10 > got % 10)
+                numPos += 1;
+            else
+                numNeg += 1;
+
+            got/=10;
+            given/=10;
+        }
+
+        return numNeg + 10*numPos;
     }
 
     // SETTERS
 
     public void init(Offer o){
-        this.init(new AbstractOffer(o));
+        int abstr = abstractOffer(o);
+        this.init(abstr/10, abstr%10);
     }
 
-    public Double put(Offer o, Double val){
-        return this.put(new AbstractOffer(o), val);
+    public void put(Offer o, double val){
+        int abstr = abstractOffer(o);
+        this.put(abstr/10, abstr%10, val);
     }
 
     // GETTERS
 
-    public Double get(Offer o){
-        return this.get(new AbstractOffer(o));
+    public double get(Offer o){
+        int abstr = abstractOffer(o);
+        return this.get(abstr/10, abstr%10);
     }
 }

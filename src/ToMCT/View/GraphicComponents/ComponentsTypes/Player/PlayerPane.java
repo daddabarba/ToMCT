@@ -25,7 +25,7 @@ public class PlayerPane extends RelJComponent {
 
         new IDPane(this, player.getID(), 0.02, 0.3, 1, 0.2);
         new PlayerPostionPane(this, player, 0.2,0.3,1,0.2);
-        new HandPane(this, player.getHand(), 0.55, 0.1, 1.0, 0.4);
+        new HandPane(this, player, 0.55, 0.1, 1.0, 0.4);
     }
 
     @Override

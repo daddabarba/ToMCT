@@ -1,40 +1,33 @@
 package ToMCT.Model.ColoredTrails.Agent.ToM;
 
-import java.util.Collection;
-import java.util.HashMap;
-
-public abstract class Belief<T> extends HashMap<T, Double> {
+public abstract class Belief  {
 
     // FIELDS
     private double def;
+    private double beliefs[][];
 
     // CONSTRUCTORS
 
-    public Belief(){
-        super();
+    public Belief(int h, int w){
+        def = 1.0;
+        this.beliefs = new double[h][w];
 
-        def = 0.0;
-    }
-
-    public Belief(Collection<T> ts){
-        this();
-
-        for(T t : ts)
-            init(t);
+        for(int i=0; i<h; i++)
+            for(int k=0; k<w; k++)
+                this.beliefs[i][k] = def;
     }
 
     // SETTERS
 
-    public void init(T t){
-        this.put(t, this.def);
+    public void init(int x, int y){
+        this.beliefs[x][y] = def;
     }
 
-    @Override
-    public Double put(T t, Double val){
+    public void put(int x, int y, double val){
         if(val<0.0 || val>1.0)
-            return null;
+            return;
 
-        return super.put(t, val);
+        this.beliefs[x][y] = val;
     }
 
     public Belief setDef(double val){
@@ -44,20 +37,7 @@ public abstract class Belief<T> extends HashMap<T, Double> {
 
     // GETTERS
 
-    @Override
-    public Double get(Object o){
-
-        T t;
-
-        try {
-            t = (T) o;
-        }catch (ClassCastException e){
-            return null;
-        }
-
-        if(!containsKey(t))
-            init(t);
-
-        return super.get(t);
+    public double get(int x, int y){
+        return this.beliefs[x][y];
     }
 }

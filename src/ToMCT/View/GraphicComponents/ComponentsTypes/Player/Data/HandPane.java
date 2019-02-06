@@ -40,7 +40,7 @@ public class HandPane extends RelJComponent implements Observer {
             g.setColor(chip.trail().color());
 
             for (int i = 0; i < HandUtils.getChipCount(hand, chip); i++) {
-                g.fillOval(x + offset, y, width/nChips, width/nChips);
+                g.fillOval(x + offset, y, width/nChips, (int)(height*0.8));
                 offset += width/nChips;
             }
         }

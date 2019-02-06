@@ -32,17 +32,43 @@ public class Menu extends JFrame {
 
     }
 
+    private class DoubleVerifier extends InputVerifier{
+
+        public boolean verify(JComponent input) {
+            if (input instanceof JFormattedTextField) {
+                JFormattedTextField ftf = (JFormattedTextField)input;
+                JFormattedTextField.AbstractFormatter formatter = ftf.getFormatter();
+                if (formatter != null) {
+                    String text = ftf.getText();
+                    try {
+                        Double.parseDouble(text);
+                        return true;
+                    } catch (Exception pe) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        public boolean shouldYieldFocus(JComponent input) {
+            return verify(input);
+        }
+
+    }
+
     private class SubmitAction extends AbstractAction{
 
-        private JTextField lvlPlayer1, lvlPlayer2, handSize, mazeSize;
+        private JTextField lvlPlayer1, lvlPlayer2, handSize, mazeSize, ls1, ls2;
         private JComboBox<Boolean> GUI;
 
-        public SubmitAction(String name, JTextField lvlPlayer1, JTextField lvlPlayer2, JTextField handSize, JTextField mazeSize, JComboBox<Boolean> GUI){
+        public SubmitAction(String name, JTextField lvlPlayer1, JTextField lvlPlayer2, JTextField ls1, JTextField ls2, JTextField handSize, JTextField mazeSize, JComboBox<Boolean> GUI){
 
             super(name);
 
             this.lvlPlayer1 = lvlPlayer1;
             this.lvlPlayer2 = lvlPlayer2;
+            this.ls1 = ls1;
+            this.ls2 = ls2;
             this.handSize = handSize;
             this.mazeSize = mazeSize;
             this.GUI = GUI;
@@ -52,7 +78,8 @@ public class Menu extends JFrame {
         public void actionPerformed(ActionEvent e){
 
             Integer[] orders = {Integer.parseInt(this.lvlPlayer1.getText()), Integer.parseInt(this.lvlPlayer2.getText())};
-            Game game = new Game(orders, Integer.parseInt(handSize.getText()), Integer.parseInt(mazeSize.getText()));
+            Double[] learningSpeeds = {Double.parseDouble(this.ls1.getText()), Double.parseDouble(this.ls2.getText())};
+            Game game = new Game(orders, learningSpeeds, Integer.parseInt(handSize.getText()), Integer.parseInt(mazeSize.getText()));
 
             game.startGame();
 
@@ -84,6 +111,20 @@ public class Menu extends JFrame {
         lvlPlayer1.setText("2");
         lvlPlayer2.setText("2");
 
+        JLabel section11 = new JLabel("Insert learning speeds of each player");
+
+        JTextField ls1 = new JFormattedTextField();
+        JTextField ls2 = new JFormattedTextField();
+
+        ls1.setInputVerifier(new DoubleVerifier());
+        ls2.setInputVerifier(new DoubleVerifier());
+
+        ls1.setColumns(10);
+        ls2.setColumns(10);
+
+        ls1.setText("0.9");
+        ls2.setText("0.9");
+
         JLabel section2 = new JLabel("Insert hand size");
         JLabel section3 = new JLabel("Insert maze size");
 
@@ -102,7 +143,7 @@ public class Menu extends JFrame {
         JComboBox<Boolean> selectGUI = new JComboBox<>(vals);
 
         JButton submit = new JButton("Submit");
-        submit.setAction(new SubmitAction("Submit", lvlPlayer1, lvlPlayer2, handSize, mazeSize, selectGUI));
+        submit.setAction(new SubmitAction("Submit", lvlPlayer1, lvlPlayer2, ls1, ls2, handSize, mazeSize, selectGUI));
 
         c.weightx = 1;
         c.gridx = 0;
@@ -125,32 +166,46 @@ public class Menu extends JFrame {
 
         c.gridx = 0;
         c.gridy = 2;
-        pane.add(section2, c);
+        pane.add(section11, c);
 
+        c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = 2;
-        pane.add(handSize, c);
+        pane.add(ls1, c);
+
+        c.weightx = 0.5;
+        c.gridx = 2;
+        c.gridy = 2;
+        pane.add(ls2, c);
 
         c.gridx = 0;
         c.gridy = 3;
-        pane.add(section3, c);
+        pane.add(section2, c);
 
         c.gridx = 1;
         c.gridy = 3;
+        pane.add(handSize, c);
+
+        c.gridx = 0;
+        c.gridy = 4;
+        pane.add(section3, c);
+
+        c.gridx = 1;
+        c.gridy = 4;
         pane.add(mazeSize, c);
 
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 5;
         pane.add(section4, c);
 
         c.weightx = 0.5;
         c.gridx = 1;
-        c.gridy = 4;
+        c.gridy = 5;
         pane.add(selectGUI, c);
 
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 6;
         pane.add(submit, c);
 
         add(pane);

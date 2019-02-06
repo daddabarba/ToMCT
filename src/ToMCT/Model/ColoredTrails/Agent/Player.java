@@ -45,16 +45,16 @@ public class Player extends QObservable implements Observer {
         this.toMAgent = null;
     }
 
-    public void init(Location goal, int order, Collection<Player> players, Map map){
+    public void init(Location goal, int order, double learningSpeed, Collection<Player> players, Map map){
 
         this.goal = goal;
         this.players = players;
 
         if(this.toMAgent==null)
             if(order>0)
-                this.toMAgent = new HigherToMAgent(this, order, players, map);
+                this.toMAgent = new HigherToMAgent(this, order, learningSpeed, players, map);
             else
-                this.toMAgent = new ZeroToMAgent(this, players);
+                this.toMAgent = new ZeroToMAgent(this, learningSpeed, players);
     }
 
     // PLAY

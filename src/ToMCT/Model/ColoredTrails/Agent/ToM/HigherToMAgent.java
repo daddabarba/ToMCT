@@ -19,15 +19,15 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
     private ToMCT.Model.ColoredTrails.GameTools.Grid.Map map;
 
     // CONSTRUCTOR
-    public HigherToMAgent(Player agent, int order, Collection<Player> players, ToMCT.Model.ColoredTrails.GameTools.Grid.Map map){
+    public HigherToMAgent(Player agent, int order, double learningSpeed, Collection<Player> players, ToMCT.Model.ColoredTrails.GameTools.Grid.Map map){
 
-        super(order, agent, players);
+        super(order, learningSpeed, agent, players);
         this.map = map;
 
         if(order>1)
-            model = new HigherToMAgent(agent, order-1, players, map);
+            model = new HigherToMAgent(agent, order-1, learningSpeed, players, map);
         else
-            model = new ZeroToMAgent(agent, players);
+            model = new ZeroToMAgent(agent, learningSpeed, players);
 
         goalBeliefs = new HashMap<>();
         goalBeliefs.put(agent, new GoalBelief(map.getHeight(), map.getWidth()));

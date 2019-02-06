@@ -111,11 +111,11 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
 
     private HashMap<AgentState, Double> scoreTable;
 
-    public Game(Integer[] orders, int handSize, int mazeSize){
-        this(orders, handSize, mazeSize, new Location((int)mazeSize/2, (int)mazeSize/2));
+    public Game(Integer[] orders, Double[] learningSpeeds, int handSize, int mazeSize){
+        this(orders, learningSpeeds, handSize, mazeSize, new Location((int)mazeSize/2, (int)mazeSize/2));
     }
 
-    public Game(Integer[] orders, int handSize, int mazeSize, Location start){
+    public Game(Integer[] orders, Double[] learningSpeeds, int handSize, int mazeSize, Location start){
 
         this.handSize = handSize;
         this.start = start;
@@ -144,7 +144,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         int i=0;
         for(Player player :players) {
             Location goal = map.getRandomGoal();
-            player.init(goal, orders[i], players, getMap());
+            player.init(goal, orders[i], learningSpeeds[i], players, getMap());
             goals.put(player, goal);
 
             i++;

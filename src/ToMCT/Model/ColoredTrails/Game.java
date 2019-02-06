@@ -57,10 +57,46 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
             return goal;
         }
     }
-    
+
+    private class SingleGameData{
+
+        private HashMap<Integer, Double> finalScores;
+
+        public SingleGameData(){
+            this.finalScores = new HashMap<>();
+
+            writeFinalScores();
+        }
+
+        public SingleGameData writeFinalScores(){
+            for(Player player : Game.this.getPlayers())
+                finalScores.put(player.getID(), score(player.getHand(), player.getPosition(), Game.this.goals.get(player)));
+            return this;
+        }
+
+        public String toString(){
+            return "{\"final_scores\": " + getFinalScoreData() + "}";
+        }
+
+        // DATA COLLECTION
+        private String getFinalScoreData(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("{ ");
+
+            for(java.util.Map.Entry<Integer, Double> e : finalScores.entrySet())
+                sb.append("\"" + e.getKey() + "\":\"" + e.getValue() + "\",");
+
+            sb.deleteCharAt(sb.length()-1);
+            sb.append("}");
+
+            return sb.toString();
+        }
+
+    }
+
     private Collection<Player> players; //List of participants
     private HashMap<Player, Location> goals;
-    private Collection<HashMap<Integer, Double>> gameData;
+    private Collection<SingleGameData> gameData;
     private Player startingPlayer;
 
     private Map map; //Game map
@@ -125,12 +161,9 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
     public void play(){
         startingPlayer.Play();
 
-        HashMap<Integer, Double> matchResult = new HashMap<>();
-        for(Player player : players)
-            matchResult.put(player.getID(), score(player.getHand(), player.getPosition(), goals.get(player)));
-        gameData.add(matchResult);
+        gameData.add(new SingleGameData());
 
-        System.out.println("\nFinal score: \n" + getFinalScoreData());
+        System.out.println("\nFinal score: \n" + this.toString());
     }
 
     // METHODS
@@ -211,21 +244,15 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         return deck;
     }
 
-    // DATA COLLECTION
-    public String getFinalScoreData(){
+    // DATA
+    public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("{[");
-
-        for(HashMap<Integer, Double> matchResult : gameData) {
-            sb.append("{ ");
-            for(java.util.Map.Entry<Integer, Double> e : matchResult.entrySet()){
-                sb.append("\"" + e.getKey() + "\":\"" + e.getValue() + "\",");
-            }
-            sb.deleteCharAt(sb.length()-1);
-            sb.append("}");
-        }
-
+        sb.append("{\"games:\"[ ");
+        for(SingleGameData gd : gameData)
+            sb.append(gd.toString() + ",");
+        sb.deleteCharAt(sb.length()-1);
         sb.append("]}");
+
         return sb.toString();
     }
 }

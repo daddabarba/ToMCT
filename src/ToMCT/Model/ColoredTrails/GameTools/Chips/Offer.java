@@ -137,10 +137,10 @@ public class Offer {
     // METHODS
 
     //Turn around offer (change prospective)
-    public void invert(){
+    public Offer invert(){
 
         if(got<0 || given<0)
-            return;
+            return this;
 
         int temp = this.got;
         Player tempPlayer = this.sender;
@@ -150,6 +150,8 @@ public class Offer {
 
         this.sender = this.receiver;
         this.receiver = tempPlayer;
+
+        return this;
     }
 
     public static int getPlate(Player sender, Player receiver){

@@ -4,17 +4,26 @@ public abstract class Belief  {
 
     // FIELDS
     private double def;
-    private double beliefs[][];
+    double[][] beliefs;
 
     // CONSTRUCTORS
 
-    public Belief(int h, int w){
+    private Belief(){
         def = 1.0;
+    }
+
+    public Belief(int h, int w){
+        this();
         this.beliefs = new double[h][w];
 
         for(int i=0; i<h; i++)
             for(int k=0; k<w; k++)
                 this.beliefs[i][k] = def;
+    }
+
+    public Belief(double[][] beliefs){
+        this();
+        this.beliefs = beliefs;
     }
 
     // SETTERS

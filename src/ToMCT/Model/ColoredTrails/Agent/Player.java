@@ -82,17 +82,13 @@ public class Player extends QObservable implements Observer {
         if(opponent==null)
             return;
 
-        System.out.println("Computing first offer");
         java.util.Map.Entry<Offer, Double> bo = this.toMAgent.bestOffer(this, opponent, goal);
-        System.out.println("Computed best offer: " + bo.getKey().toString());
-        //opponent.makeOffer(this, bo.getKey());
+        opponent.makeOffer(this, bo.getKey());
     }
 
     protected void makeOffer(Player opponent,  Offer o){
 
         this.time += 1;
-
-        System.out.println("Player: " + getID() + "received offer " + o.toString());
 
         if(o.isWithdraw())
             return;

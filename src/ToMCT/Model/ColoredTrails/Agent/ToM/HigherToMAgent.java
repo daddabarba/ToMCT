@@ -111,7 +111,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         double scoreOffer, scoreD0, current;
         
         for(int x=0; x<updatedBeliefs.length; x++){
-            for(int y=0; y<updatedBeliefs.length; y++){
+            for(int y=0; y<updatedBeliefs[0].length; y++){
 
                 Location goal = agent.getMap().getLocation(x,y);
                 scoreOffer = agent.score(o.getGot(), player.getPosition(), goal);
@@ -144,9 +144,11 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
         final double finalSum = sum;
 
-        for(int x=0; x<updatedBeliefs.length; x++) {
-            final int finalX = x;
-            Arrays.parallelSetAll(updatedBeliefs[x], i -> updatedBeliefs[finalX][i] / finalSum);
+        if(finalSum > 0) {
+            for (int x = 0; x < updatedBeliefs.length; x++) {
+                final int finalX = x;
+                Arrays.parallelSetAll(updatedBeliefs[x], i -> updatedBeliefs[finalX][i] / finalSum);
+            }
         }
 
         double newConfidence = (1-this.learningSpeed)*goalBelief.getConfidence() + this.learningSpeed*finalSum;

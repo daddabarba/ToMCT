@@ -49,4 +49,8 @@ public abstract class Belief  {
     public double get(int x, int y){
         return this.beliefs[x][y];
     }
+
+    public double[][] getBeliefs() {
+        return beliefs;
+    }
 }

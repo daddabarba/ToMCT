@@ -4,6 +4,7 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -59,5 +60,34 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
         this.zeroBelief = zeroBeliefs.get(opponent);
     }
 
+    // LEARNING
+
+    public Belief update(Offer o, Belief belief, double lr){
+
+        if(!(belief instanceof ZeroBelief))
+            return null;
+
+        ZeroBelief zeroBelief = (ZeroBelief) belief;
+
+        if(o.isAccept())
+            return zeroBelief;
+
+        // copy current beliefs
+        double[][] uBeliefs = new double[zeroBelief.getBeliefs().length][zeroBelief.getBeliefs()[0].length];
+        for(int i=0; i<zeroBelief.getBeliefs().length; i++)
+            System.arraycopy(zeroBelief.getBeliefs()[i], 0, uBeliefs[i], 0, zeroBelief.getBeliefs()[i].length);
+
+        // compute starting m
+        int numNeg = ZeroBelief.abstractOffer(o)%10;
+
+        // update all affected values
+        for(int i=((o.isWithdraw()) ? (numNeg) : (numNeg+1)); i<uBeliefs.length; i++) {
+            double factor = Math.pow(1-lr, i);
+            int ip = i;
+            Arrays.parallelSetAll(uBeliefs[i], k -> factor*zeroBelief.getBeliefs()[ip][k]);
+        }
+
+        return new ZeroBelief(uBeliefs);
+    }
     
 }

@@ -14,4 +14,6 @@ public interface ToM<T extends Belief> {
     Map.Entry<Offer, Double> bestOffer(Player player, Player opponent, Location goal);
 
     double EV(Offer o, Player player, Player opponent, Location goal);
+
+    Belief update(Offer o, Belief b, double lr);
 }

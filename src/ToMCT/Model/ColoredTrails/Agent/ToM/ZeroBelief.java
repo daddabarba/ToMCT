@@ -38,31 +38,6 @@ public class ZeroBelief extends Belief{
         return numNeg + 10*numPos;
     }
 
-    // BELIEF UPDATE
-
-    public ZeroBelief update(Offer o, double lr){
-
-        if(o.isAccept())
-            return this;
-
-        // copy current beliefs
-        double[][] uBeliefs = new double[beliefs.length][beliefs[0].length];
-        for(int i=0; i<beliefs.length; i++)
-            System.arraycopy(beliefs[i], 0, uBeliefs[i], 0, beliefs[i].length);
-
-        // compute starting m
-        int numNeg = abstractOffer(o)%10;
-
-        // update all affected values
-        for(int i=((o.isWithdraw()) ? (numNeg) : (numNeg+1)); i<uBeliefs.length; i++) {
-            double factor = Math.pow(1-lr, i);
-            int ip = i;
-            Arrays.parallelSetAll(uBeliefs[i], k -> factor*beliefs[ip][k]);
-        }
-
-        return new ZeroBelief(uBeliefs);
-    }
-
     // SETTERS
 
     public void init(Offer o){

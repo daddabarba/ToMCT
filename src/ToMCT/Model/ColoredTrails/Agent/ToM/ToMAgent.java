@@ -31,6 +31,9 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
         this.order = order;
 
         this.learningSpeed = learningSpeed;
+
+        this.player = null;
+        this.opponent = null;
     }
 
     // METHODS
@@ -63,6 +66,9 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
     public Map.Entry<Offer, Double> bestOffer(Player player, Player opponent, Location goal){
 
+        if(this.player == null)
+            this.setPlayer(player, opponent);
+        
         Iterator<Offer> offerIterator = Offer.getIterator(player, opponent);
 
         double maxVal = -1;

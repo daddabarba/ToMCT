@@ -62,15 +62,16 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
         double val = 0.0;
 
+        Belief U = model.update(o, this.agent);
         for(Location l : map.getGoals())
-            val += this.goalBelief.get(l)*this.EV(o,goal, l);
+            val += this.goalBelief.get(l)*this.EV(o,goal, l, U);
 
         return val;
     }
 
-    private double EV(Offer o, Location goal, Location l){
+    private double EV(Offer o, Location goal, Location l, Belief U){
 
-        Offer predictedResponse = model.ToM(o.invert(), opponent, player, l);
+        Offer predictedResponse = model.ToM(o.invert(), opponent, player, l, U, false);
 
         if(predictedResponse.isWithdraw())
             return agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);

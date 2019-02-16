@@ -157,6 +157,10 @@ public class Map extends Observable {
         return null;
     }
 
+    public Location getLocation(int x, int y){
+        return this.locations[x][y];
+    }
+
     public int getWidth(){
         return width;
     }

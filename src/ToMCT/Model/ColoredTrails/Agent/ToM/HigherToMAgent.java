@@ -71,7 +71,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     private double EV(Offer o, Location goal, Location l, Belief U){
 
-        Offer predictedResponse = model.ToM(o.invert(), opponent, player, l, U, false);
+        Offer predictedResponse = model.ToM(o, opponent, player, l, U, false);
 
         if(predictedResponse.isWithdraw())
             return agent.score(player.getHand(), player.getPosition(), goal);

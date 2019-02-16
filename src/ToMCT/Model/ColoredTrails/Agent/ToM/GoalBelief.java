@@ -4,15 +4,20 @@ import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 
 public class GoalBelief extends Belief{
 
-    private double[][] beliefs;
-    private double def;
+    private double confidence;
+
+    private void initPars(){
+        confidence = 0.5;
+    }
 
     public GoalBelief(int h, int w) {
         super(h, w);
+        initPars();
     }
 
     public GoalBelief(double[][] beliefs){
         super(beliefs);
+        initPars();
     }
 
     // SETTERS
@@ -29,5 +34,9 @@ public class GoalBelief extends Belief{
 
     public double get(Location l){
         return this.get(l.getX(), l.getY());
+    }
+
+    public double getConfidence(){
+        return confidence;
     }
 }

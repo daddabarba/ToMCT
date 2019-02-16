@@ -54,9 +54,6 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
     void setPlayer(Player player, Player opponent){
 
         super.setPlayer(player, opponent);
-
-        this.player = player;
-        this.opponent = opponent;
         this.zeroBelief = zeroBeliefs.get(opponent);
     }
 

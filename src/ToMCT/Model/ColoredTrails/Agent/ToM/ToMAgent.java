@@ -15,8 +15,6 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
     // parameters
 
-    private HashMap<Player, ConfidenceBelief> confidences;
-    protected double confidence;
     private double learningSpeed;
 
     private int order;
@@ -33,11 +31,6 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
         this.order = order;
 
         this.learningSpeed = learningSpeed;
-
-        confidences = new HashMap<>();
-
-        for(Player player : players)
-            confidences.put(player, (ConfidenceBelief)(new ConfidenceBelief(players)).setDef(0.5));
     }
 
     // METHODS
@@ -86,7 +79,8 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
     // SETTERS
 
     void setPlayer(Player player, Player opponent){
-        confidence = confidences.get(player).get(opponent);
+        this.player = player;
+        this.opponent = opponent;
     }
 
     // GETTERS

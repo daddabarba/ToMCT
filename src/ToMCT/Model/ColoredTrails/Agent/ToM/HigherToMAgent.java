@@ -74,13 +74,13 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         Offer predictedResponse = model.ToM(o.invert(), opponent, player, l, U, false);
 
         if(predictedResponse.isWithdraw())
-            return agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
+            return agent.score(player.getHand(), player.getPosition(), goal);
 
         if(predictedResponse.isAccept())
-            return agent.getScoreKeeper().score(o.getGot(), player.getPosition(), goal);
+            return agent.score(o.getGot(), player.getPosition(), goal);
 
-        double scorePredictedOffer = agent.getScoreKeeper().score(predictedResponse.getGiven(), player.getPosition(), goal);
-        double scoreRefuse = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
+        double scorePredictedOffer = agent.score(predictedResponse.getGiven(), player.getPosition(), goal);
+        double scoreRefuse = agent.score(player.getHand(), player.getPosition(), goal);
 
         return Math.max(scorePredictedOffer, scoreRefuse);
 
@@ -114,8 +114,8 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
             for(int y=0; y<updatedBeliefs.length; y++){
 
                 Location goal = agent.getMap().getLocation(x,y);
-                scoreOffer = agent.getScoreKeeper().score(o.getGot(), player.getPosition(), goal);
-                scoreD0 = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
+                scoreOffer = agent.score(o.getGot(), player.getPosition(), goal);
+                scoreD0 = agent.score(player.getHand(), player.getPosition(), goal);
 
                 if(scoreOffer<=scoreD0)
                     current = 0;

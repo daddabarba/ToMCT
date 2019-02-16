@@ -44,8 +44,8 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
     public double EV(Offer o, Player player, Player opponent, Location goal){
         double b = zeroBelief.get(o);
 
-        double scoreOffer = agent.getScoreKeeper().score(o.getGot(), player.getPosition(), goal);
-        double scoreHand = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
+        double scoreOffer = agent.score(o.getGot(), player.getPosition(), goal);
+        double scoreHand = agent.score(player.getHand(), player.getPosition(), goal);
 
         return b*scoreOffer + (1-b)*scoreHand;
     }

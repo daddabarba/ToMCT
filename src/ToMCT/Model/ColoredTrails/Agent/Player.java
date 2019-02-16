@@ -34,11 +34,15 @@ public class Player extends QObservable implements Observer {
     private ToMAgent toMAgent;
 
     private Collection<Player> players;
+    private int time;
+    private final int timeWeight = 1;
 
     //CONSTRUCTOR
     public Player(int ID, ScoreKeeper scoreKeeper, Mediator mediator){
         this.ID = ID;
         hand = 0;
+
+        this.time = 0;
 
         this.scoreKeeper = scoreKeeper;
         this.mediator = mediator;
@@ -86,6 +90,8 @@ public class Player extends QObservable implements Observer {
 
     protected void makeOffer(Player opponent,  Offer o){
 
+        this.time += 1;
+
         System.out.println("Player: " + getID() + "received offer " + o.toString());
 
         if(o.isWithdraw())
@@ -107,6 +113,10 @@ public class Player extends QObservable implements Observer {
     }
 
     // METHODS
+
+    public Double score(Integer hand, Location position, Location goal){
+        return Math.max(scoreKeeper.score(hand, position, goal) - time*timeWeight, 0);
+    }
 
     @Override
     public boolean equals(Object object){
@@ -146,10 +156,6 @@ public class Player extends QObservable implements Observer {
 
     public int getID(){
         return ID;
-    }
-
-    public ScoreKeeper getScoreKeeper(){
-        return scoreKeeper;
     }
 
     public Map getMap(){

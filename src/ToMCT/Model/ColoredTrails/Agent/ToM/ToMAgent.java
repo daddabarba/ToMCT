@@ -49,8 +49,8 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
         Offer bestOffer = bo.getKey();
 
         double valBest = bo.getValue();
-        double valOffer = agent.getScoreKeeper().score(o.getGiven(), player.getPosition(), goal);
-        double valHand = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
+        double valOffer = agent.score(o.getGiven(), player.getPosition(), goal);
+        double valHand = agent.score(player.getHand(), player.getPosition(), goal);
 
         if(valBest>valOffer && valBest>valHand)
             return bestOffer;

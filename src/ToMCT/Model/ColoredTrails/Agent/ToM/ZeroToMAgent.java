@@ -62,12 +62,9 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     // LEARNING
 
-    public Belief update(Offer o, Belief belief, double lr){
+    public Belief update(Offer o, Player player, double lr){
 
-        if(!(belief instanceof ZeroBelief))
-            return null;
-
-        ZeroBelief zeroBelief = (ZeroBelief) belief;
+        ZeroBelief zeroBelief = this.zeroBeliefs.get(player);
 
         if(o.isAccept())
             return zeroBelief;

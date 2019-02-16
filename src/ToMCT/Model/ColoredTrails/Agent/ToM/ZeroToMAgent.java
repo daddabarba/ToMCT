@@ -59,7 +59,7 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     // LEARNING
 
-    public Belief update(Offer o, Player player, double lr){
+    public Belief update(Offer o, Player player){
 
         ZeroBelief zeroBelief = this.zeroBeliefs.get(player);
 
@@ -76,7 +76,7 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
         // update all affected values
         for(int i=((o.isWithdraw()) ? (numNeg) : (numNeg+1)); i<uBeliefs.length; i++) {
-            double factor = Math.pow(1-lr, i);
+            double factor = Math.pow(1-this.learningSpeed, i);
             int ip = i;
             Arrays.parallelSetAll(uBeliefs[i], k -> factor*zeroBelief.getBeliefs()[ip][k]);
         }
@@ -85,8 +85,8 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
     }
 
 
-    public void finalizeUpdate(Offer o, Player player, double lr){
-        this.zeroBeliefs.put(player, (ZeroBelief) this.update(o, player, lr));
+    public void finalizeUpdate(Offer o, Player player){
+        this.zeroBeliefs.put(player, (ZeroBelief) this.update(o, player));
     }
     
 }

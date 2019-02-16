@@ -93,7 +93,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     // LEARNING
 
-    public Belief update(Offer o, Player player, double lr){
+    public Belief update(Offer o, Player player){
 
         GoalBelief goalBelief = this.goalBeliefs.get(player);
 
@@ -136,13 +136,13 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
             Arrays.parallelSetAll(updatedBeliefs[x], i -> updatedBeliefs[finalX][i] / finalSum);
         }
 
-        double newConfidence = (1-lr)*goalBelief.getConfidence() + lr*finalSum;
+        double newConfidence = (1-this.learningSpeed)*goalBelief.getConfidence() + this.learningSpeed*finalSum;
 
         return new GoalBelief(updatedBeliefs, newConfidence);
     }
 
-    public void finalizeUpdate(Offer o, Player player, double lr){
-        this.goalBeliefs.put(player, (GoalBelief) this.update(o, player, lr));
+    public void finalizeUpdate(Offer o, Player player){
+        this.goalBeliefs.put(player, (GoalBelief) this.update(o, player));
     }
 
 }

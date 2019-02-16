@@ -83,5 +83,10 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
         return new ZeroBelief(uBeliefs);
     }
+
+
+    public void finalizeUpdate(Offer o, Player player, double lr){
+        this.zeroBeliefs.put(player, (ZeroBelief) this.update(o, player, lr));
+    }
     
 }

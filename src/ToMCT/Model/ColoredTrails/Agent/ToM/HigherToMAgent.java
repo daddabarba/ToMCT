@@ -141,4 +141,8 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         return new GoalBelief(updatedBeliefs, newConfidence);
     }
 
+    public void finalizeUpdate(Offer o, Player player, double lr){
+        this.goalBeliefs.put(player, (GoalBelief) this.update(o, player, lr));
+    }
+
 }

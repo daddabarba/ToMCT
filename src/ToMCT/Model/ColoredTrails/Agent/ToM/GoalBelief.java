@@ -11,6 +11,10 @@ public class GoalBelief extends Belief{
         super(h, w);
     }
 
+    public GoalBelief(double[][] beliefs){
+        super(beliefs);
+    }
+
     // SETTERS
 
     public void init(Location l){

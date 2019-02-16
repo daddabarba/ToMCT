@@ -156,14 +156,13 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
 
         deck.shuffle(handSize);
         map.initialize(start);
+
+        gameData.add(new SingleGameData());
     }
 
     public void play(){
         startingPlayer.Play();
-
         gameData.add(new SingleGameData());
-
-        System.out.println("\nFinal score: \n" + this.toString());
     }
 
     // METHODS

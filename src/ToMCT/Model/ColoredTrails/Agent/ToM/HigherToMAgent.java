@@ -36,12 +36,12 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     // METHODS
 
-    public Offer ToM(Offer o, Player player, Player opponent, Location goal, GoalBelief beliefs){
+    public Offer ToM(Offer o, Player player, Player opponent, Location goal, GoalBelief beliefs, boolean doLearn){
 
         GoalBelief temp = goalBeliefs.get(opponent);
         goalBeliefs.put(opponent, beliefs);
 
-        Offer ret = ToM(o, player, opponent, goal);
+        Offer ret = ToM(o, player, opponent, goal, doLearn);
 
         goalBeliefs.put(opponent, temp);
         return ret;

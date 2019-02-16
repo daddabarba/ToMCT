@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface ToM<T extends Belief> {
 
-    Offer ToM(Offer o, Player player, Player opponent, Location goal, T beliefs);
+    Offer ToM(Offer o, Player player, Player opponent, Location goal, T beliefs, boolean doLearn);
     Offer ToM(Offer o, Player player, Player opponent, Location goal);
 
     Map.Entry<Offer, Double> bestOffer(Player player, Player opponent, Location goal);

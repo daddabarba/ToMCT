@@ -29,12 +29,12 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     // POLICY
 
-    public Offer ToM(Offer o, Player player, Player opponent, Location goal, ZeroBelief beliefs){
+    public Offer ToM(Offer o, Player player, Player opponent, Location goal, ZeroBelief beliefs, boolean doLearn){
 
         ZeroBelief temp = zeroBeliefs.get(opponent);
         zeroBeliefs.put(opponent, beliefs);
 
-        Offer ret = ToM(o, player, opponent, goal);
+        Offer ret = ToM(o, player, opponent, goal, doLearn);
 
         zeroBeliefs.put(opponent, temp);
         return ret;

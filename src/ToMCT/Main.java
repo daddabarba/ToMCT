@@ -1,30 +1,35 @@
 package ToMCT;
 
 import ToMCT.Model.ColoredTrails.Game;
-import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.View.GameFrame;
 import ToMCT.View.Menu;
 
 public class Main {
 
     public static void main(String[] args){
-        new Menu("Menu");
-        /*int numPlayers = Integer.parseInt(args[0]);
-        int handSize = Integer.parseInt(args[1]);
 
-        int width = Integer.parseInt(args[2]);
-        int height = Integer.parseInt(args[3]);
+        if(args.length < 6 )
+            new Menu("Menu");
+        else {
 
-        Location start = new Location(Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+            Integer orders[] = {Integer.parseInt(args[0]), Integer.parseInt(args[1])};
+            Double learningSpeeds[] = {Double.parseDouble(args[2]), Double.parseDouble(args[3])};
 
-        boolean GUI = true;
-        if(args.length>6)
-            GUI = Boolean.parseBoolean(args[6]);
+            int handSize = Integer.parseInt(args[4]);
+            int mazeSize = Integer.parseInt(args[5]);
 
-        Game game = new Game(numPlayers, handSize, width, height, start);
-        game.startGame();
+            boolean GUI = true;
+            if (args.length > 6)
+                GUI = Boolean.parseBoolean(args[6]);
 
-        if(GUI)
-            new GameFrame("Colored Trails", game);*/
+            Game game = new Game(orders, learningSpeeds, handSize, mazeSize);
+
+            game.startGame();
+
+            if (GUI)
+                new GameFrame("Colored Trails", game);
+            else
+                game.play();
+        }
     }
 }

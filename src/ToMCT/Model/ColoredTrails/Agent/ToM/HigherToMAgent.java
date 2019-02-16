@@ -105,27 +105,39 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
         // update beliefs
         double sum = 0;
+        o = o.invert();
 
+        double scoreOffer, scoreD0, current;
+        
         for(int x=0; x<updatedBeliefs.length; x++){
             for(int y=0; y<updatedBeliefs.length; y++){
-                double current = goalBelief.getBeliefs()[x][y]
-                        *model.EV(
-                                o.invert(),
-                                player,
-                                agent,
-                                agent.getMap().getLocation(x,y)
-                        )/model.EV(
-                                (Offer)model.bestOffer(
-                                        player,
-                                        agent,
-                                        agent.getMap().getLocation(x,y)
-                                ).getKey(),
-                                player,
-                                agent,
-                                agent.getMap().getLocation(x,y)
-                        );
+
+                Location goal = agent.getMap().getLocation(x,y);
+                scoreOffer = agent.getScoreKeeper().score(o.getGot(), player.getPosition(), goal);
+                scoreD0 = agent.getScoreKeeper().score(player.getHand(), player.getPosition(), goal);
+
+                if(scoreOffer<=scoreD0)
+                    current = 0;
+                else
+                    current = goalBelief.getBeliefs()[x][y]
+                            *model.EV(
+                                    o,
+                                    player,
+                                    agent,
+                                    goal
+                            )/model.EV(
+                                    (Offer)model.bestOffer(
+                                            player,
+                                            agent,
+                                            goal
+                                    ).getKey(),
+                                    player,
+                                    agent,
+                                    goal
+                            );
 
                 sum+=current;
+                updatedBeliefs[x][y] = current;
             }
         }
 

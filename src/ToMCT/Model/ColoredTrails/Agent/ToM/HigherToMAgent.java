@@ -136,7 +136,9 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
             Arrays.parallelSetAll(updatedBeliefs[x], i -> updatedBeliefs[finalX][i] / finalSum);
         }
 
-        return new GoalBelief(updatedBeliefs);
+        double newConfidence = (1-lr)*goalBelief.getConfidence() + lr*finalSum;
+
+        return new GoalBelief(updatedBeliefs, newConfidence);
     }
 
 }

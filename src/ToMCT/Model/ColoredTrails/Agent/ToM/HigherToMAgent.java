@@ -4,10 +4,7 @@ import ToMCT.Model.ColoredTrails.Agent.Player;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
@@ -96,6 +93,54 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         this.player = player;
         this.opponent = opponent;
         this.goalBelief = goalBeliefs.get(opponent);
+    }
+
+    // LEARNING
+
+    public Belief update(Offer o, Player player, double lr){
+
+        GoalBelief goalBelief = this.goalBeliefs.get(player);
+
+        if(o.isAccept())
+            return goalBelief;
+
+        // copy goal beliefs
+        double[][] updatedBeliefs = new double[goalBelief.getBeliefs().length][goalBelief.getBeliefs()[0].length];
+
+        // update beliefs
+        double sum = 0;
+
+        for(int x=0; x<updatedBeliefs.length; x++){
+            for(int y=0; y<updatedBeliefs.length; y++){
+                double current = goalBelief.getBeliefs()[x][y]
+                        *model.EV(
+                                o.invert(),
+                                player,
+                                agent,
+                                agent.getMap().getLocation(x,y)
+                        )/model.EV(
+                                (Offer)model.bestOffer(
+                                        player,
+                                        agent,
+                                        agent.getMap().getLocation(x,y)
+                                ).getKey(),
+                                player,
+                                agent,
+                                agent.getMap().getLocation(x,y)
+                        );
+
+                sum+=current;
+            }
+        }
+
+        final double finalSum = sum;
+
+        for(int x=0; x<updatedBeliefs.length; x++) {
+            final int finalX = x;
+            Arrays.parallelSetAll(updatedBeliefs[x], i -> updatedBeliefs[finalX][i] / finalSum);
+        }
+
+        return new GoalBelief(updatedBeliefs);
     }
 
 }

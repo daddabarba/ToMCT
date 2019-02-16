@@ -27,7 +27,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
             model = new ZeroToMAgent(agent, learningSpeed, players);
 
         goalBeliefs = new HashMap<>();
-        goalBeliefs.put(agent, new GoalBelief(map.getHeight(), map.getWidth()));
+        //goalBeliefs.put(agent, new GoalBelief(map.getHeight(), map.getWidth()));
 
         for(Player player : players)
             goalBeliefs.put(player, new GoalBelief(map.getHeight(), map.getWidth()));

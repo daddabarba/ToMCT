@@ -19,7 +19,7 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
         super(0, learningSpeed, agent, players);
 
         zeroBeliefs = new HashMap<>();
-        zeroBeliefs.put(agent, new ZeroBelief());
+        //zeroBeliefs.put(agent, new ZeroBelief());
 
         for(Player player : players)
             zeroBeliefs.put(player, new ZeroBelief());

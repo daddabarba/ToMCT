@@ -29,6 +29,7 @@ public class Player extends QObservable implements Observer {
 
     private ScoreKeeper scoreKeeper;
     private Mediator mediator;
+    private Map map;
 
     private ToMAgent toMAgent;
 
@@ -49,6 +50,7 @@ public class Player extends QObservable implements Observer {
 
         this.goal = goal;
         this.players = players;
+        this.map = map;
 
         if(this.toMAgent==null)
             if(order>0)
@@ -148,6 +150,10 @@ public class Player extends QObservable implements Observer {
 
     public ScoreKeeper getScoreKeeper(){
         return scoreKeeper;
+    }
+
+    public Map getMap(){
+        return this.map;
     }
 
     //NOTIFICATION HANDLER

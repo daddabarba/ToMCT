@@ -160,4 +160,20 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         this.goalBeliefs.put(player, (GoalBelief) this.update(o, player));
     }
 
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ \"agent\": " + agent.getID());
+        sb.append(", \"order\" : " + getOrder());
+        sb.append(", \"learningSpeed\" : " + getLearningSpeed());
+        sb.append(", \"beliefs\" : [");
+
+        for(Map.Entry<Player, GoalBelief> e : goalBeliefs.entrySet())
+            sb.append("{\"for\" : " + e.getKey().getID() + ", \"vals\": " + e.getValue().toString() + "},");
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("], \"model\" : " + model.toString() + "}");
+
+        return sb.toString();
+    }
+
 }

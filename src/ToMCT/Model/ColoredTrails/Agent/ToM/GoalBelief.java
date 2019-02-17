@@ -39,4 +39,15 @@ public class GoalBelief extends Belief{
     public double getConfidence(){
         return confidence;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.deleteCharAt(sb.length()-1);
+
+        sb.append(",\"confidence\":" + confidence + "}");
+
+        return sb.toString();
+    }
 }

@@ -4,6 +4,7 @@ import ToMCT.Model.ColoredTrails.Agent.ToM.HigherToMAgent;
 import ToMCT.Model.ColoredTrails.Agent.ToM.ToMAgent;
 import ToMCT.Model.ColoredTrails.Agent.ToM.ZeroToMAgent;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Deck;
+import ToMCT.Model.ColoredTrails.GameTools.Chips.HandUtils;
 import ToMCT.Model.ColoredTrails.GameTools.Chips.Offer;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
@@ -87,7 +88,7 @@ public class Player extends QObservable implements Observer {
     }
 
     protected void makeOffer(Player opponent,  Offer o){
-
+        
         this.time += 1;
 
         if(o.isWithdraw())
@@ -204,6 +205,19 @@ public class Player extends QObservable implements Observer {
             if(message.getContext() == null)
                 //It must be the player's own hand
                 setHand(((Message<Integer>)message).getContent());
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"ID\":" + getID());
+        sb.append(", \"goal\" : " + goal.toString());
+        sb.append(", \"position\" : " + position.toString());
+        sb.append(", \"hand\" : " + HandUtils.toString(hand));
+        sb.append(", \"time\" : " + time);
+        sb.append(", \"ToM\" : " + toMAgent.toString() + "}");
+
+        return sb.toString();
     }
 
 

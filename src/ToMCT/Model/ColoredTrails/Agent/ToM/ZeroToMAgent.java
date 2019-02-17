@@ -7,6 +7,7 @@ import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
@@ -91,6 +92,22 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     public void finalizeUpdate(Offer o, Player player){
         this.zeroBeliefs.put(player, (ZeroBelief) this.update(o, player));
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ \"agent\": " + agent.getID());
+        sb.append(", \"order\" : " + getOrder());
+        sb.append(", \"learningSpeed\" : " + getLearningSpeed());
+        sb.append(", \"beliefs\" : [");
+
+        for(Map.Entry<Player, ZeroBelief> e : zeroBeliefs.entrySet())
+            sb.append("{\"for\" : " + e.getKey().getID() + ", \"vals\": " + e.getValue().toString() + "},");
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("]}");
+
+        return sb.toString();
     }
     
 }

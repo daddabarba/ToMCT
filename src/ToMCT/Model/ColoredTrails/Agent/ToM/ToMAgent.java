@@ -101,4 +101,11 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
     public double getLearningSpeed(){
         return learningSpeed;
     }
+
+    public int getOrder(){
+        return order;
+    }
+
+    @Override
+    public abstract String toString();
 }

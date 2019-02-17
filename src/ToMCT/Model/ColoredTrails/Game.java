@@ -61,11 +61,24 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
     private class SingleGameData{
 
         private HashMap<Integer, Double> finalScores;
+        private String finalPlayers;
 
         public SingleGameData(){
             this.finalScores = new HashMap<>();
 
             writeFinalScores();
+            writeFinalPlayers();
+        }
+
+        public SingleGameData writeFinalPlayers(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("{ ");
+            for(Player player : Game.this.getPlayers())
+                sb.append("\"" + player.getID() + "\" : " + player.toString() + ",");
+            sb.deleteCharAt(sb.length()-1);
+            sb.append("}");
+            this.finalPlayers = sb.toString();
+            return this;
         }
 
         public SingleGameData writeFinalScores(){
@@ -75,7 +88,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         }
 
         public String toString(){
-            return "{\"final_scores\": " + getFinalScoreData() + "}";
+            return "{\"final_scores\": " + getFinalScoreData() + ", \"finalPlayers\" : " + this.finalPlayers +"}";
         }
 
         // DATA COLLECTION

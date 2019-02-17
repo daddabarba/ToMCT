@@ -53,4 +53,23 @@ public abstract class Belief  {
     public double[][] getBeliefs() {
         return beliefs;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"values\":[ ");
+
+        for(int x = 0; x<beliefs.length; x+=1){
+            sb.append("[ ");
+            for(int y=0; y<beliefs[0].length; y+=1)
+                sb.append(beliefs[x][y] + ",");
+            sb.deleteCharAt(sb.length()-1);
+            sb.append("],");
+        }
+
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("]}");
+
+        return sb.toString();
+    }
 }

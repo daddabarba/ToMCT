@@ -216,6 +216,7 @@ public class Offer {
 
         sb.append("{ \"sender_ID\": \"" + getSender().getID()+"\", ");
         sb.append("\"receiver_ID\": \"" + getReceiver().getID()+"\", ");
+        sb.append("\"intention\" : \""  + this.intention + "\", ");
         sb.append("\"plate\": " + HandUtils.toString(plate)+", ");
         sb.append("\"got\": " + HandUtils.toString(got)+", ");
         sb.append("\"given\": " + HandUtils.toString(given)+"}");

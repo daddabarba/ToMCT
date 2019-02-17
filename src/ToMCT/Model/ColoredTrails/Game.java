@@ -249,12 +249,16 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
         Player receiver = offer.getReceiver();
 
         if(Offer.getPlate(sender, receiver)==(offer.getPlate())) {
+            steps.recordTime(offer);
 
-            String offerMade = offer.toString();
-            offersMade.add(offerMade);
+            if (!offer.isWithdraw()) {
+                String offerMade = offer.toString();
+                offersMade.add(offerMade);
 
-            sender.setHand(offer.getGot());
-            receiver.setHand(offer.getGiven());
+                sender.setHand(offer.getGot());
+                receiver.setHand(offer.getGiven());
+
+            }
         }
     }
 

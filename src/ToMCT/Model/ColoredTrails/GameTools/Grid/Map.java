@@ -184,4 +184,24 @@ public class Map extends Observable {
     public Location getRandomGoal(){
         return goals.get(new Random().nextInt(goals.size()));
     }
+
+    @Override
+    public String toString(){
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{\"grid\" : [");
+
+        for(int x = 0; x<height; x+=1){
+            sb.append("[ ");
+            for(int y=0; y<width; y+=1)
+                sb.append(locations[x][y].toString() + ",");
+            sb.deleteCharAt(sb.length()-1);
+            sb.append("],");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("]}");
+
+        return sb.toString();
+    }
 }

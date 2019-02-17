@@ -123,4 +123,9 @@ public class Location extends QObservable {
     public Collection<Location> getNeighbours(){
         return neighbours;
     }
+
+    @Override
+    public String toString(){
+        return "{ \" position \" : [" + getX() + ", " + getY() + "], \" trail \" : \"" + getTrail().toString() + "\"}";
+    }
 }

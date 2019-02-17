@@ -163,6 +163,8 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
     public void play(){
         startingPlayer.Play();
         gameData.add(new SingleGameData());
+
+        System.out.println(toString());
     }
 
     // METHODS
@@ -177,7 +179,6 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
 
             String offerMade = offer.toString();
             offersMade.add(offerMade);
-            System.out.println("Offer Made:\n" + offerMade + "\n");
 
             sender.setHand(offer.getGot());
             receiver.setHand(offer.getGiven());
@@ -246,7 +247,9 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
     // DATA
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("{\"games:\"[ ");
+        sb.append("{");
+        sb.append("\"map\" : " + map.toString());
+        sb.append(", \"games\" : [ ");
         for(SingleGameData gd : gameData)
             sb.append(gd.toString() + ",");
         sb.deleteCharAt(sb.length()-1);

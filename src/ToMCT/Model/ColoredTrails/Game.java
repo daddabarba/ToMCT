@@ -10,11 +10,12 @@ import ToMCT.Model.ColoredTrails.GameTools.Grid.Map;
 import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.Model.ColoredTrails.GameUtils.Mediator;
 import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
+import ToMCT.Model.ColoredTrails.GameUtils.TimeKeeper;
 import ToMCT.Model.Messages.MessageBox;
 
 import java.util.*;
 
-public class Game extends Observable implements ScoreKeeper, Mediator {
+public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeeper {
     //Class coordinating the different components of the CT game
 
     private class AgentState {
@@ -62,9 +63,15 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
 
         private HashMap<Integer, Double> finalScores;
         private String finalPlayers;
+        private MatchTimeKeeper matchTimeKeeper;
 
         public SingleGameData(){
+            this(null);
+        }
+
+        public SingleGameData(MatchTimeKeeper matchTimeKeeper){
             this.finalScores = new HashMap<>();
+            this.matchTimeKeeper = matchTimeKeeper;
 
             writeFinalScores();
             writeFinalPlayers();
@@ -88,7 +95,12 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         }
 
         public String toString(){
-            return "{\"final_scores\": " + getFinalScoreData() + ", \"finalPlayers\" : " + this.finalPlayers +"}";
+            String ret =  "{\"final_scores\": " + getFinalScoreData() + ", \"finalPlayers\" : " + this.finalPlayers;
+
+            if(this.matchTimeKeeper!=null)
+                ret += ", " + matchTimeKeeper.toString();
+
+            return ret + "}";
         }
 
         // DATA COLLECTION
@@ -105,6 +117,36 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
             return sb.toString();
         }
 
+    }
+
+    private class MatchTimeKeeper{
+
+        private Player player1, player2;
+        private StringBuilder steps;
+
+        public MatchTimeKeeper(Player player1, Player player2){
+            this.player1 = player1;
+            this.player2 = player2;
+
+            steps = new StringBuilder();
+            steps.append("\"steps\" : [ ");
+        }
+
+        public void recordTime(Offer o){
+            steps.append("{\"players\" : {");
+            steps.append("\" " + player1.getID() +" \" : " + player1.toString());
+            steps.append(", \" " + player2.getID() +" \" : " + player2.toString() + "}");
+            steps.append(", \"offer\" : " + o.toString() + "},");
+        }
+
+        public String toString(){
+            steps.deleteCharAt(steps.length()-1);
+            steps.append("]");
+            String ret = steps.toString();
+            steps.deleteCharAt(steps.length()-1);
+            steps.append(",");
+            return ret;
+        }
     }
 
     private Collection<Player> players; //List of participants
@@ -124,6 +166,8 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
 
     private HashMap<AgentState, Double> scoreTable;
 
+    private MatchTimeKeeper steps;
+
     public Game(Integer[] orders, Double[] learningSpeeds, int handSize, int mazeSize){
         this(orders, learningSpeeds, handSize, mazeSize, new Location((int)mazeSize/2, (int)mazeSize/2));
     }
@@ -139,7 +183,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
         gameData = new ArrayList<>();
 
         for(int i=0; i<orders.length; i++) {
-            Player player = new Player(i,this, this);
+            Player player = new Player(i,this, this, this);
 
             if(i==0)
                 startingPlayer = player;
@@ -174,10 +218,26 @@ public class Game extends Observable implements ScoreKeeper, Mediator {
     }
 
     public void play(){
+
+        for(Player player : players){
+            if(!player.equals(startingPlayer)){
+                this.play(startingPlayer, player);
+                return;
+            }
+        }
+    }
+
+    public void play(Player player1, Player player2){
+        steps = new MatchTimeKeeper(player1, player2);
+
         startingPlayer.Play();
-        gameData.add(new SingleGameData());
+        gameData.add(new SingleGameData(steps));
 
         System.out.println(toString());
+    }
+
+    public void timeHasPassed(Player player1, Player player2, Offer o){
+        steps.recordTime(o);
     }
 
     // METHODS

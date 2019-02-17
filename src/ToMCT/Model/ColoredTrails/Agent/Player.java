@@ -12,6 +12,7 @@ import ToMCT.Model.ColoredTrails.GameTools.Grid.Location;
 import ToMCT.Model.ColoredTrails.GameUtils.Mediator;
 import ToMCT.Model.ColoredTrails.GameUtils.QObservable;
 import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
+import ToMCT.Model.ColoredTrails.GameUtils.TimeKeeper;
 import ToMCT.Model.Messages.Message;
 import ToMCT.Model.Messages.MessageBox;
 
@@ -30,16 +31,17 @@ public class Player extends QObservable implements Observer {
 
     private ScoreKeeper scoreKeeper;
     private Mediator mediator;
+    private TimeKeeper timeKeeper;
     private Map map;
 
     private ToMAgent toMAgent;
 
     private Collection<Player> players;
     private int time;
-    private final int timeWeight = 1;
+    private final int timeWeight = 100;
 
     //CONSTRUCTOR
-    public Player(int ID, ScoreKeeper scoreKeeper, Mediator mediator){
+    public Player(int ID, ScoreKeeper scoreKeeper, Mediator mediator, TimeKeeper timeKeeper){
         this.ID = ID;
         hand = 0;
 
@@ -47,6 +49,7 @@ public class Player extends QObservable implements Observer {
 
         this.scoreKeeper = scoreKeeper;
         this.mediator = mediator;
+        this.timeKeeper = timeKeeper;
 
         this.toMAgent = null;
     }
@@ -88,7 +91,8 @@ public class Player extends QObservable implements Observer {
     }
 
     protected void makeOffer(Player opponent,  Offer o){
-        
+
+        this.timeKeeper.timeHasPassed(this, opponent, o);
         this.time += 1;
 
         if(o.isWithdraw())
@@ -215,6 +219,7 @@ public class Player extends QObservable implements Observer {
         sb.append(", \"position\" : " + position.toString());
         sb.append(", \"hand\" : " + HandUtils.toString(hand));
         sb.append(", \"time\" : " + time);
+        sb.append(", \"score\" : " + this.score(this.hand, this.position, this.goal));
         sb.append(", \"ToM\" : " + toMAgent.toString() + "}");
 
         return sb.toString();

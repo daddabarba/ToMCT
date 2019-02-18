@@ -62,7 +62,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
         double val = 0.0;
 
-        Belief U = model.update(o, this.agent);
+        Belief U = model.update(o, opponent, player);
         for(Location l : map.getGoals())
             val += this.goalBelief.get(l)*this.EV(o,goal, l, U);
 
@@ -94,9 +94,9 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     // LEARNING
 
-    public Belief update(Offer o, Player player){
+    public Belief update(Offer o, Player player, Player opponent){
 
-        GoalBelief goalBelief = this.goalBeliefs.get(player);
+        GoalBelief goalBelief = this.goalBeliefs.get(opponent);
 
         if(o.isAccept())
             return goalBelief;
@@ -105,8 +105,8 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         double[][] updatedBeliefs = new double[goalBelief.getBeliefs().length][goalBelief.getBeliefs()[0].length];
 
         // update beliefs
-        double sum = 0;
-        o = o.invert();
+        double normalizingSum = 0;
+        double totalSum = 0;
 
         double scoreOffer, scoreD0, current;
         
@@ -114,35 +114,34 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
             for(int y=0; y<updatedBeliefs[0].length; y++){
 
                 Location goal = agent.getMap().getLocation(x,y);
-                scoreOffer = agent.score(o.getGot(), player.getPosition(), goal);
-                scoreD0 = agent.score(player.getHand(), player.getPosition(), goal);
+                scoreOffer = agent.score(o.getGot(), opponent.getPosition(), goal);
+                scoreD0 = agent.score(opponent.getHand(), opponent.getPosition(), goal);
+
+                double update = goalBelief.getBeliefs()[x][y]
+                        *((1 + model.EV(
+                        o,
+                        opponent,
+                        player,
+                        goal
+                ))/(1 + (Double)model.bestOffer(
+                        opponent,
+                        player,
+                        goal
+                ).getValue()
+                ));
 
                 if(scoreOffer<=scoreD0)
                     current = 0;
                 else
-                    current = goalBelief.getBeliefs()[x][y]
-                            *model.EV(
-                                    o,
-                                    player,
-                                    agent,
-                                    goal
-                            )/model.EV(
-                                    (Offer)model.bestOffer(
-                                            player,
-                                            agent,
-                                            goal
-                                    ).getKey(),
-                                    player,
-                                    agent,
-                                    goal
-                            );
+                    current = update;
 
-                sum+=current;
+                normalizingSum+=current;
+                totalSum += update;
                 updatedBeliefs[x][y] = current;
             }
         }
 
-        final double finalSum = sum;
+        final double finalSum = normalizingSum;
 
         if(finalSum > 0) {
             for (int x = 0; x < updatedBeliefs.length; x++) {
@@ -151,13 +150,13 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
             }
         }
 
-        double newConfidence = (1-this.learningSpeed)*goalBelief.getConfidence() + this.learningSpeed*finalSum;
+        double newConfidence = (1-this.learningSpeed)*goalBelief.getConfidence() + this.learningSpeed*totalSum;
 
         return new GoalBelief(updatedBeliefs, newConfidence);
     }
 
-    public void finalizeUpdate(Offer o, Player player){
-        this.goalBeliefs.put(player, (GoalBelief) this.update(o, player));
+    public void finalizeUpdate(Offer o, Player player, Player opponent){
+        this.goalBeliefs.put(player, (GoalBelief) this.update(o, player, opponent));
     }
 
     @Override

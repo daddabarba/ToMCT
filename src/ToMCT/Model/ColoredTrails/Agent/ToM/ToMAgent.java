@@ -46,7 +46,7 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
         setPlayer(player, opponent);
 
         if(doLearn)
-            this.finalizeUpdate(o, opponent);
+            this.finalizeUpdate(o, player, opponent);
 
         Map.Entry<Offer, Double> bo = bestOffer(player, opponent, goal);
         Offer bestOffer = bo.getKey();

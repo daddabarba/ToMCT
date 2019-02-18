@@ -35,7 +35,7 @@ public class ZeroBelief extends Belief{
             given/=10;
         }
 
-        return numNeg + 10*numPos;
+        return 10*numPos + numNeg;
     }
 
     // SETTERS

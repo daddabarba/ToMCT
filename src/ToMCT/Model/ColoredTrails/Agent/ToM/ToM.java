@@ -15,6 +15,6 @@ public interface ToM<T extends Belief> {
 
     double EV(Offer o, Player player, Player opponent, Location goal);
 
-    Belief update(Offer o, Player player);
-    void finalizeUpdate(Offer o, Player player);
+    Belief update(Offer o, Player player, Player opponent);
+    void finalizeUpdate(Offer o, Player player, Player opponent);
 }

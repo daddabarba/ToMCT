@@ -64,9 +64,9 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     // LEARNING
 
-    public Belief update(Offer o, Player player){
+    public Belief update(Offer o, Player player, Player opponent){
 
-        ZeroBelief zeroBelief = this.zeroBeliefs.get(player);
+        ZeroBelief zeroBelief = this.zeroBeliefs.get(opponent);
 
         if(o.isAccept())
             return zeroBelief;
@@ -90,8 +90,8 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
     }
 
 
-    public void finalizeUpdate(Offer o, Player player){
-        this.zeroBeliefs.put(player, (ZeroBelief) this.update(o, player));
+    public void finalizeUpdate(Offer o, Player player, Player opponent){
+        this.zeroBeliefs.put(player, (ZeroBelief) this.update(o, player, opponent));
     }
 
     @Override

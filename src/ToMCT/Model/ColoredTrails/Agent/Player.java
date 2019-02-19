@@ -98,8 +98,10 @@ public class Player extends QObservable implements Observer {
         if(o.isWithdraw())
             return;
 
-        if(o.isAccept())
+        if(o.isAccept()) {
             mediator.mediate(o);
+            return;
+        }
 
         Offer response = this.toMAgent.ToM(o, this, opponent, goal);
 

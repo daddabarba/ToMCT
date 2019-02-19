@@ -44,8 +44,7 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     public double EV(Offer o, Player player, Player opponent, Location goal){
 
-        if(this.player == null)
-            setPlayer(player, opponent);
+        setPlayer(player, opponent);
 
         double b = zeroBelief.get(o);
 
@@ -57,8 +56,6 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
     @Override
     void setPlayer(Player player, Player opponent){
-
-        super.setPlayer(player, opponent);
         this.zeroBelief = zeroBeliefs.get(opponent);
     }
 

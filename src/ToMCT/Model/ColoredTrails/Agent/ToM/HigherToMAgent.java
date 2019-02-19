@@ -50,26 +50,22 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     public double EV(Offer o, Player player, Player opponent, Location goal){
         setPlayer(player, opponent);
-        return this.EV(o, goal);
-    }
-
-    private double EV(Offer o, Location goal){
-        return goalBelief.getConfidence()*this.U(o, goal) + (1-goalBelief.getConfidence())*model.EV(o, player, opponent, goal);
+        return goalBelief.getConfidence()*this.U(o, player, opponent, goal) + (1-goalBelief.getConfidence())*model.EV(o, player, opponent, goal);
     }
 
 
-    private double U(Offer o, Location goal){
+    private double U(Offer o, Player player, Player opponent, Location goal){
 
         double val = 0.0;
 
         Belief U = model.update(o, opponent, player);
         for(Location l : map.getGoals())
-            val += this.goalBelief.get(l)*this.EV(o,goal, l, U);
+            val += this.goalBelief.get(l)*this.EV(o, player, opponent, goal, l, U);
 
         return val;
     }
 
-    private double EV(Offer o, Location goal, Location l, Belief U){
+    private double EV(Offer o, Player player, Player opponent, Location goal, Location l, Belief U){
 
         Offer predictedResponse = model.ToM(o, opponent, player, l, U, false);
 
@@ -88,7 +84,6 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     @Override
     void setPlayer(Player player, Player opponent){
-        super.setPlayer(player, opponent);
         this.goalBelief = goalBeliefs.get(opponent);
     }
 

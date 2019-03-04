@@ -88,7 +88,7 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
 
     public void finalizeUpdate(Offer o, Player player, Player opponent){
-        this.zeroBeliefs.put(player, (ZeroBelief) this.update(o, player, opponent));
+        this.zeroBeliefs.put(opponent, (ZeroBelief) this.update(o, player, opponent));
     }
 
     @Override

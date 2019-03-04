@@ -1,7 +1,5 @@
 package ToMCT.Model.ColoredTrails.Agent.ToM;
 
-import com.sun.org.apache.xpath.internal.functions.FuncFalse;
-
 public abstract class Belief  {
 
     // FIELDS

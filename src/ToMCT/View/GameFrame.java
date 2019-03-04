@@ -26,6 +26,20 @@ public class GameFrame extends JFrame {
 
     }
 
+    private class GetData extends AbstractAction{
+
+        private Game game;
+        public GetData(String name, Game game){
+            super(name);
+            this.game = game;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+            System.out.println(game.toString());
+        }
+    }
+
     public GameFrame(String title, Game game){
         super(title);
 
@@ -33,10 +47,15 @@ public class GameFrame extends JFrame {
         new GamePane(window, game);
 
         JMenuBar menuBar = new JMenuBar();
+
         JButton playButton = new JButton("Play");
         playButton.setAction(new ActionPlay("Play", game));
 
+        JButton getDataButton = new JButton("Get Data");
+        getDataButton.setAction(new GetData("Get Data", game));
+
         menuBar.add(playButton);
+        menuBar.add(getDataButton);
 
         setJMenuBar(menuBar);
         add(window);

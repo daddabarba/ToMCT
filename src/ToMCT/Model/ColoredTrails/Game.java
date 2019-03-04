@@ -218,22 +218,33 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
     }
 
     public void play(){
+        this.play(1);
+    }
+
+    public void play(int times){
 
         for(Player player : players){
             if(!player.equals(startingPlayer)){
-                this.play(startingPlayer, player);
+                this.play(startingPlayer, player, times);
                 return;
             }
         }
     }
 
+    public void play(Player player1, Player player2, int times){
+
+        for(int i=0; i<times; i++)
+            this.play(player1, player2);
+    }
+
     public void play(Player player1, Player player2){
+
+        //this.startGame();
+
         steps = new MatchTimeKeeper(player1, player2);
 
         startingPlayer.Play();
         gameData.add(new SingleGameData(steps));
-
-        System.out.println(toString());
     }
 
     public void timeHasPassed(Player player1, Player player2, Offer o){

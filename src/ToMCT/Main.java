@@ -19,8 +19,12 @@ public class Main {
             int mazeSize = Integer.parseInt(args[5]);
 
             boolean GUI = true;
+            if (args.length > 7)
+                GUI = Boolean.parseBoolean(args[7]);
+
+            int times = 1;
             if (args.length > 6)
-                GUI = Boolean.parseBoolean(args[6]);
+                times = Integer.parseInt(args[6]);
 
             Game game = new Game(orders, learningSpeeds, handSize, mazeSize);
 
@@ -28,8 +32,10 @@ public class Main {
 
             if (GUI)
                 new GameFrame("Colored Trails", game);
-            else
-                game.play();
+            else {
+                game.play(times);
+                System.out.println(game.toString());
+            }
         }
     }
 }

@@ -195,26 +195,27 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
         map = new Map(mazeSize, mazeSize, messageBox, players, start);
         deck = new Deck(messageBox, players);
 
-        goals = new HashMap<>();
         scoreTable = new HashMap<>();
 
         int i=0;
         for(Player player :players) {
-            Location goal = map.getRandomGoal();
-            player.init(goal, orders[i], learningSpeeds[i], players, getMap());
-            goals.put(player, goal);
-
+            player.init(orders[i], learningSpeeds[i], players, getMap());
             i++;
         }
     }
 
     public void startGame(){
         offersMade = new ArrayList<>();
+        goals = new HashMap<>();
 
         deck.shuffle(handSize);
         map.initialize(start);
-
-        gameData.add(new SingleGameData());
+        
+        for(Player player :players) {
+            Location goal = map.getRandomGoal();
+            player.setGoal(goal);
+            goals.put(player, goal);
+        }
     }
 
     public void play(){
@@ -239,7 +240,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
 
     public void play(Player player1, Player player2){
 
-        //this.startGame();
+        this.startGame();
 
         steps = new MatchTimeKeeper(player1, player2);
 

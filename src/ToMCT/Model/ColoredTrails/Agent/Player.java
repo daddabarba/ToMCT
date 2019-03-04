@@ -38,7 +38,7 @@ public class Player extends QObservable implements Observer {
 
     private Collection<Player> players;
     private int time;
-    private final int timeWeight = 1;
+    private final int timeWeight = 10;
 
     //CONSTRUCTOR
     public Player(int ID, ScoreKeeper scoreKeeper, Mediator mediator, TimeKeeper timeKeeper){
@@ -54,9 +54,12 @@ public class Player extends QObservable implements Observer {
         this.toMAgent = null;
     }
 
-    public void init(Location goal, int order, double learningSpeed, Collection<Player> players, Map map){
-
+    public void setGoal(Location goal){
         this.goal = goal;
+    }
+
+    public void init(int order, double learningSpeed, Collection<Player> players, Map map){
+
         this.players = players;
         this.map = map;
 

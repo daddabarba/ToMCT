@@ -225,7 +225,8 @@ public class Player extends QObservable implements Observer {
         sb.append(", \"position\" : " + position.toString());
         sb.append(", \"hand\" : " + HandUtils.toString(hand));
         sb.append(", \"time\" : " + time);
-        sb.append(", \"score\" : " + this.score(this.hand, this.position, this.goal));
+        sb.append(", \"score\" : " + this.scoreKeeper.score(this.hand, this.position, this.goal));
+        sb.append(", \"weightedScore\" : " + this.score(this.hand, this.position, this.goal));
         sb.append(", \"ToM\" : " + toMAgent.toString() + "}");
 
         return sb.toString();

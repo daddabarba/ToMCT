@@ -48,13 +48,16 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
         double valOffer = agent.score(o.getGiven(), player.getPosition(), goal);
         double valHand = agent.score(player.getHand(), player.getPosition(), goal);
 
+        Offer inverse = new Offer(o.invert());
+        o.invert();
+
         if(valBest>valOffer && valBest>valHand)
             return bestOffer;
 
         if(valOffer>=valBest && valOffer>valHand)
-            return new Offer(o.invert(), Offer.Intention.ACCEPT);
+            return new Offer(inverse, Offer.Intention.ACCEPT);
 
-        return new Offer(o.invert(), Offer.Intention.WITHDRAW);
+        return new Offer(inverse, Offer.Intention.WITHDRAW);
     }
 
     public Map.Entry<Offer, Double> bestOffer(Player player, Player opponent, Location goal){
@@ -70,7 +73,7 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
             Offer currentOffer = offerIterator.next();
             double offerVal = EV(currentOffer, player, opponent, goal);
-            
+
             if(maxVal<0 || offerVal>maxVal){
                 maxVal = offerVal;
                 bestOffer = new Offer(currentOffer);

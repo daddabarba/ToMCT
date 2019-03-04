@@ -36,6 +36,8 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
     public Offer ToM(Offer o, Player player, Player opponent, Location goal, boolean doLearn){
 
+        this.setPlayer(player, opponent);
+
         if(doLearn)
             this.finalizeUpdate(o, player, opponent);
 
@@ -50,9 +52,9 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
             return bestOffer;
 
         if(valOffer>=valBest && valOffer>valHand)
-            return new Offer(o, Offer.Intention.ACCEPT);
+            return new Offer(o.invert(), Offer.Intention.ACCEPT);
 
-        return new Offer(o, Offer.Intention.WITHDRAW);
+        return new Offer(o.invert(), Offer.Intention.WITHDRAW);
     }
 
     public Map.Entry<Offer, Double> bestOffer(Player player, Player opponent, Location goal){
@@ -68,7 +70,7 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
             Offer currentOffer = offerIterator.next();
             double offerVal = EV(currentOffer, player, opponent, goal);
-
+            
             if(maxVal<0 || offerVal>maxVal){
                 maxVal = offerVal;
                 bestOffer = new Offer(currentOffer);

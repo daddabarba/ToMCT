@@ -38,7 +38,7 @@ public class Player extends QObservable implements Observer {
 
     private Collection<Player> players;
     private int time;
-    private final int timeWeight = 100;
+    private final int timeWeight = 1;
 
     //CONSTRUCTOR
     public Player(int ID, ScoreKeeper scoreKeeper, Mediator mediator, TimeKeeper timeKeeper){
@@ -167,6 +167,10 @@ public class Player extends QObservable implements Observer {
 
     public Map getMap(){
         return this.map;
+    }
+
+    public ScoreKeeper getScoreKeeper(){
+        return this.scoreKeeper;
     }
 
     //NOTIFICATION HANDLER

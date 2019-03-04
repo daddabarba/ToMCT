@@ -1,5 +1,7 @@
 package ToMCT.Model.ColoredTrails.Agent.ToM;
 
+import com.sun.org.apache.xpath.internal.functions.FuncFalse;
+
 public abstract class Belief  {
 
     // FIELDS
@@ -52,6 +54,22 @@ public abstract class Belief  {
 
     public double[][] getBeliefs() {
         return beliefs;
+    }
+
+    @Override
+    public boolean equals(Object object){
+        if(!(object instanceof Belief))
+            return false;
+
+        Belief bf = (Belief) object;
+
+        for(int x = 0; x<beliefs.length; x+=1){
+            for(int y=0; y<beliefs[0].length; y+=1)
+                if(beliefs[x][y] != ((Belief) object).get(x,y))
+                    return false;
+        }
+
+        return true;
     }
 
     @Override

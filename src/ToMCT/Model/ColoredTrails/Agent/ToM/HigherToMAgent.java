@@ -152,6 +152,12 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     public void finalizeUpdate(Offer o, Player player, Player opponent){
         this.goalBeliefs.put(opponent, (GoalBelief) this.update(o, player, opponent) );
+
+        model.finalizeUpdate(o, player, opponent);
+
+        o.invert();
+        model.finalizeUpdate(o, opponent, player);
+        o.invert();
     }
 
     @Override

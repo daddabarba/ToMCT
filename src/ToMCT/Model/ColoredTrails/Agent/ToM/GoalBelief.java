@@ -10,8 +10,8 @@ public class GoalBelief extends Belief{
         confidence = 0.5;
     }
 
-    public GoalBelief(int h, int w) {
-        super(h, w);
+    public GoalBelief(int h, int w, double nGoals) {
+        super(h, w, 1.0/nGoals);
         initPars();
     }
 

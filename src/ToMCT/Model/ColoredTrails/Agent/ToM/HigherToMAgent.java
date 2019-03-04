@@ -30,7 +30,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         //goalBeliefs.put(agent, new GoalBelief(map.getHeight(), map.getWidth()));
 
         for(Player player : players)
-            goalBeliefs.put(player, new GoalBelief(map.getHeight(), map.getWidth()));
+            goalBeliefs.put(player, new GoalBelief(map.getHeight(), map.getWidth(), map.getGoals().size()));
 
     }
 
@@ -60,7 +60,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
         Belief U = model.update(o, opponent, player);
         for(Location l : map.getGoals())
-            val += this.goalBelief.get(l)*this.EV(o, player, opponent, goal, l, U);
+            val += this.goalBelief.get(l) * this.EV(o, player, opponent, goal, l, U);
 
         return val;
     }
@@ -105,35 +105,32 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
         double scoreOffer, scoreD0, current;
         
-        for(int x=0; x<updatedBeliefs.length; x++){
-            for(int y=0; y<updatedBeliefs[0].length; y++){
+        for(Location goal : map.getGoals()){
 
-                Location goal = agent.getMap().getLocation(x,y);
-                scoreOffer = agent.score(o.getGot(), opponent.getPosition(), goal);
-                scoreD0 = agent.score(opponent.getHand(), opponent.getPosition(), goal);
+            scoreOffer = agent.score(o.getGot(), opponent.getPosition(), goal);
+            scoreD0 = agent.score(opponent.getHand(), opponent.getPosition(), goal);
 
-                double update = goalBelief.getBeliefs()[x][y]
-                        *((1 + model.EV(
-                        o,
-                        opponent,
-                        player,
-                        goal
-                ))/(1 + (Double)model.bestOffer(
-                        opponent,
-                        player,
-                        goal
-                ).getValue()
-                ));
+            double update = goalBelief.get(goal)
+                    *((1 + model.EV(
+                    o,
+                    opponent,
+                    player,
+                    goal
+            ))/(1 + (Double)model.bestOffer(
+                    opponent,
+                    player,
+                    goal
+            ).getValue()
+            ));
 
-                if(scoreOffer<=scoreD0)
-                    current = 0;
-                else
-                    current = update;
+            if(scoreOffer<=scoreD0)
+                current = 0;
+            else
+                current = update;
 
-                normalizingSum+=current;
-                totalSum += update;
-                updatedBeliefs[x][y] = current;
-            }
+            normalizingSum+=current;
+            totalSum += update;
+            updatedBeliefs[goal.getX()][goal.getY()] = current;
         }
 
         final double finalSum = normalizingSum;

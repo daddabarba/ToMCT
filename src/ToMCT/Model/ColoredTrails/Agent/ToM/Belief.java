@@ -8,12 +8,14 @@ public abstract class Belief  {
 
     // CONSTRUCTORS
 
-    private Belief(){
-        def = 1.0;
+    public Belief(int h, int w){
+        this(h,w,1.0);
     }
 
-    public Belief(int h, int w){
-        this();
+    public Belief(int h, int w, double def){
+
+        this.def = def;
+
         this.beliefs = new double[h][w];
 
         for(int i=0; i<h; i++)
@@ -22,7 +24,7 @@ public abstract class Belief  {
     }
 
     public Belief(double[][] beliefs){
-        this();
+        this.def = 1.0;
         this.beliefs = beliefs;
     }
 

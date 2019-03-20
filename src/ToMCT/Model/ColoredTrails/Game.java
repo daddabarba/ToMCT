@@ -210,7 +210,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
 
         deck.shuffle(handSize);
         map.initialize(start);
-        
+
         for(Player player :players) {
             Location goal = map.getRandomGoal();
             player.setGoal(goal);

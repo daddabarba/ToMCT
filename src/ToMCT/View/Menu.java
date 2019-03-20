@@ -108,8 +108,8 @@ public class Menu extends JFrame {
         lvlPlayer1.setColumns(10);
         lvlPlayer2.setColumns(10);
 
-        lvlPlayer1.setText("2");
-        lvlPlayer2.setText("2");
+        lvlPlayer1.setText("1");
+        lvlPlayer2.setText("1");
 
         JLabel section11 = new JLabel("Insert learning speeds of each player");
 

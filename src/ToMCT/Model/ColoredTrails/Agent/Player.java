@@ -38,7 +38,7 @@ public class Player extends QObservable implements Observer {
 
     private Collection<Player> players;
     private int time;
-    private final int timeWeight = 10;
+    private final int timeWeight = 20;
 
     //CONSTRUCTOR
     public Player(int ID, ScoreKeeper scoreKeeper, Mediator mediator, TimeKeeper timeKeeper){
@@ -56,6 +56,7 @@ public class Player extends QObservable implements Observer {
 
     public void setGoal(Location goal){
         this.goal = goal;
+        this.time = 0;
         this.toMAgent.resetBeliefs();
     }
 
@@ -95,7 +96,6 @@ public class Player extends QObservable implements Observer {
     }
 
     protected void makeOffer(Player opponent,  Offer o){
-
         this.timeKeeper.timeHasPassed(this, opponent, o);
         this.time += 1;
 

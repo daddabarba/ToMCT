@@ -60,7 +60,8 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
         Belief U = model.update(o, opponent, player);
         for(Location l : map.getGoals())
-            val += this.goalBelief.get(l) * this.EV(o, player, opponent, goal, l, U);
+            if(this.goalBelief.get(l)>0.0)
+                val += this.goalBelief.get(l) * this.EV(o, player, opponent, goal, l, U);
         
         return val;
     }

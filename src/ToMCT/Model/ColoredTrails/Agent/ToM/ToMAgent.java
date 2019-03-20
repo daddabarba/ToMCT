@@ -87,6 +87,12 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
     // SETTERS
 
     abstract void setPlayer(Player player, Player opponent);
+
+    @Override
+    public void resetBeliefs(){
+        return;
+    }
+
     // GETTERS
 
     public double getLearningSpeed(){

@@ -30,6 +30,12 @@ public class GoalBelief extends Belief{
         this.put(l.getX(), l.getY(), val);
     }
 
+    public void reset(){
+        for(int x=0; x<getBeliefs().length; x++)
+            for(int y=0; y<getBeliefs()[0].length; y++)
+                this.init(x,y);
+    }
+
     // GETTERS
 
     public double get(Location l){
@@ -41,10 +47,10 @@ public class GoalBelief extends Belief{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
 
         sb.append(",\"confidence\":" + confidence + "}");
 

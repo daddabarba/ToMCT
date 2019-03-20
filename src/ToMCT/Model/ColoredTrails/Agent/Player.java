@@ -56,6 +56,7 @@ public class Player extends QObservable implements Observer {
 
     public void setGoal(Location goal){
         this.goal = goal;
+        this.toMAgent.resetBeliefs();
     }
 
     public void init(int order, double learningSpeed, Collection<Player> players, Map map){

@@ -17,4 +17,6 @@ public interface ToM<T extends Belief> {
 
     Belief update(Offer o, Player player, Player opponent);
     void finalizeUpdate(Offer o, Player player, Player opponent);
+
+    void resetBeliefs();
 }

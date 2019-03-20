@@ -159,6 +159,13 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
     }
 
     @Override
+    public void resetBeliefs(){
+        for(GoalBelief gb : this.goalBeliefs.values())
+            gb.reset();
+        this.model.resetBeliefs();
+    }
+
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("{ \"agent\": " + agent.getID());

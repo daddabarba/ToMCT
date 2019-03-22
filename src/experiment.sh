@@ -6,7 +6,7 @@ do
 		do
 			for LR2 in $(seq 0.1 0.2 1.0)
 			do
-				./run.sh $ORDER1 $ORDER2 $LR1 $LR2 4 5 $1 false /home/daddabarba/Desktop/results/result &
+				./run.sh $ORDER1 $ORDER2 $LR1 $LR2 4 5 $1 false $2 &
 			done
 		done
 	done

@@ -59,7 +59,7 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
         }
     }
 
-    private class SingleGameData{
+    /*private class SingleGameData{
 
         private HashMap<Integer, Double> finalScores;
         private String finalPlayers;
@@ -117,6 +117,31 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
             return sb.toString();
         }
 
+    }*/
+
+    private class SingleGameData{
+
+        private double initialScore, finalScore;
+
+        public SingleGameData(){
+            this(0.0);
+        }
+
+        public SingleGameData(Player player){
+            this(score(player.getHand(), player.getPosition(), Game.this.goals.get(player)));
+        }
+
+        public SingleGameData(double initialScore){
+            this.initialScore = initialScore;
+        }
+
+        public void writeFinalScore(Player player){
+            finalScore = score(player.getHand(), player.getPosition(), Game.this.goals.get(player));
+        }
+
+        public String toString(){
+            return (finalScore - initialScore) + " ";
+        }
     }
 
     private class MatchTimeKeeper{
@@ -244,8 +269,12 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
 
         steps = new MatchTimeKeeper(player1, player2);
 
+        SingleGameData singleGameData = new SingleGameData(startingPlayer);
+
         startingPlayer.Play();
-        gameData.add(new SingleGameData(steps));
+
+        singleGameData.writeFinalScore(startingPlayer);
+        gameData.add(singleGameData);
     }
 
     public void timeHasPassed(Player player1, Player player2, Offer o){

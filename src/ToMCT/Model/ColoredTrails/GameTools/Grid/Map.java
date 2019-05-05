@@ -2,6 +2,7 @@ package ToMCT.Model.ColoredTrails.GameTools.Grid;
 
 import ToMCT.Model.ColoredTrails.Agent.Player;
 
+import ToMCT.Model.ColoredTrails.GameTools.Basic.Trail;
 import ToMCT.Model.Messages.Message;
 import ToMCT.Model.Messages.MessageBox;
 
@@ -68,6 +69,7 @@ public class Map extends Observable {
 
     //Initialize map (players locations)
     public void initialize(Location location){
+        this.resetMap();
         movePlayer(location);
         notifyLocations();
     }
@@ -137,9 +139,12 @@ public class Map extends Observable {
         this.playersLocation.clear();
 
         //remove players from each location
-        for(int r=0; r<height; r++)
-            for(int c=0; c<width; c++)
+        for(int r=0; r<height; r++) {
+            for (int c = 0; c < width; c++) {
                 locations[r][c].removePlayer();
+                locations[r][c].setTrail(Trail.randomTrail());
+            }
+        }
     }
 
     //GETTERS

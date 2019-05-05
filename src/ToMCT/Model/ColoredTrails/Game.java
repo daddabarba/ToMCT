@@ -367,6 +367,11 @@ public class Game extends Observable implements ScoreKeeper, Mediator, TimeKeepe
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"map\" : " + map.toString());
+        sb.append(", \"players\" : [");
+        for(Player player : players)
+            sb.append(players.toString() + ",");
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("]");
         sb.append(", \"games\" : [ ");
         for(SingleGameData gd : gameData)
             sb.append(gd.toString() + ",");

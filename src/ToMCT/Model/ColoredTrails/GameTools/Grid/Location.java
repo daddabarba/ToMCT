@@ -83,6 +83,12 @@ public class Location extends QObservable {
         quickNotification();
     }
 
+    public void setTrail(Trail trail){
+        this.trail = trail;
+
+        quickNotification();
+    }
+
     public void removePlayer(){
         players = new ArrayList<>();
 

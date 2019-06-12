@@ -1,13 +1,13 @@
-for ORDER1 in 0 1
-do
-	for ORDER2 in 0 1
-	do
-		for LR1 in $(seq 0.1 0.2 1.0)
-		do
-			for LR2 in $(seq 0.1 0.2 1.0)
-			do
-				./run.sh $ORDER1 $ORDER2 $LR1 $LR2 4 5 $1 false $2 &
-			done
-		done
-	done
-done
+#!/bin/bash
+
+#SBATCH --job-name=ToMCT_exp_$(( ( RANDOM % 10000 )  + 1 ))
+#SBATCH --mail-type=END
+#SBATCH --mail-user=davidebarbieri97@gmail.com
+#SBATCH --output=/home/s3090078/job-%j.log
+
+#SBATCH --time=3-00:00:00
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=1024
+
+srun ./run.sh $1 $2 $3 $4 4 5 $5 false

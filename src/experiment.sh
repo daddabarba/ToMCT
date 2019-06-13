@@ -10,4 +10,4 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=1024
 
-srun ./run.sh $1 $2 $3 $4 4 5 $5 false
+srun ./run.sh $1 $2 $3 $4 4 5 $5 false $6

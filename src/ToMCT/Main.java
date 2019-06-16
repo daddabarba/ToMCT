@@ -44,32 +44,8 @@ public class Main {
             Game game = new Game(orders, learningSpeeds, handSize, mazeSize);
 
             game.startGame();
-
-            if (GUI)
-                new GameFrame("Colored Trails", game);
-            else {
-                game.play(times);
-
-                if (args.length>8) {
-
-                    int num = 0;
-                    File file;
-
-                    while((file = new File(args[8]+"_"+num+".txt")).exists())
-                        num+=1;
-
-                    try {
-                        file.createNewFile();
-                        PrintWriter out = new PrintWriter(args[8]+"_"+num+".txt");
-                        out.println(game.toString());
-                        out.close();
-                    }catch (Exception e){
-                        System.out.println(game.toString());
-                    }
-                }else{
-                    System.out.println(game.toString());
-                }
-            }
+	    game.play(times);
+            System.out.println(game.toString());
         }
     }
 }

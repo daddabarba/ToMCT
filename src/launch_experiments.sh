@@ -6,7 +6,7 @@ do
         do
             for LR2 in $(seq 0.1 0.1 0.9)
             do
-                sbatch ./experiment.sh $ORDER1 $ORDER2 $LR1 $LR2 $1 $2
+                sbatch ./experiment.sh $ORDER1 $ORDER2 $LR1 $LR2 $1
             done
         done
     done

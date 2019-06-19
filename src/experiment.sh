@@ -14,15 +14,19 @@ order=({0..2})
 ls=($(seq 0.1 0.1 0.9))
 
 i=$SLURM_ARRAY_TASK_ID
+echo "${i}"
 ls2=$(($i%9))
 
 i=$i/9
+echo "${i}"
 ls1=$(($i%9))
 
 i=$i/9
+echo "${i}"
 o2=$(($i%3))
 
 i=$i/3
+echo "${i}"
 o1=$(($i%3))
 
 

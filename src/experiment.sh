@@ -13,7 +13,7 @@
 order=({0..2})
 ls=($(seq 0.1 0.1 0.9))
 
-i=${SLURM_ARRAY_TASK_ID}
+i=$SLURM_ARRAY_TASK_ID
 ls2=$(($i%9))
 
 i=$i/9

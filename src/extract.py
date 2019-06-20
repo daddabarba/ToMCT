@@ -29,9 +29,12 @@ def refactorData(path=os.getcwd()):
 
 		try:
 			or0, or1, ls0, ls1, vals = getRes(file)
-			refactored[(or0, or1, ls0, ls1)] = vals
+			if (or0, or1, ls0, ls1) in refactored.keys():
+				print('\033[92m', "experiment ", (or0, or1, ls0, ls1) , " duplicate", '\033[0m')
+			else:
+				refactored[(or0, or1, ls0, ls1)] = vals
 		except:
-			print("experiment ", file, " failed")
+			print('\033[91m', "experiment ", file, " failed", '\033[0m')
 
 	return len(files), refactored
 

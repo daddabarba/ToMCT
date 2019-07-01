@@ -56,6 +56,10 @@ public abstract class Belief  {
         return beliefs;
     }
 
+    public double getDef(){
+        return this.def;
+    }
+
     @Override
     public boolean equals(Object object){
         if(!(object instanceof Belief))

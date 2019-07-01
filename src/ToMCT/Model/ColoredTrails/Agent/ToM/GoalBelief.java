@@ -15,9 +15,10 @@ public class GoalBelief extends Belief{
         initPars();
     }
 
-    public GoalBelief(double[][] beliefs, double confidence){
+    public GoalBelief(double[][] beliefs, double confidence, double def){
         super(beliefs);
         this.confidence = confidence;
+        this.setDef(def);
     }
 
     // SETTERS

@@ -145,7 +145,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
         double newConfidence = (1-this.learningSpeed)*goalBelief.getConfidence() + this.learningSpeed*totalSum;
 
-        return new GoalBelief(updatedBeliefs, newConfidence);
+        return new GoalBelief(updatedBeliefs, newConfidence, goalBelief.getDef());
     }
 
     public void finalizeUpdate(Offer o, Player player, Player opponent){

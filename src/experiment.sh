@@ -4,7 +4,7 @@
 #SBATCH --mail-user=davidebarbieri97@gmail.com
 #SBATCH --output=/home/s3090078/results/job-%j.log
 
-#SBATCH --time=7-03:00:00
+#SBATCH --time=3-00:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=1GB

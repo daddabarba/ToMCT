@@ -30,6 +30,10 @@ public class Main {
             Integer orders[] = {Integer.parseInt(args[0]), Integer.parseInt(args[1])};
             Double learningSpeeds[] = {Double.parseDouble(args[2]), Double.parseDouble(args[3])};
 
+            for (int i=0; i<2; i+=1)
+                while(learningSpeeds[i]>1.0)
+                    learningSpeeds[i]/=10;
+
             int handSize = Integer.parseInt(args[4]);
             int mazeSize = Integer.parseInt(args[5]);
 

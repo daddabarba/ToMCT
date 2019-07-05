@@ -7,6 +7,10 @@ import ToMCT.Model.ColoredTrails.GameUtils.ScoreKeeper;
 
 import java.util.*;
 
+enum LearningTech {
+    STATIC, FIT;
+}
+
 public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
     // FIELDS
@@ -15,7 +19,8 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
     // parameters
 
-    double learningSpeed;
+    HashMap<Player, Double> learningSpeeds;
+    LearningTech learningTech;
 
     private int order;
 
@@ -25,7 +30,16 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
         this.agent = agent;
         this.order = order;
 
-        this.learningSpeed = learningSpeed;
+        this.learningSpeeds = new HashMap<>();
+        this.learningTech = LearningTech.STATIC;
+
+        if (learningSpeed<0){
+            learningSpeed *= -1;
+            this.learningTech = LearningTech.FIT;
+        }
+
+        for(Player player: players)
+            this.learningSpeeds.put(player, learningSpeed);
     }
 
     // METHODS
@@ -95,8 +109,12 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
     // GETTERS
 
-    public double getLearningSpeed(){
-        return learningSpeed;
+    public HashMap<Player,Double> getLearningSpeeds(){
+        return this.learningSpeeds;
+    }
+
+    public double getLearningSpeed(Player player){
+        return learningSpeeds.get(player);
     }
 
     public int getOrder(){

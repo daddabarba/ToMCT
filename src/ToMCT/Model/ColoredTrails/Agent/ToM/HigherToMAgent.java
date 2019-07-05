@@ -143,7 +143,7 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
             }
         }
 
-        double newConfidence = (1-this.learningSpeed)*goalBelief.getConfidence() + this.learningSpeed*totalSum;
+        double newConfidence = (1-this.learningSpeeds.get(opponent))*goalBelief.getConfidence() + this.learningSpeeds.get(opponent)*totalSum;
 
         return new GoalBelief(updatedBeliefs, newConfidence, goalBelief.getDef());
     }
@@ -170,7 +170,13 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
         StringBuilder sb = new StringBuilder();
         sb.append("{ \"agent\": " + agent.getID());
         sb.append(", \"order\" : " + getOrder());
-        sb.append(", \"learningSpeed\" : " + getLearningSpeed());
+        sb.append(", \"learningSpeed\" : {");
+
+        for(HashMap.Entry<Player, Double> e : this.getLearningSpeeds().entrySet())
+            sb.append(e.getKey().getID() + " : " + e.getValue() + ",");
+
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("}");
         sb.append(", \"beliefs\" : [");
 
         for(Map.Entry<Player, GoalBelief> e : goalBeliefs.entrySet())

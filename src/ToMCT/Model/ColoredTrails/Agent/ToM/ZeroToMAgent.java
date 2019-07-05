@@ -78,7 +78,7 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
 
         // update all affected values
         for(int i=((o.isWithdraw()) ? (numNeg) : (numNeg+1)); i<uBeliefs.length; i++) {
-            double factor = Math.pow(1-this.learningSpeed, i);
+            double factor = Math.pow(1-this.learningSpeeds.get(opponent), i);
             int ip = i;
             Arrays.parallelSetAll(uBeliefs[i], k -> factor*zeroBelief.getBeliefs()[ip][k]);
         }
@@ -96,7 +96,13 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
         StringBuilder sb = new StringBuilder();
         sb.append("{ \"agent\": " + agent.getID());
         sb.append(", \"order\" : " + getOrder());
-        sb.append(", \"learningSpeed\" : " + getLearningSpeed());
+        sb.append(", \"learningSpeed\" : {");
+
+        for(HashMap.Entry<Player, Double> e : this.getLearningSpeeds().entrySet())
+            sb.append(e.getKey().getID() + " : " + e.getValue() + ",");
+
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("}");
         sb.append(", \"beliefs\" : [");
 
         for(Map.Entry<Player, ZeroBelief> e : zeroBeliefs.entrySet())

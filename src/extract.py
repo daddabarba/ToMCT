@@ -60,7 +60,9 @@ if __name__ == "__main__":
 	vals = data.keys()
 	vals = sorted(vals, key=ftools.cmp_to_key(compare))
 
-	for key, expdata in data.items():
+	for key in vals:
+		expdata = data[key]
+
 		n_neg = sum(x<0 for x in expdata)
 		n_pos = sum(x>0 for x in expdata)
 		print(key, " : ", n_neg, "/", n_pos)

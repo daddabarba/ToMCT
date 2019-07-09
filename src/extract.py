@@ -2,8 +2,6 @@ import os
 import sys
 import functools as ftools
 
-import numpy as np
-
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
 
@@ -84,40 +82,43 @@ if __name__ == "__main__":
 	if(len(sys.argv)<4 or sys.argv[4]!="false"):
 		print(len(vals), "/", tot)
 
+	if (GUI):
 
-	o1 = int(sys.argv[2])
-	o2 = int(sys.argv[3])
+		import numpy as np
 
-	fig = plt.figure()
-	ax = fig.add_subplot(111, projection='3d')
+		o1 = int(sys.argv[2])
+		o2 = int(sys.argv[3])
 
-	# Grab some test data.
-	# X, Y, Z = axes3d.get_test_data(0.05)
+		fig = plt.figure()
+		ax = fig.add_subplot(111, projection='3d')
 
-	# # Plot a basic wireframe.
-	# ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10)
+		# Grab some test data.
+		# X, Y, Z = axes3d.get_test_data(0.05)
 
-	# plt.show()
+		# # Plot a basic wireframe.
+		# ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10)
 
-	X = np.zeros((11,11))
-	Z = np.zeros((11,11))
+		# plt.show()
 
-	for i in range(0,11,1):
-		for k in range(0,11,1):
-			X[i][k] = i/10.0
-			idx = (o1,o2,i/10.0,k/10.0) 
-			if idx in avg.keys():
-				Z[i][k] = avg[idx]
-	Y = np.transpose(X)
+		X = np.zeros((11,11))
+		Z = np.zeros((11,11))
 
-	ax.plot_surface(X, Y, Z, rstride=1, cstride=1)
+		for i in range(0,11,1):
+			for k in range(0,11,1):
+				X[i][k] = i/10.0
+				idx = (o1,o2,i/10.0,k/10.0) 
+				if idx in avg.keys():
+					Z[i][k] = avg[idx]
+					Y = np.transpose(X)
 
-	plt.title(r"Delta payoff vs learning speed"
-           "\n"  # Newline: the backslash is interpreted as usual
-			  r"for order %d vs %d"%(o1,o2))
+					ax.plot_surface(X, Y, Z, rstride=1, cstride=1)
 
-	ax.set_xlabel("learning speed 1")
-	ax.set_ylabel("learning speed 1")
-	ax.set_zlabel("delta pyoff")
+					plt.title(r"Delta payoff vs learning speed"
+							  "\n"	 # Newline: the backslash is interpreted as usual
+					r"for order %d vs %d"%(o1,o2))
 
-	plt.savefig("data_"+str(o1)+"_"+str(o2)+".png")
+					ax.set_xlabel("learning speed 1")
+					ax.set_ylabel("learning speed 1")
+					ax.set_zlabel("delta pyoff")
+
+					plt.savefig("data_"+str(o1)+"_"+str(o2)+".png")

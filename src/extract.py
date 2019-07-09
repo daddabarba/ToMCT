@@ -76,9 +76,11 @@ if __name__ == "__main__":
 
 		n_neg = sum(x<0 for x in expdata)
 		n_pos = sum(x>0 for x in expdata)
-		# print(key, " : ", n_neg, "/", n_pos)
+		if(not GUI):
+			print(key, " : ", n_neg, "/", n_pos)
 		if(len(sys.argv)<4 or sys.argv[4]!="false"):
-			print(key, " : ", avg[key])
+			if(GUI):
+				print(key, " : ", avg[key])
 
 	if(len(sys.argv)<4 or sys.argv[4]!="false"):
 		print(len(vals), "/", tot)

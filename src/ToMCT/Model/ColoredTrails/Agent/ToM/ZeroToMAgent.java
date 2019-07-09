@@ -73,14 +73,31 @@ public class ZeroToMAgent extends ToMAgent<ZeroBelief> {
         for(int i=0; i<zeroBelief.getBeliefs().length; i++)
             System.arraycopy(zeroBelief.getBeliefs()[i], 0, uBeliefs[i], 0, zeroBelief.getBeliefs()[i].length);
 
-        // compute starting m
-        int numNeg = ZeroBelief.abstractOffer(o)%10;
+        if(!o.isWithdraw()){
 
-        // update all affected values
-        for(int i=((o.isWithdraw()) ? (numNeg) : (numNeg+1)); i<uBeliefs.length; i++) {
-            double factor = Math.pow(1-this.learningSpeeds.get(opponent), i);
-            int ip = i;
-            Arrays.parallelSetAll(uBeliefs[i], k -> factor*zeroBelief.getBeliefs()[ip][k]);
+            // compute starting m
+            int numNeg = ZeroBelief.abstractOffer(o)%10;
+
+            // update all affected values
+            for(int i=numNeg; i<uBeliefs.length; i++) {
+                double factor = Math.pow(1-this.learningSpeeds.get(opponent), i);
+                int ip = i;
+                Arrays.parallelSetAll(uBeliefs[i], k -> factor*zeroBelief.getBeliefs()[ip][k]);
+            }
+        } else {
+
+            // compute starting m
+            int numPos = ZeroBelief.abstractOffer(o)/10;
+
+            // update all affected values
+            for(int i=numPos; i<uBeliefs[0].length; i++) {
+                double factor = Math.pow(1-this.learningSpeeds.get(opponent), i);
+                int ip = i;
+
+                for(int j=0 j<uBeliefs.length; j++)
+                    uBeliefs[j][i] = factor*zeroBelief.getBeliefs()[j][i];
+            }
+
         }
 
         return new ZeroBelief(uBeliefs);

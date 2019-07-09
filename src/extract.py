@@ -2,8 +2,6 @@ import os
 import sys
 import functools as ftools
 
-from mpl_toolkits.mplot3d import axes3d
-import matplotlib.pyplot as plt
 
 import json
 
@@ -87,6 +85,9 @@ if __name__ == "__main__":
 	if (GUI):
 
 		import numpy as np
+
+		from mpl_toolkits.mplot3d import axes3d
+		import matplotlib.pyplot as plt
 
 		o1 = int(sys.argv[2])
 		o2 = int(sys.argv[3])

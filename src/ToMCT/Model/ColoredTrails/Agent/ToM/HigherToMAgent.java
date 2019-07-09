@@ -90,6 +90,25 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     // LEARNING
 
+    public double updateLS(Offer o, Player player, Player opponent, Location goal){
+
+        if (this.prevOffer == null)
+            return this.learningSpeeds.get(opponent);
+
+        Double expVal = 0.0;
+        GoalBelief goalBelief = this.goalBeliefs.get(opponent);
+
+        for(Location oGoal: map.getGoals()){
+            expVal += goalBelief.get(oGoal)*this.EV(
+                                                    this.model.ToM(this.prevOffer, opponent, player, oGoal)
+                                                    , player, opponent, goal);
+        }
+
+        Double ret = this.learningSpeeds.get(opponent)*Math.min( expVal/this.EV(o, player, opponent, goal) ,1);
+        System.out.println("Updating from " + this.learningSpeeds.get(opponent) + " to " + ret);
+        return ret;
+    }
+
     public Belief update(Offer o, Player player, Player opponent){
 
         GoalBelief goalBelief = this.goalBeliefs.get(opponent);
@@ -150,6 +169,9 @@ public class HigherToMAgent extends ToMAgent<GoalBelief> {
 
     public void finalizeUpdate(Offer o, Player player, Player opponent){
         this.goalBeliefs.put(opponent, (GoalBelief) this.update(o, player, opponent) );
+
+        if(this.learningTech == LearningTech.FIT && this.order==this.agent.getOrder())
+            this.learningSpeeds.put(opponent, this.updateLS(o, player, opponent, this.agent.getGoal()));
 
         model.finalizeUpdate(o, player, opponent);
 

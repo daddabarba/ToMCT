@@ -24,6 +24,7 @@ public class Player extends QObservable implements Observer {
     //Player class (interface between ToM agent and game)
 
     private int ID;
+    private int order;
 
     private int hand; //Player's hand
 
@@ -61,6 +62,8 @@ public class Player extends QObservable implements Observer {
     }
 
     public void init(int order, double learningSpeed, Collection<Player> players, Map map){
+
+        this.order = order;
 
         this.players = players;
         this.map = map;
@@ -144,6 +147,14 @@ public class Player extends QObservable implements Observer {
     }
 
     //GETTERS
+
+    public Location getGoal(){
+        return this.goal;
+    }
+
+    public int getOrder(){
+        return order;
+    }
 
     public Location getPosition(){
         return position;

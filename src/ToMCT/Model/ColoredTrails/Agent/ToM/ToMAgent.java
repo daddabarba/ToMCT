@@ -17,12 +17,14 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
 
     Player agent;
 
+    Offer prevOffer;
+
     // parameters
 
     HashMap<Player, Double> learningSpeeds;
     LearningTech learningTech;
 
-    private int order;
+    int order;
 
     // CONSTRUCTOR
 
@@ -65,8 +67,12 @@ public abstract class ToMAgent<T extends Belief> implements ToM<T>{
         Offer inverse = new Offer(o.invert());
         o.invert();
 
-        if(valBest>valOffer && valBest>valHand)
+        this.prevOffer = inverse;
+
+        if(valBest>valOffer && valBest>valHand){
+            this.prevOffer = bestOffer;
             return bestOffer;
+        }
 
         if(valOffer>=valBest && valOffer>valHand)
             return new Offer(inverse, Offer.Intention.ACCEPT);

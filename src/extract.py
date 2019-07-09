@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 
 import json
 
+GUI = False
+
 def getFiles(path=os.getcwd()):
 	return [os.path.join(path,f) for f in os.listdir(path) if os.path.isfile(os.path.join(path,f))]
 

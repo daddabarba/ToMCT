@@ -26,7 +26,7 @@ public class ZeroBelief extends Belief{
         int given = offer.getGiven();
 
         for(int i=0; i<Chip.values().length; i++) {
-            if (given % 10 > got % 10)
+            if (given % 10 >= got % 10)
                 numPos += 1;
             else
                 numNeg += 1;
